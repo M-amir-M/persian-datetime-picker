@@ -5,7 +5,7 @@
 
 A Flutter persian datetime picker inspired by material datetime picker and based on [shamsi_date](https://pub.dartlang.org/packages/shamsi_date).
 
-You can pick date / time / date and time.
+You can pick date / range date / time / date and time.
 
 ## Usage
 
@@ -120,3 +120,9 @@ You have four value for `type` parameter .
 - rangedate : when choose rangedate type `initial` parameter must be like `'1398/03/20 # 1398/03/20'` format.
 
 - time : when choose time type `initial` parameter must be like `'19:50'` format.
+
+ # Screenshots
+  
+|Date picker|Time picker|Range Date picker|
+| ------- | ------- |------- |
+|![]( date_screenshot.png) |![]( time_screenshot.png) |![]( range_date_screenshot.png) |
