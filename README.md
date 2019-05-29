@@ -19,7 +19,7 @@ dependencies:
 In your library add the following import:
 
 ```dart
-import 'persian_datetime_picker.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 ```
 
 Here is an example how to use:
