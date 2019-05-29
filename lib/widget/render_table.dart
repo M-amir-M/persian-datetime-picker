@@ -1,6 +1,6 @@
 import 'package:persian_datetime_picker/widget/day_container.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/iterables.dart';
+import 'package:persian_datetime_picker/widget/partition.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class RenderTable extends StatefulWidget {
