@@ -13,7 +13,7 @@ Add it to your pubspec.yaml file:
 
 ```yaml
 dependencies:
-    persian_datetime_picker: ^0.1.1
+    persian_datetime_picker: ^0.0.1
 ```
 
 In your library add the following import:
