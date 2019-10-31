@@ -21,10 +21,7 @@ You can pick date / range date / time / date and time.
 # Screenshots
 
 |Date picker|Time picker|Range Date picker|Year picker|Month picker|
-
-
 | ------- | ------- |------- | ------- |------- |
-
 |![]( screenshot_date.png) |![]( screenshot_time.png) |![]( screenshot_range_date.png) |![]( screenshot_year.png) |![]( screenshot_month.png) |
 
   
