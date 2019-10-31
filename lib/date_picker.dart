@@ -1,3 +1,4 @@
+import 'package:persian_datetime_picker/utils/consts.dart';
 import 'package:persian_datetime_picker/widget/render_table.dart';
 import 'package:persian_datetime_picker/widget/snack_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,17 +7,21 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 class DatePicker extends StatefulWidget {
   final bool isRangeDate;
-  final initDate;
+  final bool isSecondDate;
   final startSelectedDate;
   final endSelectedDate;
-  final Function(String) onSelectDate;
+  final Function(dynamic) onSelectDate;
+  final Function(String) onConfirmedDate;
+  final Function(String) onChangePicker;
 
   DatePicker(
       {this.isRangeDate,
-      this.initDate,
-      this.startSelectedDate,
+      this.startSelectedDate = false,
+      this.isSecondDate = false,
       this.endSelectedDate,
-      this.onSelectDate});
+      this.onChangePicker = null,
+      this.onSelectDate = null,
+      this.onConfirmedDate});
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -31,7 +36,6 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
   Jalali endSelectedDate;
   bool isRangeDate;
 
-  bool isSecondSelect = false;
   bool isSlideForward = true;
 
   final weekDaysName = [
@@ -49,7 +53,23 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     if (oldWidget != widget) {
-      setState(() {});
+      setState(() {
+        isRangeDate = widget.isRangeDate;
+        if (widget.endSelectedDate != null) {
+          var splitStartDate = widget.startSelectedDate.split('/');
+          var splitEndDate = widget.endSelectedDate.split('/');
+          startSelectedDate = Jalali(int.parse(splitStartDate[0]),
+                  int.parse(splitStartDate[1]), int.parse(splitStartDate[2])) ??
+              Jalali.now();
+          endSelectedDate = Jalali(int.parse(splitEndDate[0]),
+                  int.parse(splitEndDate[1]), int.parse(splitEndDate[2])) ??
+              Jalali.now();
+
+          initDate = startSelectedDate = Jalali(int.parse(splitStartDate[0]),
+                  int.parse(splitStartDate[1]), int.parse(splitStartDate[2])) ??
+              Jalali.now();
+        }
+      });
     }
   }
 
@@ -64,43 +84,24 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     isRangeDate = widget.isRangeDate;
+    if (widget.endSelectedDate != null) {
+      var splitStartDate = widget.startSelectedDate.split('/');
+      var splitEndDate = widget.endSelectedDate.split('/');
+      startSelectedDate = Jalali(int.parse(splitStartDate[0]),
+              int.parse(splitStartDate[1]), int.parse(splitStartDate[2])) ??
+          Jalali.now();
+      endSelectedDate = Jalali(int.parse(splitEndDate[0]),
+              int.parse(splitEndDate[1]), int.parse(splitEndDate[2])) ??
+          Jalali.now();
 
-    if (isRangeDate) {
-      if (widget.initDate != null) {
-        var splitInitDate = widget.initDate.split('#');
-        var splitStartDate = splitInitDate[0].split('/');
-        var splitEndDate = splitInitDate[1].split('/');
-        startSelectedDate = Jalali(int.parse(splitStartDate[0]),
-                int.parse(splitStartDate[1]), int.parse(splitStartDate[2])) ??
-            Jalali.now();
-        endSelectedDate = Jalali(int.parse(splitEndDate[0]),
-                int.parse(splitEndDate[1]), int.parse(splitEndDate[2])) ??
-            Jalali.now();
-
-        initDate = Jalali.now();
-      } else {
-        initDate = Jalali.now();
-        startSelectedDate = initDate;
-        endSelectedDate = initDate;
-      }
-    } else {
-      print('${widget.initDate}==============');
-      if (widget.initDate != null) {
-        var splitInitDate = widget.initDate.split('/');
-        initDate = Jalali(int.parse(splitInitDate[0]),
-                int.parse(splitInitDate[1]), int.parse(splitInitDate[2])) ??
-            Jalali.now();
-        startSelectedDate = initDate;
-        endSelectedDate = initDate;
-      } else {
-        initDate = Jalali.now();
-        startSelectedDate = initDate;
-        endSelectedDate = initDate;
-      }
+      initDate = startSelectedDate = Jalali(int.parse(splitStartDate[0]),
+              int.parse(splitStartDate[1]), int.parse(splitStartDate[2])) ??
+          Jalali.now();
     }
 
     controller =
         AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+
     animation = CurvedAnimation(parent: controller, curve: Curves.easeInOut)
       ..addListener(() {
         setState(() {});
@@ -176,7 +177,6 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final cellWidth = 42.0;
     final cellHeight = 35.0;
-
     List weekDaysWidget = weekDaysName.map((day) {
       return Container(
         width: cellWidth,
@@ -198,7 +198,7 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
               width: double.infinity,
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Global.color,
               ),
               child: isRangeDate
                   ? Column(
@@ -251,15 +251,23 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
                         },
                         icon: Icon(Icons.chevron_left),
                       ),
-                      Transform(
-                          transform: Matrix4.translationValues(
-                              animation.value * (isSlideForward ? 100 : -100),
-                              0,
-                              0),
-                          child: Opacity(
-                            opacity: 1 - animation.value,
-                            child: Text(yearMonthNFormat(initDate)),
-                          )),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Transform(
+                            transform: Matrix4.translationValues(
+                                animation.value * (isSlideForward ? 100 : -100),
+                                0,
+                                0),
+                            child: Opacity(
+                              opacity: 1 - animation.value,
+                              child: FlatButton(
+                                onPressed: () {
+                                  widget.onChangePicker('year');
+                                },
+                                child: Text(yearMonthNFormat(initDate)),
+                              ),
+                            )),
+                      ),
                       IconButton(
                         onPressed: () {
                           _changeMonth('next');
@@ -285,32 +293,7 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
                       startSelectedDate: startSelectedDate,
                       endSelectedDate: endSelectedDate,
                       onSelect: (date) {
-                        setState(() {
-                          if (widget.isRangeDate && !isSecondSelect) {
-                            startSelectedDate = date;
-                            endSelectedDate = date;
-                            isSecondSelect = !isSecondSelect;
-                            FlushbarHelper.show(context,
-                                body: 'تاریخ دوم را انتخاب کنید.',
-                                bgColor: Colors.blueAccent);
-                          } else if (widget.isRangeDate &&
-                              isSecondSelect &&
-                              date >= startSelectedDate) {
-                            endSelectedDate = date;
-                            isSecondSelect = !isSecondSelect;
-                          } else if (widget.isRangeDate &&
-                              isSecondSelect &&
-                              date < startSelectedDate) {
-                            FlushbarHelper.show(context,
-                                status: 'warning',
-                                body:
-                                    'تاریخ انتخاب شده از تاریخ شروع کمتر است.',
-                                bgColor: Colors.blueAccent);
-                          } else {
-                            startSelectedDate = date;
-                            endSelectedDate = date;
-                          }
-                        });
+                        widget.onSelectDate(date);
                       },
                     ),
                   ),
@@ -326,21 +309,22 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
                 FlatButton(
                   child: Text(
                     'تایید',
-                    style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+                    style: TextStyle(fontSize: 16, color: Global.color),
                   ),
                   onPressed: () {
                     if (isRangeDate) {
-                      widget.onSelectDate(
-                          '$startSelectedDate # $endSelectedDate');
+                      widget.onConfirmedDate(
+                          '${outPutFormat(startSelectedDate)} # ${outPutFormat(endSelectedDate)}');
                     } else {
-                      widget.onSelectDate('$startSelectedDate');
+                      widget.onConfirmedDate(
+                          '${outPutFormat(startSelectedDate)}');
                     }
                   },
                 ),
                 FlatButton(
                   child: Text(
                     'انصراف',
-                    style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+                    style: TextStyle(fontSize: 16, color: Global.color),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -349,7 +333,7 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
                 FlatButton(
                   child: Text(
                     'اکنون',
-                    style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+                    style: TextStyle(fontSize: 16, color: Global.color),
                   ),
                   onPressed: () {
                     startSelectedDate = Jalali.now();

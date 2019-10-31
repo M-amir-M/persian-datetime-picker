@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:persian_datetime_picker/utils/consts.dart';
+import 'package:persian_datetime_picker/utils/date.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class DayContainer extends StatefulWidget {
@@ -22,18 +24,30 @@ class DayContainer extends StatefulWidget {
 
 class _DayContainerState extends State<DayContainer> {
   var date;
+  bool isDisable;
 
   @override
   void initState() {
     date = widget.date;
+    var dateUtiles = new DateUtils();
+    isDisable = date != '' ? dateUtiles.isDisable(outPutFormat(date)) : false;
+
     // TODO: implement initState
     super.initState();
+  }
+
+  String outPutFormat(Date d) {
+    final f = d.formatter;
+
+    return '${f.yyyy}/${f.mm}/${f.dd}';
   }
 
   @override
   void didUpdateWidget(DayContainer oldWidget) {
     if (oldWidget != widget) {
       date = widget.date;
+      var dateUtiles = new DateUtils();
+      isDisable = date != '' ? dateUtiles.isDisable(outPutFormat(date)) : false;
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -50,7 +64,7 @@ class _DayContainerState extends State<DayContainer> {
 
     if (isStart) {
       decoration = BoxDecoration(
-          color: Colors.blueAccent,
+          color: Global.color,
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.3),
@@ -62,7 +76,7 @@ class _DayContainerState extends State<DayContainer> {
     }
     if (isEnd) {
       decoration = BoxDecoration(
-          color: Colors.blueAccent,
+          color: Global.color,
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.3),
@@ -74,7 +88,7 @@ class _DayContainerState extends State<DayContainer> {
     }
     if (isEnd && isStart) {
       decoration = BoxDecoration(
-          color: Colors.blueAccent,
+          color: Global.color,
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.3),
@@ -86,7 +100,7 @@ class _DayContainerState extends State<DayContainer> {
     }
     if (isBetween) {
       decoration = BoxDecoration(
-        color: Colors.blueAccent,
+        color: Global.color,
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.3),
@@ -96,9 +110,10 @@ class _DayContainerState extends State<DayContainer> {
         ],
       );
     }
+
     return InkWell(
       onTap: () {
-        if (date != '') {
+        if (date != '' && !isDisable) {
           widget.onSelect(date);
         }
       },
@@ -116,7 +131,10 @@ class _DayContainerState extends State<DayContainer> {
                   child: Text(
                     date != '' ? date.formatter.d : '',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: isDisable ? Colors.grey : Colors.black,
+                        fontWeight: FontWeight.w300),
                   ),
                 ),
               ),

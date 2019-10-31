@@ -72,6 +72,7 @@ class _RenderTableState extends State<RenderTable> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     final cellWidth = 42.0;

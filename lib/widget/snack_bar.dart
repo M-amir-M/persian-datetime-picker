@@ -19,7 +19,7 @@ class FlushbarHelper {
         );
     }
     Flushbar(
-      aroundPadding: EdgeInsets.all(5),
+      margin: EdgeInsets.all(5),
       borderRadius: 10,
       flushbarPosition: FlushbarPosition.BOTTOM,
       messageText: Text(
