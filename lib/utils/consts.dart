@@ -5,4 +5,6 @@ class Global {
   static Color color = Colors.blueAccent;
   static String pickerType = 'date';
   static var disable = null;
+  static var min = null;
+  static var max = null;
 }

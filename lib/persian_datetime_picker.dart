@@ -10,12 +10,16 @@ class PersianDateTimePicker extends StatefulWidget {
   final initial;
   final type;
   final disable;
+  final min;
+  final max;
   final Color color;
   final Function(String) onSelect;
   PersianDateTimePicker(
       {this.type = 'date',
       this.initial = null,
       this.disable = null,
+      this.min = '',
+      this.max = '',
       this.color = Colors.blueAccent,
       this.onSelect});
 
@@ -31,6 +35,8 @@ class _PersianDateTimePickerState extends State<PersianDateTimePicker> {
     Global.color = widget.color;
     Global.pickerType = widget.type;
     Global.disable = widget.disable;
+    Global.min = widget.min;
+    Global.max = widget.max;
   }
 
   @override

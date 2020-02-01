@@ -66,8 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext _) {
         return PersianDateTimePicker(
-          initial: '1398/3/20',
+          initial: '1398/11/20',
           disable: ['friday', '1398/3/21', '13985/3/21'],
+          // min:"1398/11/12",
+          // max:"1398/11/25",
           type: 'date',
           onSelect: (date) {
             setState(() {

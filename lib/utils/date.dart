@@ -3,6 +3,8 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 class DateUtils {
   dynamic disable = Global.disable;
+  String min = Global.min;
+  String max = Global.max;
   String type = Global.pickerType;
   List<String> dayNames = [
     'saturday',
@@ -22,7 +24,6 @@ class DateUtils {
         isDisable = _inDisableDateList(str);
         break;
       case 'datetime':
-      
         break;
       case 'year':
         isDisable = _inDisableYearList(str);
@@ -99,10 +100,17 @@ class DateUtils {
   bool _isDisableDate(String date, disable) {
     bool isDisable = false;
 
-    if (dayNames.indexOf(disable.toLowerCase()) != -1) {
+    if (dayNames.indexOf(disable.toLowerCase()) != -1 && !isDisable) {
       isDisable = stringToJalali(date).weekDay == dayNames.indexOf(disable) + 1;
-    } else if (isValidDate(date) && isValidDate(disable)) {
+    }
+    if (isValidDate(date) && isValidDate(disable) && !isDisable) {
       isDisable = stringToJalali(date) == stringToJalali(disable);
+    }
+    if (isValidDate(date) && isValidDate(min) && !isDisable) {
+      isDisable = stringToJalali(date) <= stringToJalali(min);
+    }
+    if (isValidDate(date) && isValidDate(max) && !isDisable) {
+      isDisable = stringToJalali(date) >= stringToJalali(max);
     }
 
     return isDisable;
