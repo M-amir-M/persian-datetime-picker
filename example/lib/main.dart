@@ -64,10 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showDatePicker() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext _) {
         return PersianDateTimePicker(
           initial: '1398/11/20',
-          disable: ['friday', '1398/3/21', '13985/3/21'],
+          disable: ['friday', '1398/11/21', '13985/3/21'],
           // min:"1398/11/12",
           // max:"1398/11/25",
           type: 'date',

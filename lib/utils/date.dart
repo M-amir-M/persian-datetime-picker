@@ -2,23 +2,30 @@ import 'package:persian_datetime_picker/utils/consts.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class DateUtils {
-  dynamic disable = Global.disable;
-  String min = Global.min;
-  String max = Global.max;
-  String type = Global.pickerType;
-  List<String> dayNames = [
-    'saturday',
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-  ];
+  dynamic disable;
+  String min;
+  String max;
+  String type;
+  List<String> dayNames;
+
+  DateUtils() {
+    disable = Global.disable;
+    min = Global.min;
+    max = Global.max;
+    type = Global.pickerType;
+    dayNames = [
+      'saturday',
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+    ];
+  }
 
   bool isDisable(String str) {
     bool isDisable = false;
-
     switch (type) {
       case 'date':
         isDisable = _inDisableDateList(str);
@@ -97,15 +104,9 @@ class DateUtils {
     return '${f.yyyy}/${f.mm}/${f.dd}';
   }
 
-  bool _isDisableDate(String date, disable) {
+  bool _isInRangeDate(String date) {
     bool isDisable = false;
 
-    if (dayNames.indexOf(disable.toLowerCase()) != -1 && !isDisable) {
-      isDisable = stringToJalali(date).weekDay == dayNames.indexOf(disable) + 1;
-    }
-    if (isValidDate(date) && isValidDate(disable) && !isDisable) {
-      isDisable = stringToJalali(date) == stringToJalali(disable);
-    }
     if (isValidDate(date) && isValidDate(min) && !isDisable) {
       isDisable = stringToJalali(date) <= stringToJalali(min);
     }
@@ -116,9 +117,25 @@ class DateUtils {
     return isDisable;
   }
 
+  bool _isDisableDate(String date, disable) {
+    bool isDisable = false;
+
+    if (dayNames.indexOf(disable.toLowerCase()) != -1 && !isDisable) {
+      isDisable = stringToJalali(date).weekDay == dayNames.indexOf(disable) + 1;
+    }
+    if (isValidDate(date) && isValidDate(disable) && !isDisable) {
+      isDisable = stringToJalali(date) == stringToJalali(disable);
+    }
+
+
+    return isDisable;
+  }
+
   bool _inDisableDateList(date) {
     String disableTypeData = disable.runtimeType.toString();
     bool inDisable = false;
+    Global.test += disableTypeData;
+
     switch (disableTypeData) {
       case 'String':
         inDisable = isValidDate(date) ? _isDisableDate(date, disable) : false;
@@ -130,7 +147,20 @@ class DateUtils {
           if (inDisable) break;
         }
         break;
+      case '_GrowableList<String>':
+        for (var i = 0; i < disable.length; i++) {
+          inDisable =
+              isValidDate(date) ? _isDisableDate(date, disable[i]) : false;
+          if (inDisable) break;
+        }
+        break;
       default:
+    }
+    if(min != '' && date != '' && !inDisable){
+      inDisable = isValidDate(date) ? _isInRangeDate(date) : false;
+    }
+    if(max != '' && date != '' && !inDisable){
+      inDisable = isValidDate(date) ? _isInRangeDate(date) : false;
     }
     return inDisable;
   }

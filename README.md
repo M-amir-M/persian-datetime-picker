@@ -39,7 +39,7 @@ Add it to your pubspec.yaml file:
 
 dependencies:
 
-persian_datetime_picker: ^1.0.0
+persian_datetime_picker: version
 
 ```
 

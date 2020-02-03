@@ -34,7 +34,7 @@ class _PersianDateTimePickerState extends State<PersianDateTimePicker> {
     super.initState();
     Global.color = widget.color;
     Global.pickerType = widget.type;
-    Global.disable = widget.disable;
+    Global.disable = widget.disable ?? '';
     Global.min = widget.min;
     Global.max = widget.max;
   }

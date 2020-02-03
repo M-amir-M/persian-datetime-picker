@@ -272,7 +272,7 @@ class _HandlePickerState extends State<HandlePicker>
               isRangeDate: false,
               onConfirmedDate: (date) {
                 startSelectedInitDate = date;
-                widget.onSelect('$startSelectedInitDate');
+                widget.onSelect(Global.test);
                 Navigator.pop(context);
               },
               onSelectDate: (date) {
