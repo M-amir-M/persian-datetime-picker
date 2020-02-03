@@ -235,13 +235,15 @@ onPressed: () {
 
 ## Date time picker parameters and events
 
-| Parameter                    | Type                | Default                                 | Description                                                                  |
+| Parameter  | Type | Default | Description |
 |-------------------------|---------------------|-----------------------------------------|------------------------------------------------------------------------------                                                                            |
-| initial                   | `String`            |  null                                     | Initial picker with a date or time                                                    |
+| initial| `String`|  null | Initial picker with a date or time  |
 | type| `String`| date| Has six value(`date`,`time`,`datetime`,`rangedate`,`year`,`month`)|
-| disable| `String` or `List<String>`|null| Disable dates or time 
-| color| `Color`|Colors.blueAccent| Picker theme color                                      |
-| onSelect| `Function(String)`| | This event return a String date or time                                      |
+| disable| `String` or `List<String>`|null| Disable dates or time |
+| color| `Color`|Colors.blueAccent| Picker theme color |
+| min| `String`| null | Minimom Date |
+| max| `String`| null| Maximom Date |
+| onSelect| `Function(String)`| | This event return a String date or time |
 
 You have six value for `type` parameter .
 
