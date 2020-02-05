@@ -134,8 +134,7 @@ class DateUtils {
   bool _inDisableDateList(date) {
     String disableTypeData = disable.runtimeType.toString();
     bool inDisable = false;
-    Global.test += disableTypeData;
-
+    
     switch (disableTypeData) {
       case 'String':
         inDisable = isValidDate(date) ? _isDisableDate(date, disable) : false;

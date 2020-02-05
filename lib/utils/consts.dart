@@ -7,5 +7,4 @@ class Global {
   static var disable = null;
   static var min = null;
   static var max = null;
-  static String test = '';
 }
