@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext _) {
         return PersianDateTimePicker(
           initial: '19:50',
-          disable: ['20:50','20:51','20:55'],
+          // disable: ['20:50','20:51','20:55'],
           type: 'time',
           onSelect: (date) {
             setState(() {

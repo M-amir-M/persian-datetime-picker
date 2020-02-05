@@ -67,7 +67,6 @@ class DateUtils {
     // 1.1:5
     // 1.1:50
     // 1.10:5
-
     String pattern = r'^([0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]|[0-9])$';
     RegExp regExp = new RegExp(pattern);
     if (regExp.hasMatch(time)) {
@@ -127,14 +126,13 @@ class DateUtils {
       isDisable = stringToJalali(date) == stringToJalali(disable);
     }
 
-
     return isDisable;
   }
 
   bool _inDisableDateList(date) {
     String disableTypeData = disable.runtimeType.toString();
     bool inDisable = false;
-    
+
     switch (disableTypeData) {
       case 'String':
         inDisable = isValidDate(date) ? _isDisableDate(date, disable) : false;
@@ -155,10 +153,10 @@ class DateUtils {
         break;
       default:
     }
-    if(min != '' && date != '' && !inDisable){
+    if (min != '' && date != '' && !inDisable) {
       inDisable = isValidDate(date) ? _isInRangeDate(date) : false;
     }
-    if(max != '' && date != '' && !inDisable){
+    if (max != '' && date != '' && !inDisable) {
       inDisable = isValidDate(date) ? _isInRangeDate(date) : false;
     }
     return inDisable;
@@ -215,12 +213,19 @@ class DateUtils {
     switch (disableTypeData) {
       case 'String':
         inDisable =
-            isValidTime(time) ? (comparTime(time, disable) == 0) : false;
+            isValidTime(time) && isValidTime(disable) ? (comparTime(time, disable) == 0) : false;
         break;
       case 'List<String>':
         for (var i = 0; i < disable.length; i++) {
           inDisable =
-              isValidTime(time) ? (comparTime(time, disable[i]) == 0) : false;
+              isValidTime(time) && isValidTime(disable[i]) ? (comparTime(time, disable[i]) == 0) : false;
+          if (inDisable) break;
+        }
+        break;
+      case '_GrowableList<String>':
+        for (var i = 0; i < disable.length; i++) {
+          inDisable =
+              isValidTime(time) && isValidTime(disable[i]) ? (comparTime(time, disable[i]) == 0) : false;
           if (inDisable) break;
         }
         break;

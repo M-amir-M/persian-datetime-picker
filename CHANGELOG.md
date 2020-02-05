@@ -4,4 +4,5 @@
 ## [1.0.2] - Add min and max date.
 ## [1.0.3] - Fix disabled dates in release mode.
 ## [1.0.4] - Fix Bugs.
+## [1.0.5] - Fix Time Picker Bugs.
 * TODO: Describe initial release.
