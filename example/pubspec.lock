@@ -63,14 +63,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.2"
-  flushbar:
-    dependency: transitive
-    description:
-      name: flushbar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.9.1"
+    version: "0.1.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -143,7 +136,7 @@ packages:
       name: shamsi_date
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -214,4 +207,3 @@ packages:
     version: "3.5.0"
 sdks:
   dart: ">=2.4.0 <3.0.0"
-  flutter: ">=1.5.0 <2.0.0"

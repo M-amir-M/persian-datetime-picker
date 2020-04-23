@@ -1,7 +1,6 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-class FlushbarHelper {
+class SnackbarHelper {
   static show(context,
       {body, bgColor = Colors.greenAccent, status = 'success'}) {
     Widget icon;
@@ -18,18 +17,10 @@ class FlushbarHelper {
           color: Colors.white,
         );
     }
-    Flushbar(
-      margin: EdgeInsets.all(5),
-      borderRadius: 10,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      messageText: Text(
-        body,
-        textAlign: TextAlign.right,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-      duration: Duration(seconds: 4),
+    final snackBar = SnackBar(
+      content: Text('$body'),
       backgroundColor: bgColor,
-      icon: icon,
-    )..show(context);
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }

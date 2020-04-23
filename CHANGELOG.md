@@ -5,4 +5,5 @@
 ## [1.0.3] - Fix disabled dates in release mode.
 ## [1.0.4] - Fix Bugs.
 ## [1.0.5] - Fix Time Picker Bugs.
+## [1.0.6] - Remove flushbar package.
 * TODO: Describe initial release.
