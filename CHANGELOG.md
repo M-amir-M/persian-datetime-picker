@@ -6,4 +6,5 @@
 ## [1.0.4] - Fix Bugs.
 ## [1.0.5] - Fix Time Picker Bugs.
 ## [1.0.6] - Remove flushbar package.
+## [1.0.7] - Update shamsi_date version.
 * TODO: Describe initial release.
