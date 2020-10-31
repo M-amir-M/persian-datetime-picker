@@ -3,8 +3,18 @@ import 'package:flutter/widgets.dart';
 
 class Global {
   static Color color = Colors.blueAccent;
-  static String pickerType = 'date';
-  static var disable = null;
-  static var min = null;
-  static var max = null;
+  static PickerType pickerType = PickerType.date;
+  static var disable;
+  static var min;
+  static var max;
+}
+
+enum PickerType {
+  datetime,
+  date,
+  time,
+  rangedate,
+  month,
+  year,
+  day,
 }

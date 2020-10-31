@@ -1,19 +1,18 @@
-
 import 'package:persian_datetime_picker/date_picker.dart';
 import 'package:persian_datetime_picker/month_picker.dart';
 import 'package:persian_datetime_picker/time_picker.dart';
-import 'package:persian_datetime_picker/utils/consts.dart';
 import 'package:persian_datetime_picker/utils/date.dart';
-import 'package:persian_datetime_picker/widget/snack_bar.dart';
 import 'package:persian_datetime_picker/year_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
+import 'utils/consts.dart';
+
 class HandlePicker extends StatefulWidget {
   final bool isRangeDate;
   final initDateTime;
-  final type;
+  final PickerType type;
   final Function(String) onSelect;
 
   HandlePicker({this.isRangeDate, this.initDateTime, this.type, this.onSelect});
@@ -36,7 +35,7 @@ class _HandlePickerState extends State<HandlePicker>
   var initDateTime;
 
   bool isSecondSelect;
-  String pickerType = 'date';
+  PickerType pickerType = PickerType.date;
 
   String outPutFormat(Date d) {
     final f = d.formatter;
@@ -51,30 +50,31 @@ class _HandlePickerState extends State<HandlePicker>
     if (initDateTime == null) {
       Jalali now = Jalali.now();
       switch (widget.type) {
-        case 'rangedate':
-          initDateTime = '${DateUtils.jalaliToString(now)} # ${DateUtils.jalaliToString(now)}';
+        case PickerType.rangedate:
+          initDateTime =
+              '${DateUtils.jalaliToString(now)} # ${DateUtils.jalaliToString(now)}';
           break;
-        case 'datetime':
+        case PickerType.datetime:
           initDateTime = '${DateUtils.jalaliToString(now)} 00:00';
           break;
-        case 'date':
+        case PickerType.date:
           initDateTime = '${DateUtils.jalaliToString(now)}';
           break;
-        case 'time':
+        case PickerType.time:
           initDateTime = '00:00';
           break;
-        case 'year':
+        case PickerType.year:
           initDateTime = '${now.formatter.yyyy}';
 
           break;
-        case 'month':
+        case PickerType.month:
           initDateTime = '${now.formatter.mm}';
           break;
         default:
       }
     }
     isSecondSelect = false;
-    if (widget.type == 'rangedate') {
+    if (widget.type == PickerType.rangedate) {
       if (initDateTime != null) {
         var splitInitDateTimes = initDateTime.split('#');
         var splitStartDateTime = splitInitDateTimes[0].split(' ');
@@ -119,18 +119,18 @@ class _HandlePickerState extends State<HandlePicker>
     Widget picker;
 
     switch (widget.type) {
-      case 'datetime':
+      case PickerType.datetime:
         Widget picked;
 
         switch (pickerType) {
-          case 'date':
+          case PickerType.date:
             picked = DatePicker(
               startSelectedDate: startSelectedInitDate,
               endSelectedDate: endSelectedInitDate,
               isRangeDate: false,
               onChangePicker: (picker) {
                 setState(() {
-                  pickerType = 'year';
+                  pickerType = PickerType.year;
                 });
               },
               onSelectDate: (date) {
@@ -142,12 +142,12 @@ class _HandlePickerState extends State<HandlePicker>
               onConfirmedDate: (date) {
                 setState(() {
                   startSelectedInitDate = date;
-                  pickerType = 'time';
+                  pickerType = PickerType.time;
                 });
               },
             );
             break;
-          case 'time':
+          case PickerType.time:
             picked = TimePicker(
               initTime: startSelectedInitTime,
               onSelectDate: (time) {
@@ -156,14 +156,14 @@ class _HandlePickerState extends State<HandlePicker>
               },
             );
             break;
-          case 'year':
+          case PickerType.year:
             picked = PersianYearPicker(
               initDate: startSelectedInitDate,
               onSelectYear: (date) {
                 setState(() {
                   startSelectedInitDate = outPutFormat(date);
                   endSelectedInitDate = outPutFormat(date);
-                  pickerType = 'date';
+                  pickerType = PickerType.date;
                 });
               },
             );
@@ -172,16 +172,16 @@ class _HandlePickerState extends State<HandlePicker>
         }
         picker = Container(child: picked);
         break;
-      case 'rangedate':
+      case PickerType.rangedate:
         Widget picked;
         switch (pickerType) {
-          case 'date':
+          case PickerType.date:
             picked = DatePicker(
               startSelectedDate: startSelectedInitDate,
               endSelectedDate: endSelectedInitDate,
               onChangePicker: (picker) {
                 setState(() {
-                  pickerType = 'year';
+                  pickerType = PickerType.year;
                 });
               },
               isRangeDate: true,
@@ -225,7 +225,7 @@ class _HandlePickerState extends State<HandlePicker>
               },
             );
             break;
-          case 'time':
+          case PickerType.time:
             picked = TimePicker(
               initTime: startSelectedInitTime,
               onSelectDate: (time) {
@@ -234,7 +234,7 @@ class _HandlePickerState extends State<HandlePicker>
               },
             );
             break;
-          case 'year':
+          case PickerType.year:
             picked = PersianYearPicker(
               initDate: startSelectedInitDate,
               onSelectYear: (date) {
@@ -244,7 +244,7 @@ class _HandlePickerState extends State<HandlePicker>
                   } else {
                     startSelectedInitDate = outPutFormat(date);
                   }
-                  pickerType = 'date';
+                  pickerType = PickerType.date;
                 });
               },
             );
@@ -253,7 +253,7 @@ class _HandlePickerState extends State<HandlePicker>
         }
         picker = Container(child: picked);
         break;
-      case 'time':
+      case PickerType.time:
         setState(() {
           startSelectedInitTime = initDateTime;
         });
@@ -266,11 +266,11 @@ class _HandlePickerState extends State<HandlePicker>
           },
         ));
         break;
-      case 'date':
+      case PickerType.date:
         Widget picked;
 
         switch (pickerType) {
-          case 'date':
+          case PickerType.date:
             picked = DatePicker(
               startSelectedDate: startSelectedInitDate,
               endSelectedDate: endSelectedInitDate,
@@ -288,12 +288,12 @@ class _HandlePickerState extends State<HandlePicker>
               },
               onChangePicker: (picker) {
                 setState(() {
-                  pickerType = 'year';
+                  pickerType = PickerType.year;
                 });
               },
             );
             break;
-          case 'year':
+          case PickerType.year:
             picked = PersianYearPicker(
               initDate: startSelectedInitDate,
               onSelectYear: (date) {
@@ -301,17 +301,17 @@ class _HandlePickerState extends State<HandlePicker>
                   startSelectedInitDate = outPutFormat(date);
                   endSelectedInitDate = outPutFormat(date);
                   startSelectedInitDate = outPutFormat(date);
-                  pickerType = 'date';
+                  pickerType = PickerType.date;
                 });
               },
               onChangePicker: (picker) {
                 setState(() {
-                  pickerType = 'month';
+                  pickerType = PickerType.month;
                 });
               },
             );
             break;
-          case 'month':
+          case PickerType.month:
             picked = PersianMonthPicker(
               initDate: startSelectedInitDate,
               onSelectMonth: (date) {
@@ -319,7 +319,7 @@ class _HandlePickerState extends State<HandlePicker>
                   startSelectedInitDate = outPutFormat(date);
                   endSelectedInitDate = outPutFormat(date);
                   startSelectedInitDate = outPutFormat(date);
-                  pickerType = 'date';
+                  pickerType = PickerType.date;
                 });
               },
             );
@@ -328,7 +328,7 @@ class _HandlePickerState extends State<HandlePicker>
         }
         picker = Container(child: picked);
         break;
-      case 'year':
+      case PickerType.year:
         picker = Container(
             child: PersianYearPicker(
           initDate: DateUtils.jalaliToString(
@@ -340,7 +340,7 @@ class _HandlePickerState extends State<HandlePicker>
           },
         ));
         break;
-      case 'month':
+      case PickerType.month:
         picker = PersianMonthPicker(
           initDate: DateUtils.jalaliToString(
               Jalali.now().copy(month: int.parse(startSelectedInitDate))),
@@ -355,7 +355,7 @@ class _HandlePickerState extends State<HandlePicker>
         Widget picked;
 
         switch (pickerType) {
-          case 'date':
+          case PickerType.date:
             picked = DatePicker(
               startSelectedDate: startSelectedInitDate,
               endSelectedDate: endSelectedInitDate,
@@ -373,12 +373,12 @@ class _HandlePickerState extends State<HandlePicker>
               },
               onChangePicker: (picker) {
                 setState(() {
-                  pickerType = 'year';
+                  pickerType = PickerType.year;
                 });
               },
             );
             break;
-          case 'year':
+          case PickerType.year:
             picked = PersianYearPicker(
               initDate: startSelectedInitDate,
               onSelectYear: (date) {
@@ -386,17 +386,17 @@ class _HandlePickerState extends State<HandlePicker>
                   startSelectedInitDate = outPutFormat(date);
                   endSelectedInitDate = outPutFormat(date);
                   startSelectedInitDate = outPutFormat(date);
-                  pickerType = 'date';
+                  pickerType = PickerType.date;
                 });
               },
               onChangePicker: (picker) {
                 setState(() {
-                  pickerType = 'month';
+                  pickerType = PickerType.month;
                 });
               },
             );
             break;
-          case 'month':
+          case PickerType.month:
             picked = PersianMonthPicker(
               initDate: startSelectedInitDate,
               onSelectMonth: (date) {
@@ -404,7 +404,7 @@ class _HandlePickerState extends State<HandlePicker>
                   startSelectedInitDate = outPutFormat(date);
                   endSelectedInitDate = outPutFormat(date);
                   startSelectedInitDate = outPutFormat(date);
-                  pickerType = 'date';
+                  pickerType = PickerType.date;
                 });
               },
             );

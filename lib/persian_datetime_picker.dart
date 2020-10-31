@@ -8,16 +8,16 @@ import 'handle_picker.dart';
 
 class PersianDateTimePicker extends StatefulWidget {
   final initial;
-  final type;
+  final PickerType type;
   final disable;
   final min;
   final max;
   final Color color;
   final Function(String) onSelect;
   PersianDateTimePicker(
-      {this.type = 'date',
-      this.initial = null,
-      this.disable = null,
+      {this.type = PickerType.date,
+      this.initial,
+      this.disable,
       this.min = '',
       this.max = '',
       this.color = Colors.blueAccent,
@@ -30,7 +30,6 @@ class PersianDateTimePicker extends StatefulWidget {
 class _PersianDateTimePickerState extends State<PersianDateTimePicker> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Global.color = widget.color;
     Global.pickerType = widget.type;

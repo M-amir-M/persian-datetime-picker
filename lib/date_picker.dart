@@ -18,8 +18,8 @@ class DatePicker extends StatefulWidget {
       this.startSelectedDate = false,
       this.isSecondDate = false,
       this.endSelectedDate,
-      this.onChangePicker = null,
-      this.onSelectDate = null,
+      this.onChangePicker,
+      this.onSelectDate,
       this.onConfirmedDate});
 
   @override
@@ -49,7 +49,6 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
 
   @override
   void didUpdateWidget(DatePicker oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     if (oldWidget != widget) {
       setState(() {
@@ -74,7 +73,6 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     controller.dispose();
   }
@@ -112,7 +110,7 @@ class _DatePickerState extends State<DatePicker> with TickerProviderStateMixin {
       controller.forward(from: 0);
       int year = int.parse(initDate.formatter.y);
       int month = int.parse(initDate.formatter.m);
-      int day = int.parse(initDate.formatter.d);
+      //int day = int.parse(initDate.formatter.d);
       var newDate = initDate;
       switch (type) {
         case 'prev':
