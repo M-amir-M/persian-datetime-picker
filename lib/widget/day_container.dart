@@ -31,8 +31,6 @@ class _DayContainerState extends State<DayContainer> {
     date = widget.date;
     var dateUtiles = new DateUtils();
     isDisable = date != '' ? dateUtiles.isDisable(outPutFormat(date)) : false;
-
-    // TODO: implement initState
     super.initState();
   }
 

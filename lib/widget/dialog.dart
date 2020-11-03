@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 // Examples can assume:
@@ -320,7 +321,7 @@ class CAlertDialog extends StatelessWidget {
         child: DefaultTextStyle(
           style: titleTextStyle ??
               dialogTheme.titleTextStyle ??
-              theme.textTheme.title,
+              theme.textTheme.headline1,
           child: Semantics(
             child: title,
             namesRoute: true,
@@ -337,6 +338,12 @@ class CAlertDialog extends StatelessWidget {
         case TargetPlatform.fuchsia:
           label = semanticLabel ??
               MaterialLocalizations.of(context)?.alertDialogLabel;
+          break;
+
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+        case TargetPlatform.macOS:
+          throw PlatformException(code: "10", message: "not support");
       }
     }
 
@@ -347,7 +354,7 @@ class CAlertDialog extends StatelessWidget {
           child: DefaultTextStyle(
             style: contentTextStyle ??
                 dialogTheme.contentTextStyle ??
-                theme.textTheme.subhead,
+                theme.textTheme.headline2,
             child: content,
           ),
         ),
@@ -355,11 +362,11 @@ class CAlertDialog extends StatelessWidget {
     }
 
     if (actions != null) {
-      children.add(ButtonTheme.bar(
-        child: ButtonBar(
+      children.add(
+        ButtonBar(
           children: actions,
         ),
-      ));
+      );
     }
 
     Widget dialogChild = Container(
@@ -609,7 +616,7 @@ class SimpleDialog extends StatelessWidget {
       body.add(Padding(
         padding: titlePadding,
         child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.headline1,
           child: Semantics(namesRoute: true, child: title),
         ),
       ));
@@ -622,6 +629,11 @@ class SimpleDialog extends StatelessWidget {
         case TargetPlatform.fuchsia:
           label =
               semanticLabel ?? MaterialLocalizations.of(context)?.dialogLabel;
+          break;
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+        case TargetPlatform.macOS:
+          throw PlatformException(code: "10", message: "not support");
       }
     }
 

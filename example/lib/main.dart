@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:persian_datetime_picker/utils/consts.dart';
 
 void main() => runApp(new MyApp());
 
@@ -38,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     label = 'انتخاب تاریخ زمان';
   }
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext _) {
         return PersianDateTimePicker(
           initial: '1398/03/20 19:50',
-          type: 'datetime',
+          type: PickerType.datetime,
           color: Colors.redAccent,
           onSelect: (date) {
             setState(() {
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           disable: ['friday', '1398/11/21', '13985/3/21'],
           // min:"1398/11/12",
           // max:"1398/11/25",
-          type: 'date',
+          type: PickerType.date,
           onSelect: (date) {
             setState(() {
               label = date;
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext _) {
         return PersianDateTimePicker(
           initial: '1397',
-          type: 'year',
+          type: PickerType.year,
           disable: ['1400', '1395'],
           onSelect: (date) {
             setState(() {
@@ -106,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext _) {
         return PersianDateTimePicker(
           initial: '03',
-          disable: ['2','03'],
-          type: 'month',
+          disable: ['2', '03'],
+          type: PickerType.month,
           onSelect: (date) {
             setState(() {
               label = date;
@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return PersianDateTimePicker(
           initial: '19:50',
           // disable: ['20:50','20:51','20:55'],
-          type: 'time',
+          type: PickerType.time,
           onSelect: (date) {
             setState(() {
               label = date;
@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext _) {
         return PersianDateTimePicker(
           initial: '1398/03/22#1399/03/25',
-          type: 'rangedate',
+          type: PickerType.rangedate,
           color: Colors.orangeAccent,
           onSelect: (date) {
             setState(() {
@@ -160,7 +160,10 @@ class _MyHomePageState extends State<MyHomePage> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: new AppBar(
-          title: new Text(widget.title,style: TextStyle(fontFamily: 'IS'),),
+          title: new Text(
+            widget.title,
+            style: TextStyle(fontFamily: 'IS'),
+          ),
         ),
         body: new Center(
           child: Column(

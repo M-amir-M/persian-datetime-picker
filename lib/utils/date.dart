@@ -5,7 +5,7 @@ class DateUtils {
   dynamic disable;
   String min;
   String max;
-  String type;
+  PickerType type;
   List<String> dayNames;
 
   DateUtils() {
@@ -27,21 +27,21 @@ class DateUtils {
   bool isDisable(String str) {
     bool isDisable = false;
     switch (type) {
-      case 'date':
+      case PickerType.date:
         isDisable = _inDisableDateList(str);
         break;
-      case 'datetime':
+      case PickerType.datetime:
         break;
-      case 'year':
+      case PickerType.year:
         isDisable = _inDisableYearList(str);
         break;
-      case 'month':
+      case PickerType.month:
         isDisable = _inDisableMonthList(str);
         break;
-      case 'time':
+      case PickerType.time:
         isDisable = _inDisableTimeList(str);
         break;
-      case 'rangedate':
+      case PickerType.rangedate:
         break;
       default:
     }
@@ -88,6 +88,7 @@ class DateUtils {
       if (splitTime1[1] < splitTime2[1]) return -1;
       if (splitTime1[1] == splitTime2[1]) return 0;
     }
+    throw UnimplementedError("No decision has been made for this situation");
   }
 
   static Jalali stringToJalali(String date) {
@@ -212,20 +213,23 @@ class DateUtils {
     bool inDisable = false;
     switch (disableTypeData) {
       case 'String':
-        inDisable =
-            isValidTime(time) && isValidTime(disable) ? (comparTime(time, disable) == 0) : false;
+        inDisable = isValidTime(time) && isValidTime(disable)
+            ? (comparTime(time, disable) == 0)
+            : false;
         break;
       case 'List<String>':
         for (var i = 0; i < disable.length; i++) {
-          inDisable =
-              isValidTime(time) && isValidTime(disable[i]) ? (comparTime(time, disable[i]) == 0) : false;
+          inDisable = isValidTime(time) && isValidTime(disable[i])
+              ? (comparTime(time, disable[i]) == 0)
+              : false;
           if (inDisable) break;
         }
         break;
       case '_GrowableList<String>':
         for (var i = 0; i < disable.length; i++) {
-          inDisable =
-              isValidTime(time) && isValidTime(disable[i]) ? (comparTime(time, disable[i]) == 0) : false;
+          inDisable = isValidTime(time) && isValidTime(disable[i])
+              ? (comparTime(time, disable[i]) == 0)
+              : false;
           if (inDisable) break;
         }
         break;

@@ -18,7 +18,14 @@ class SnackbarHelper {
         );
     }
     final snackBar = SnackBar(
-      content: Text('$body'),
+      content: Row(
+        children: [
+          Text(
+            '$body',
+          ),
+          icon
+        ],
+      ),
       backgroundColor: bgColor,
     );
     Scaffold.of(context).showSnackBar(snackBar);

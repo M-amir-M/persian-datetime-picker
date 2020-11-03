@@ -9,8 +9,7 @@ class PersianYearPicker extends StatefulWidget {
   final Function(Jalali) onSelectYear;
   final Function(String) onChangePicker;
 
-  PersianYearPicker(
-      {this.initDate, this.onSelectYear, this.onChangePicker = null});
+  PersianYearPicker({this.initDate, this.onSelectYear, this.onChangePicker});
 
   @override
   _PersianYearPickerState createState() => _PersianYearPickerState();
@@ -44,8 +43,8 @@ class _PersianYearPickerState extends State<PersianYearPicker>
     setState(() {
       controller.forward(from: 0);
       int year = int.parse(initDate.formatter.y);
-      int month = int.parse(initDate.formatter.m);
-      int day = int.parse(initDate.formatter.d);
+      //int month = int.parse(initDate.formatter.m);
+      //int day = int.parse(initDate.formatter.d);
       var newDate = initDate;
       switch (type) {
         case 'prev':
