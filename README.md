@@ -22,7 +22,7 @@ You can pick date / range date / time / date and time.
 
 |||||
 | ------- | ------- |------- | ------- |
-|![]( screenshot_date.jpeg) |![]( screenshot_date.jpeg) |![]( screenshot_time.jpeg) |![]( screenshot_time2.jpeg) |
+|![]( screenshot_date.jpeg) |![]( screenshot_date2.jpeg) |![]( screenshot_time.jpeg) |![]( screenshot_time2.jpeg) |
   
   
 
