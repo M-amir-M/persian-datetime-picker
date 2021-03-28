@@ -1,14 +1,18 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+import 'dart:ui' show hashValues;
 
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:flutter/foundation.dart';
+import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 /// Mode of the date picker dialog.
 ///
 /// Either a calendar or text input. In [calendar] mode, a calendar view is
 /// displayed and the user taps the day they wish to select. In [input] mode a
 /// [TextField] is displayed and the user types in the date they wish to select.
+///
+/// See also:
+///
+///  * [showDatePicker] and [showDateRangePicker], which use this to control
+///    the initial entry mode of their dialogs.
 enum PDatePickerEntryMode {
   /// Tapping on a calendar.
   calendar,
@@ -36,5 +40,47 @@ enum PDatePickerMode {
 
 /// Signature for predicating dates for enabled date selections.
 ///
-/// See [showDatePicker].
+/// See [showDatePicker], which has a [SelectableDayPredicate] parameter used
+/// to specify allowable days in the date picker.
 typedef PSelectableDayPredicate = bool Function(Jalali day);
+
+/// Encapsulates a start and end [Jalali] that represent the range of dates
+/// between them.
+///
+/// See also:
+///  * [showDateRangePicker], which displays a dialog that allows the user to
+///    select a date range.
+@immutable
+class JalaliRange {
+  /// Creates a date range for the given start and end [Jalali].
+  ///
+  /// [start] and [end] must be non-null.
+  const JalaliRange({
+    @required this.start,
+    @required this.end,
+  })  : assert(start != null),
+        assert(end != null);
+
+  /// The start of the range of dates.
+  final Jalali start;
+
+  /// The end of the range of dates.
+  final Jalali end;
+
+  /// Returns a [Duration] of the time between [start] and [end].
+  ///
+  /// See [Jalali.difference] for more details.
+  Duration get duration => end.toDateTime().difference(start.toDateTime());
+
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType) return false;
+    return other is JalaliRange && other.start == start && other.end == end;
+  }
+
+  @override
+  int get hashCode => hashValues(start, end);
+
+  @override
+  String toString() => '$start - $end';
+}

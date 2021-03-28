@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_picker_common.dart';
 import 'pdate_utils.dart' as utils;
@@ -678,7 +678,7 @@ class _DayPicker extends StatelessWidget {
     final int month = displayedMonth.month;
 
     final int daysInMonth = utils.getDaysInMonth(year, month);
-    final int dayOffset = utils.firstDayOffset(year, month, localizations);
+    final int dayOffset = utils.firstDayOffset(year, month);
 
     final List<Widget> dayItems = <Widget>[];
     // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on

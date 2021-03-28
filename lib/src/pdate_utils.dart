@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
+
+import 'pdate_picker_common.dart';
 
 /// Returns a [Jalali] with just the date of the original, but no time set.
 Jalali dateOnly(Jalali date) {
   return Jalali(date.year, date.month, date.day);
 }
 
+/// Returns a [JalaliRange] with the dates of the original without any times set.
+JalaliRange datesOnly(JalaliRange range) {
+  return JalaliRange(start: dateOnly(range.start), end: dateOnly(range.end));
+}
+
 /// Returns true if the two [Jalali] objects have the same day, month, and
 /// year.
 bool isSameDay(Jalali dateA, Jalali dateB) {
-  return dateA.year == dateB.year &&
-      dateA.month == dateB.month &&
-      dateA.day == dateB.day;
+  return dateA?.year == dateB?.year &&
+      dateA?.month == dateB?.month &&
+      dateA?.day == dateB?.day;
+}
+
+/// Returns true if the two [Jalali] objects have the same month, and
+/// year, or are both null.
+bool isSameMonth(Jalali dateA, Jalali dateB) {
+  return dateA?.year == dateB?.year && dateA?.month == dateB?.month;
 }
 
 /// Determines the number of months between two [Jalali] objects.
@@ -42,6 +55,11 @@ int monthDelta(Jalali startDate, Jalali endDate) {
 /// any additional date information.
 Jalali addMonthsToMonthDate(Jalali monthDate, int monthsToAdd) {
   return Jalali(monthDate.year, monthDate.month).addMonths(monthsToAdd);
+}
+
+/// Returns a [Jalali] with the added number of days and no time set.
+Jalali addDaysToDate(Jalali date, int days) {
+  return Jalali(date.year, date.month, date.day + days);
 }
 
 /// Computes the offset from the first day of the week that the first day of
@@ -76,9 +94,9 @@ Jalali addMonthsToMonthDate(Jalali monthDate, int monthsToAdd) {
 ///   into the [MaterialLocalizations.narrowWeekdays] list.
 /// - [MaterialLocalizations.narrowWeekdays] list provides localized names of
 ///   days of week, always starting with Sunday and ending with Saturday.
-int firstDayOffset(int year, int month, MaterialLocalizations localizations) {
+int firstDayOffset(int year, int month) {
   final int weekdayFromShanbe = Jalali(year, month).weekDay - 1;
-  return (weekdayFromShanbe - 0) % 7;
+  return weekdayFromShanbe % 7;
 }
 
 int getDaysInMonth(int year, int month) {
@@ -123,6 +141,38 @@ List<String> shortDayName = [
   "۵شنبه",
   "جمعه",
 ];
+
+/// Returns a locale-appropriate string to describe the start of a date range.
+///
+/// If `startDate` is null, then it defaults to 'Start Date', otherwise if it
+/// is in the same year as the `endDate` then it will use the short month
+/// day format (i.e. 'Jan 21'). Otherwise it will return the short date format
+/// (i.e. 'Jan 21, 2020').
+String formatRangeStartDate(
+    MaterialLocalizations localizations, Jalali startDate, Jalali endDate) {
+  return startDate == null
+      ? "تاریخ شروع"
+      : (endDate == null || startDate.year == endDate.year)
+          ? startDate.formatShortMonthDay()
+          : startDate.formatShortDate();
+}
+
+/// Returns an locale-appropriate string to describe the end of a date range.
+///
+/// If `endDate` is null, then it defaults to 'End Date', otherwise if it
+/// is in the same year as the `startDate` and the `currentDate` then it will
+/// just use the short month day format (i.e. 'Jan 21'), otherwise it will
+/// include the year (i.e. 'Jan 21, 2020').
+String formatRangeEndDate(MaterialLocalizations localizations, Jalali startDate,
+    Jalali endDate, Jalali currentDate) {
+  return endDate == null
+      ? "تاریخ پایان"
+      : (startDate != null &&
+              startDate.year == endDate.year &&
+              startDate.year == currentDate.year)
+          ? endDate.formatShortMonthDay()
+          : endDate.formatShortDate();
+}
 
 String formatDecimal(int number) {
   if (number > -1000 && number < 1000) return number.toString();
@@ -183,7 +233,28 @@ class JalaliDate {
   static const int bahman = 11;
   static const int esfand = 12;
   static const int monthsPerYear = 12;
+
+
+
+  static const List<String> months = <String>[
+    'فروردین',
+    'اردیبهشت',
+    'خرداد',
+    'تیر',
+    'مرداد',
+    'شهریور',
+    'مهر',
+    'آبان',
+    'آذر',
+    'دی',
+    'بهمن',
+    'اسفند',
+  ];
+
+
 }
+
+
 
 extension JalaliExt on Jalali {
   bool isBefore(Jalali date) {
@@ -203,6 +274,11 @@ extension JalaliExt on Jalali {
   }
 
   ///formats
+    String datePickerMediumDate() {
+    return '${shortDayName[this.weekDay - DateTime.monday]} '
+      '${this.formatter.mN} '
+      '${this.day.toString().padRight(2)}';
+  }
 
   String formatMediumDate() {
     final f = this.formatter;

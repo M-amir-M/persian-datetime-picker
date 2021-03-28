@@ -7,7 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pcalendar_date_picker.dart';
 import 'pdate_picker_common.dart';

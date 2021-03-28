@@ -1,4 +1,5 @@
 // import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -115,6 +116,43 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: Text('Time'),
               ),
+              RaisedButton(
+                onPressed: () async {
+                  var picked = await showPersianDateRangePicker(
+                    context: context,
+                    initialDateRange: JalaliRange(
+                      start: Jalali(1400, 1, 2),
+                      end: Jalali(1400, 1, 10),
+                    ),
+                    firstDate: Jalali(1385, 8),
+                    lastDate: Jalali(1450, 9),
+                  );
+                  setState(() {
+                    label = "${picked.start} ${picked.end}";
+                  });
+                },
+                child: Text('محدوده تاریخ'),
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  var picked = await showDateRangePicker(
+                    context: context,
+                    initialDateRange: DateTimeRange(
+                      start: DateTime.now(),
+                      end: DateTime.now().add(
+                        Duration(days: 5),
+                      ),
+                    ),
+                    firstDate: DateTime.now().add(Duration(days: -10000)),
+                    lastDate: DateTime.now().add(Duration(days: 10000)),
+                  );
+                  setState(() {
+                    // label = picked.format(context);
+                  });
+                },
+                child: Text('Range Datetime'),
+              ),
+              
               Text(label)
             ],
           ),
@@ -122,4 +160,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
 }
