@@ -94,14 +94,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.0.0"
-  shamsi_date:
-    dependency: transitive
-    description:
-      name: shamsi_date
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.1"
+    version: "2.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
