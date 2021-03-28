@@ -20,9 +20,9 @@ You can pick date / range date / time / date and time.
 
 # Screenshots
 
-|||||
-| ------- | ------- |------- | ------- |
-|![]( screenshot_date.jpeg) |![]( screenshot_date2.jpeg) |![]( screenshot_time.jpeg) |![]( screenshot_time2.jpeg) |
+||||||
+| ------- | ------- |------- | ------- | ------- |
+|![]( screenshot_date.jpeg) |![]( screenshot_date2.jpeg) |![]( screenshot_time.jpeg) |![]( screenshot_time2.jpeg) |![]( screenshot_range_date.jpeg) |
   
   
 

@@ -8,4 +8,5 @@
 ## [1.0.6] - Remove flushbar package.
 ## [1.0.7] - Update shamsi_date version.
 ## [2.0.0] - Change package basicly.
+## [2.1.0] - Add range date picker.
 * TODO: Describe initial release.
