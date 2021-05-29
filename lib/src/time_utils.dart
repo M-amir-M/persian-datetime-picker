@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'pdate_utils.dart';
@@ -31,18 +30,20 @@ String formatTimeOfDay(TimeOfDay timeOfDay,
   return '$buffer';
 }
 
-String formatHour(TimeOfDay timeOfDay, {bool alwaysUse24HourFormat = false}) {
+String? formatHour(TimeOfDay? timeOfDay, {bool alwaysUse24HourFormat = false}) {
   final TimeOfDayFormat format =
       timeOfDayFormat(alwaysUse24HourFormat: alwaysUse24HourFormat);
-  switch (format) {
-    case TimeOfDayFormat.h_colon_mm_space_a:
-      return formatDecimal(
-          timeOfDay.hourOfPeriod == 0 ? 12 : timeOfDay.hourOfPeriod);
-    case TimeOfDayFormat.HH_colon_mm:
-      return _formatTwoDigitZeroPad(timeOfDay.hour);
-    default:
-      throw AssertionError(' does not support $format.');
-  }
+  if (timeOfDay != null)
+    switch (format) {
+      case TimeOfDayFormat.h_colon_mm_space_a:
+        return formatDecimal(
+            timeOfDay.hourOfPeriod == 0 ? 12 : timeOfDay.hourOfPeriod);
+      case TimeOfDayFormat.HH_colon_mm:
+        return _formatTwoDigitZeroPad(timeOfDay.hour);
+      default:
+        throw AssertionError(' does not support $format.');
+    }
+  return null;
 }
 
 /// Formats [number] using two digits, assuming it's in the 0-99 inclusive
@@ -56,11 +57,12 @@ String _formatTwoDigitZeroPad(int number) {
 }
 
 @override
-String formatMinute(TimeOfDay timeOfDay) {
-  final int minute = timeOfDay.minute;
-  return minute < 10 ? '0$minute' : minute.toString();
+String? formatMinute(TimeOfDay? timeOfDay) {
+  if (timeOfDay != null) {
+    final int minute = timeOfDay.minute;
+    return minute < 10 ? '0$minute' : minute.toString();
+  }
 }
-
 
 TimeOfDayFormat timeOfDayFormat({bool alwaysUse24HourFormat = false}) {
   return alwaysUse24HourFormat
@@ -68,13 +70,14 @@ TimeOfDayFormat timeOfDayFormat({bool alwaysUse24HourFormat = false}) {
       : TimeOfDayFormat.h_colon_mm_space_a;
 }
 
-String _formatDayPeriod(TimeOfDay timeOfDay) {
-  switch (timeOfDay.period) {
-    case DayPeriod.am:
-      return "ق.ظ";
-    case DayPeriod.pm:
-      return "ب.ظ";
-  }
+String? _formatDayPeriod(TimeOfDay? timeOfDay) {
+  if (timeOfDay != null)
+    switch (timeOfDay.period) {
+      case DayPeriod.am:
+        return "ق.ظ";
+      case DayPeriod.pm:
+        return "ب.ظ";
+    }
   return null;
 }
 

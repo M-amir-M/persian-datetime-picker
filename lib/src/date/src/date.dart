@@ -85,7 +85,7 @@ abstract class Date {
   /// Throws DateException on problems
   ///
   /// Note: For ordering use with*() methods
-  Date copy({int year, int month, int day});
+  Date copy({int? year, int? month, int? day});
 
   /// Make a new date object with changed [year]
   ///

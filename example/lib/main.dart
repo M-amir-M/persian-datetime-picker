@@ -106,12 +106,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               RaisedButton(
                 onPressed: () async {
-                  var picked = await showTimePicker(
+                  TimeOfDay picked = await showTimePicker(
                     context: context,
                     initialTime: TimeOfDay.now(),
                   );
                   setState(() {
-                    label = picked.format(context);
+                    if (picked != null) label = picked.format(context);
                   });
                 },
                 child: Text('Time'),
@@ -128,7 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     lastDate: Jalali(1450, 9),
                   );
                   setState(() {
-                    label = "${picked.start} ${picked.end}";
+                    if (picked != null) {
+                      label = "${picked.start} ${picked.end}";
+                    }
                   });
                 },
                 child: Text('محدوده تاریخ'),
@@ -152,7 +154,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: Text('Range Datetime'),
               ),
-              
               Text(label)
             ],
           ),
@@ -160,5 +161,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
 }

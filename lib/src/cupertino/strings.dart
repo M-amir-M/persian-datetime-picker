@@ -55,7 +55,7 @@ static  String datePickerMinuteSemanticsLabel(int minute) {
  static String get alertDialogLabel => 'هشدار';
 
   
- static String tabSemanticsLabel({int tabIndex, int tabCount}) {
+ static String tabSemanticsLabel({required int tabIndex, required int tabCount}) {
     assert(tabIndex >= 1);
     assert(tabCount >= 1);
     return 'زبانه $tabIndex از $tabCount';
@@ -71,7 +71,7 @@ static  String datePickerMinuteSemanticsLabel(int minute) {
  static String timerPickerSecond(int second) => second.toString();
 
   
- static String timerPickerHourLabel(int hour) => hour == 1 ? 'ساعت' : 'ساعت';
+ static String timerPickerHourLabel(int? hour) => hour == 1 ? 'ساعت' : 'ساعت';
 
   
  static String timerPickerMinuteLabel(int minute) => 'دقیقه';
