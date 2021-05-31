@@ -55,6 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: new Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               RaisedButton(
                 onPressed: () async {
