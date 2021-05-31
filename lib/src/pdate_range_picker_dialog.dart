@@ -286,6 +286,8 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           }
           _entryMode = PDatePickerEntryMode.calendar;
           break;
+        default:
+          return null;
       }
     });
   }
@@ -388,6 +390,8 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
         shape = dialogTheme.shape;
         elevation = dialogTheme.elevation ?? 24;
         break;
+      default:
+        return Text("null");
     }
 
     return Dialog(
@@ -637,8 +641,8 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
         : '';
 
     final Widget header = PDatePickerHeader(
-      helpText: helpText ?? "انتخاب تاریخ",
-      titleText: dateText ?? "انتخاب تاریخ",
+      helpText: helpText,
+      titleText: dateText,
       titleSemanticsLabel: semanticDateText,
       titleStyle: dateStyle,
       orientation: orientation,
@@ -656,11 +660,11 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
         spacing: 8,
         children: <Widget>[
           TextButton(
-            child: Text(cancelText ?? "لغو"),
+            child: Text(cancelText),
             onPressed: onCancel,
           ),
           TextButton(
-            child: Text(confirmText ?? "تایید"),
+            child: Text(confirmText),
             onPressed: onConfirm,
           ),
         ],

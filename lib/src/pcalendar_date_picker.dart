@@ -223,7 +223,7 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
     _vibrate();
     setState(() {
       _selectedDate = value;
-      widget.onDateChanged?.call(_selectedDate);
+      widget.onDateChanged.call(_selectedDate);
     });
   }
 
@@ -255,8 +255,9 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
             onChanged: _handleYearChanged,
           ),
         );
+      case null:
+        return null;
     }
-    return null;
   }
 
   @override

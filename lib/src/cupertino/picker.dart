@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -75,18 +74,19 @@ class PCupertinoPicker extends StatefulWidget {
     required this.onSelectedItemChanged,
     required List<Widget> children,
     bool looping = false,
-  }) : assert(children != null),
-       assert(diameterRatio != null),
-       assert(diameterRatio > 0.0, RenderListWheelViewport.diameterRatioZeroMessage),
-       assert(magnification > 0),
-       assert(itemExtent != null),
-       assert(itemExtent > 0),
-       assert(squeeze != null),
-       assert(squeeze > 0),
-       childDelegate = looping
-                       ? ListWheelChildLoopingListDelegate(children: children)
-                       : ListWheelChildListDelegate(children: children),
-       super(key: key);
+  })  : assert(children != null),
+        assert(diameterRatio != null),
+        assert(diameterRatio > 0.0,
+            RenderListWheelViewport.diameterRatioZeroMessage),
+        assert(magnification > 0),
+        assert(itemExtent != null),
+        assert(itemExtent > 0),
+        assert(squeeze != null),
+        assert(squeeze > 0),
+        childDelegate = looping
+            ? ListWheelChildLoopingListDelegate(children: children)
+            : ListWheelChildListDelegate(children: children),
+        super(key: key);
 
   /// Creates a picker from an [IndexedWidgetBuilder] callback where the builder
   /// is dynamically invoked during layout.
@@ -118,16 +118,18 @@ class PCupertinoPicker extends StatefulWidget {
     required this.onSelectedItemChanged,
     required IndexedWidgetBuilder itemBuilder,
     int? childCount,
-  }) : assert(itemBuilder != null),
-       assert(diameterRatio != null),
-       assert(diameterRatio > 0.0, RenderListWheelViewport.diameterRatioZeroMessage),
-       assert(magnification > 0),
-       assert(itemExtent != null),
-       assert(itemExtent > 0),
-       assert(squeeze != null),
-       assert(squeeze > 0),
-       childDelegate = ListWheelChildBuilderDelegate(builder: itemBuilder, childCount: childCount),
-       super(key: key);
+  })  : assert(itemBuilder != null),
+        assert(diameterRatio != null),
+        assert(diameterRatio > 0.0,
+            RenderListWheelViewport.diameterRatioZeroMessage),
+        assert(magnification > 0),
+        assert(itemExtent != null),
+        assert(itemExtent > 0),
+        assert(squeeze != null),
+        assert(squeeze > 0),
+        childDelegate = ListWheelChildBuilderDelegate(
+            builder: itemBuilder, childCount: childCount),
+        super(key: key);
 
   /// Relative ratio between this picker's height and the simulated cylinder's diameter.
   ///
@@ -206,7 +208,8 @@ class _PCupertinoPickerState extends State<PCupertinoPicker> {
   void didUpdateWidget(PCupertinoPicker oldWidget) {
     if (widget.scrollController != null && oldWidget.scrollController == null) {
       _controller = null;
-    } else if (widget.scrollController == null && oldWidget.scrollController != null) {
+    } else if (widget.scrollController == null &&
+        oldWidget.scrollController != null) {
       assert(_controller == null);
       _controller = FixedExtentScrollController();
     }
@@ -248,7 +251,8 @@ class _PCupertinoPickerState extends State<PCupertinoPicker> {
 
   /// Draws the magnifier borders.
   Widget _buildMagnifierScreen() {
-    final Color resolvedBorderColor = CupertinoDynamicColor.resolve(_kHighlighterBorder, context);
+    final Color resolvedBorderColor =
+        CupertinoDynamicColor.resolve(_kHighlighterBorder, context);
 
     return IgnorePointer(
       child: Center(
@@ -269,7 +273,8 @@ class _PCupertinoPickerState extends State<PCupertinoPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final Color resolvedBackgroundColor = CupertinoDynamicColor.resolve(widget.backgroundColor!, context);
+    final Color resolvedBackgroundColor =
+        CupertinoDynamicColor.resolve(widget.backgroundColor!, context);
 
     final Widget result = DefaultTextStyle(
       style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
@@ -322,10 +327,13 @@ class _PCupertinoPickerSemantics extends SingleChildRenderObjectWidget {
   final FixedExtentScrollController? scrollController;
 
   @override
-  RenderObject createRenderObject(BuildContext context) => _RenderPCupertinoPickerSemantics(scrollController, Directionality.of(context));
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderPCupertinoPickerSemantics(
+          scrollController, Directionality.of(context));
 
   @override
-  void updateRenderObject(BuildContext context, covariant _RenderPCupertinoPickerSemantics renderObject) {
+  void updateRenderObject(BuildContext context,
+      covariant _RenderPCupertinoPickerSemantics renderObject) {
     renderObject
       ..textDirection = Directionality.of(context)
       ..controller = scrollController;
@@ -333,19 +341,19 @@ class _PCupertinoPickerSemantics extends SingleChildRenderObjectWidget {
 }
 
 class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
-  _RenderPCupertinoPickerSemantics(FixedExtentScrollController? controller, this._textDirection) {
+  _RenderPCupertinoPickerSemantics(
+      FixedExtentScrollController? controller, this._textDirection) {
     this.controller = controller;
   }
 
   FixedExtentScrollController? get controller => _controller;
   FixedExtentScrollController? _controller;
   set controller(FixedExtentScrollController? value) {
-    if (value == _controller)
-      return;
+    if (value == _controller) return;
     if (_controller != null)
       _controller!.removeListener(_handleScrollUpdate);
     else
-      _currentIndex = value!.initialItem ?? 0;
+      _currentIndex = value!.initialItem;
     value!.addListener(_handleScrollUpdate);
     _controller = value;
   }
@@ -353,8 +361,7 @@ class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
   TextDirection get textDirection => _textDirection;
   TextDirection _textDirection;
   set textDirection(TextDirection value) {
-    if (textDirection == value)
-      return;
+    if (textDirection == value) return;
     _textDirection = value;
     markNeedsSemanticsUpdate();
   }
@@ -366,17 +373,16 @@ class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
   }
 
   void _handleDecrease() {
-    if (_currentIndex == 0)
-      return;
+    if (_currentIndex == 0) return;
     controller!.jumpToItem(_currentIndex - 1);
   }
 
   void _handleScrollUpdate() {
-    if (controller!.selectedItem == _currentIndex)
-      return;
+    if (controller!.selectedItem == _currentIndex) return;
     _currentIndex = controller!.selectedItem;
     markNeedsSemanticsUpdate();
   }
+
   @override
   void describeSemanticsConfiguration(SemanticsConfiguration config) {
     super.describeSemanticsConfiguration(config);
@@ -385,7 +391,8 @@ class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
   }
 
   @override
-  void assembleSemanticsNode(SemanticsNode node, SemanticsConfiguration config, Iterable<SemanticsNode> children) {
+  void assembleSemanticsNode(SemanticsNode node, SemanticsConfiguration config,
+      Iterable<SemanticsNode> children) {
     if (children.isEmpty)
       return super.assembleSemanticsNode(node, config, children);
     final SemanticsNode scrollable = children.first;

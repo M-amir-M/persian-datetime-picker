@@ -782,6 +782,8 @@ class _RenderInputPadding extends RenderShiftedBox {
           newPosition += const Offset(-1.0, 0.0);
         }
         break;
+      default:
+        return false;
     }
 
     return result.addWithRawTransform(
@@ -1455,8 +1457,7 @@ class _TimePickerInputState extends State<_TimePickerInput> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            widget.helpText ??
-                MaterialLocalizations.of(context).timePickerInputHelpText,
+            widget.helpText,
             style: TimePickerTheme.of(context).helpTextStyle ??
                 theme.textTheme.overline,
           ),
@@ -1858,6 +1859,8 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
           _formKey.currentState!.save();
           _entryMode = TimePickerEntryMode.dial;
           break;
+        default:
+          return null;
       }
     });
   }
@@ -1962,6 +1965,8 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
         timePickerWidth = _kTimePickerWidthPortrait;
         timePickerHeight = _kTimePickerHeightInput;
         break;
+      default:
+        break;
     }
     return Size(timePickerWidth, timePickerHeight * textScaleFactor);
   }
@@ -2005,13 +2010,11 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
               children: <Widget>[
                 TextButton(
                   onPressed: _handleCancel,
-                  child: Text(
-                      widget.cancelText ?? localizations.cancelButtonLabel),
+                  child: Text(widget.cancelText),
                 ),
                 TextButton(
                   onPressed: _handleOk,
-                  child:
-                      Text(widget.confirmText ?? localizations.okButtonLabel),
+                  child: Text(widget.confirmText),
                 ),
               ],
             ),
@@ -2106,6 +2109,8 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
             ),
           ),
         );
+        break;
+      default:
         break;
     }
 

@@ -279,6 +279,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           _formKey.currentState!.save();
           _entryMode = DatePickerEntryMode.calendar;
           break;
+        default:
+          return null;
       }
     });
   }
@@ -297,7 +299,6 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           case Orientation.landscape:
             return _calendarLandscapeDialogSize;
         }
-        break;
       case DatePickerEntryMode.input:
         switch (orientation) {
           case Orientation.portrait:
@@ -305,9 +306,9 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           case Orientation.landscape:
             return _inputLandscapeDialogSize;
         }
-        break;
+      default:
+        return null;
     }
-    return null;
   }
 
   @override
@@ -390,12 +391,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
         // TODO(darrenaustin): localize 'Switch to calendar'
         entryModeTooltip = 'Switch to calendar';
         break;
-      case DatePickerEntryMode.calendarOnly:
-        // TODO: Handle this case.
-        break;
-      case DatePickerEntryMode.inputOnly:
-        // TODO: Handle this case.
-        break;
+      default:
+        return Text("null");
     }
 
     final Widget header = PDatePickerHeader(
