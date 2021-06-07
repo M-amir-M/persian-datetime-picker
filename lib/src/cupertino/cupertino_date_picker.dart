@@ -1,4 +1,3 @@
-
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
@@ -9,7 +8,6 @@ import 'package:persian_datetime_picker/src/cupertino/strings.dart';
 
 import 'picker.dart';
 
-// Values derived from https://developer.apple.com/design/resources/ and on iOS
 // simulators with "Debug View Hierarchy".
 const double _kItemExtent = 32.0;
 // From the picker's intrinsic content size constraint.
@@ -436,7 +434,7 @@ class PCupertinoDatePicker extends StatefulWidget {
       case _PickerColumnType.month:
         for (int i = 1; i <= 12; i++) {
           final String month = StringsText.datePickerMonth(i);
-          if (longestText.length < month.length) longestText = month;
+          if (longestText.length < month.length) longestText = "   $month   ";
         }
         break;
       case _PickerColumnType.year:
@@ -450,6 +448,7 @@ class PCupertinoDatePicker extends StatefulWidget {
       text: TextSpan(
         style: _themeTextStyle(context),
         text: longestText,
+        
       ),
       textDirection: Directionality.of(context),
     );
@@ -459,7 +458,7 @@ class PCupertinoDatePicker extends StatefulWidget {
     // laying out the text.
     painter.layout();
 
-    return painter.maxIntrinsicWidth;
+    return painter.maxIntrinsicWidth ;
   }
 }
 
@@ -663,20 +662,27 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
     return Jalali(
       initialDateTime.year,
       initialDateTime.month,
-      initialDateTime.day + selectedDayFromInitial,
+      initialDateTime.day,
       selectedHour,
       selectedMinute,
-    );
+    ).addDays(selectedDayFromInitial);
   }
 
   // Only reports datetime change when the date time is valid.
   void _onSelectedItemChange(int index) {
-    final Jalali selected = selectedDateTime;
+    final Jalali selected = initialDateTime.copy(
+      year: selectedDateTime.year,
+      month: selectedDateTime.month,
+      day: selectedDateTime.day,
+      hour: selectedHour,
+      minute: selectedMinute,
+    );
+
+    print("------ $selected");
 
     final bool isDateInvalid = widget.minimumDate?.isAfter(selected) == true ||
         widget.maximumDate?.isBefore(selected) == true;
     if (isDateInvalid) return;
-
     widget.onDateTimeChanged(selected);
   }
 
@@ -689,7 +695,7 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
           isDatePickerScrolling = true;
         } else if (notification is ScrollEndNotification) {
           isDatePickerScrolling = false;
-          // _pickerDidStopScrolling();
+          _pickerDidStopScrolling();
         }
 
         return false;
@@ -703,7 +709,6 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
         backgroundColor: widget.backgroundColor,
         squeeze: _kSqueeze,
         onSelectedItemChanged: (int index) {
-
           _onSelectedItemChange(index);
         },
         itemBuilder: (BuildContext context, int index) {
@@ -717,10 +722,14 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
           if (widget.minimumDate?.isAfter(rangeEnd) == true) return null;
           if (widget.maximumDate?.isAfter(rangeStart) == false) return null;
 
-          final String dateText =
-              rangeStart == Jalali(now.year, now.month, now.day)
-                  ? StringsText.todayLabel
-                  : rangeStart.datePickerMediumDate();
+          final String dateText = rangeStart ==
+                  Jalali(
+                    now.year,
+                    now.month,
+                    now.day,
+                  )
+              ? StringsText.todayLabel
+              : rangeStart.datePickerMediumDate();
 
           return itemPositioningBuilder(
             context,
@@ -738,10 +747,10 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
     final Jalali rangeStart = Jalali(
       initialDateTime.year,
       initialDateTime.month,
-      initialDateTime.day + selectedDayFromInitial,
+      initialDateTime.day,
       _selectedHour(meridiemIndex, hourIndex),
       0,
-    );
+    ).addDays(selectedDayFromInitial);
 
     // The end value of the range is exclusive, i.e. [rangeStart, rangeEnd).
     final Jalali rangeEnd = rangeStart.add(hours: 1);
@@ -753,51 +762,54 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
   Widget _buildHourPicker(
       double offAxisFraction, TransitionBuilder itemPositioningBuilder) {
     return NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification notification) {
-          if (notification is ScrollStartNotification) {
-            isHourPickerScrolling = true;
-          } else if (notification is ScrollEndNotification) {
-            isHourPickerScrolling = false;
-            _pickerDidStopScrolling();
+      onNotification: (ScrollNotification notification) {
+        if (notification is ScrollStartNotification) {
+          isHourPickerScrolling = true;
+        } else if (notification is ScrollEndNotification) {
+          isHourPickerScrolling = false;
+          _pickerDidStopScrolling();
+        }
+
+        return false;
+      },
+      child: PCupertinoPicker(
+        scrollController: hourController,
+        offAxisFraction: offAxisFraction,
+        itemExtent: _kItemExtent,
+        useMagnifier: _kUseMagnifier,
+        magnification: _kMagnification,
+        backgroundColor: widget.backgroundColor,
+        squeeze: _kSqueeze,
+        onSelectedItemChanged: (int index) {
+          final bool regionChanged = meridiemRegion != index ~/ 12;
+          final bool debugIsFlipped = isHourRegionFlipped;
+
+          if (regionChanged) {
+            meridiemRegion = index ~/ 12;
+            selectedAmPm = 1 - selectedAmPm;
           }
 
-          return false;
+          if (!widget.use24hFormat && regionChanged) {
+            // Scroll the meridiem column to adjust AM/PM.
+            //
+            // _onSelectedItemChanged will be called when the animation finishes.
+            //
+            // Animation values obtained by comparing with iOS version.
+            meridiemController.animateToItem(
+              selectedAmPm,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          } else {
+            // print("hour log $index");
+            _onSelectedItemChange(index);
+          }
+
+          assert(debugIsFlipped == isHourRegionFlipped);
         },
-        child: PCupertinoPicker(
-          scrollController: hourController,
-          offAxisFraction: offAxisFraction,
-          itemExtent: _kItemExtent,
-          useMagnifier: _kUseMagnifier,
-          magnification: _kMagnification,
-          backgroundColor: widget.backgroundColor,
-          squeeze: _kSqueeze,
-          onSelectedItemChanged: (int index) {
-            final bool regionChanged = meridiemRegion != index ~/ 12;
-            final bool debugIsFlipped = isHourRegionFlipped;
-
-            if (regionChanged) {
-              meridiemRegion = index ~/ 12;
-              selectedAmPm = 1 - selectedAmPm;
-            }
-
-            if (!widget.use24hFormat && regionChanged) {
-              // Scroll the meridiem column to adjust AM/PM.
-              //
-              // _onSelectedItemChanged will be called when the animation finishes.
-              //
-              // Animation values obtained by comparing with iOS version.
-              meridiemController.animateToItem(
-                selectedAmPm,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-              );
-            } else {
-              _onSelectedItemChange(index);
-            }
-
-            assert(debugIsFlipped == isHourRegionFlipped);
-          },
-          children: List<Widget>.generate(24, (int index) {
+        children: List<Widget>.generate(
+          24,
+          (int index) {
             final int hour = isHourRegionFlipped ? (index + 12) % 24 : index;
             final int displayHour =
                 widget.use24hFormat ? hour : (hour + 11) % 12 + 1;
@@ -812,9 +824,11 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
                     isValid: _isValidHour(selectedAmPm, index)),
               ),
             );
-          }),
-          looping: true,
-        ));
+          },
+        ),
+        looping: true,
+      ),
+    );
   }
 
   Widget _buildMinutePicker(
@@ -846,10 +860,10 @@ class _CupertinoDatePickerDateTimeState extends State<PCupertinoDatePicker> {
           final Jalali date = Jalali(
             initialDateTime.year,
             initialDateTime.month,
-            initialDateTime.day + selectedDayFromInitial,
+            initialDateTime.day,
             selectedHour,
             minute,
-          );
+          ).addDays(selectedDayFromInitial);
 
           final bool isInvalidMinute =
               (widget.minimumDate?.isAfter(date) ?? false) ||
@@ -1317,7 +1331,7 @@ class _CupertinoDatePickerDateState extends State<PCupertinoDatePicker> {
     final Jalali minSelectedDate =
         Jalali(selectedYear, selectedMonth, selectedDay);
     final Jalali maxSelectedDate =
-        Jalali(selectedYear, selectedMonth, selectedDay + 1);
+        Jalali(selectedYear, selectedMonth, selectedDay).addDays(1);
 
     final bool minCheck = widget.minimumDate?.isBefore(maxSelectedDate) ?? true;
     final bool maxCheck =
@@ -1341,7 +1355,7 @@ class _CupertinoDatePickerDateState extends State<PCupertinoDatePicker> {
     final Jalali minSelectDate =
         Jalali(selectedYear, selectedMonth, selectedDay);
     final Jalali maxSelectDate =
-        Jalali(selectedYear, selectedMonth, selectedDay + 1);
+        Jalali(selectedYear, selectedMonth, selectedDay).addDays(1);
 
     final bool minCheck = widget.minimumDate?.isBefore(maxSelectDate) ?? true;
     final bool maxCheck = widget.maximumDate?.isBefore(minSelectDate) ?? false;

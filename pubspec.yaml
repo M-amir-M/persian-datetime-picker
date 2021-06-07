@@ -1,6 +1,6 @@
 name: persian_datetime_picker
 description: A persian (farsi,shamsi) datetime picker for flutter, inspired by material datetime picker.
-version: 2.1.0
+version: 2.1.1
 author: Mohammad amir mohammdi <mem.amir.m@gamil.com>
 homepage: https://github.com/M-amir-M/persian-datetime-picker
 
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
 
 dev_dependencies:
   flutter_test:

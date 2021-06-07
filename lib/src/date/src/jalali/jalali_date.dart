@@ -279,7 +279,11 @@ class Jalali implements Date, Comparable<Jalali> {
   ///
   /// non-null
   Gregorian toGregorian() {
-    return Gregorian.fromJulianDayNumber(julianDayNumber);
+    return Gregorian.fromJulianDayNumber(julianDayNumber).copy(
+      hour: hour,
+      minute: minute,
+      second: second,
+    );
   }
 
   /// Checks if a year is a leap year or not.

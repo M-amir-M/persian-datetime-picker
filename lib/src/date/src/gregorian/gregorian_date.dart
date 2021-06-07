@@ -207,21 +207,24 @@ class Gregorian implements Date, Comparable<Gregorian> {
   ///
   /// Note: For ordering use with*() methods
   @override
-  Gregorian copy({int year, int month, int day}) {
-    if (year == null && month == null && day == null) {
+  Gregorian copy({int year, int month, int day,int hour,int minute,int second}) {
+    if (year == null && month == null && day == null && hour == null && minute == null && second == null) {
       return this;
     } else {
       return Gregorian(
         year ?? this.year,
         month ?? this.month,
         day ?? this.day,
+        hour ?? this.hour,
+        minute ?? this.minute,
+        second ?? this.second,
       );
     }
   }
 
   /// Converts Gregorian date to [DateTime] object
   DateTime toDateTime() {
-    return DateTime(year, month, day);
+    return DateTime(year, month, day, hour, minute, second);
   }
 
   /// Converts a Gregorian date to Jalali.
