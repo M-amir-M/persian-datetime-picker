@@ -234,8 +234,6 @@ class JalaliDate {
   static const int esfand = 12;
   static const int monthsPerYear = 12;
 
-
-
   static const List<String> months = <String>[
     'فروردین',
     'اردیبهشت',
@@ -250,11 +248,7 @@ class JalaliDate {
     'بهمن',
     'اسفند',
   ];
-
-
 }
-
-
 
 extension JalaliExt on Jalali {
   bool isBefore(Jalali date) {
@@ -273,11 +267,16 @@ extension JalaliExt on Jalali {
     return this.toDateTime();
   }
 
+  String _twoDigits(int n) {
+    if (n >= 10) return "${n}";
+    return "0${n}";
+  }
+
   ///formats
-    String datePickerMediumDate() {
+  String datePickerMediumDate() {
     return '${shortDayName[this.weekDay - DateTime.monday]} '
-      '${this.formatter.mN} '
-      '${this.day.toString().padRight(2)}';
+        '${this.formatter.mN} '
+        '${this.day.toString().padRight(2)}';
   }
 
   String formatMediumDate() {
@@ -288,6 +287,11 @@ extension JalaliExt on Jalali {
   String formatFullDate() {
     final f = this.formatter;
     return '${f.wN} ${f.d} ${f.mN} ${f.yyyy}';
+  }
+
+  String toJalaliDateTime() {
+    final f = this.formatter;
+    return '${f.yyyy}-${f.mm}-${f.dd} ${_twoDigits(this.hour)}:${_twoDigits(this.minute)}:${_twoDigits(this.second)}';
   }
 
   String formatYear() {

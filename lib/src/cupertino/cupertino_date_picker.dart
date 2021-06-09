@@ -448,7 +448,6 @@ class PCupertinoDatePicker extends StatefulWidget {
       text: TextSpan(
         style: _themeTextStyle(context),
         text: longestText,
-        
       ),
       textDirection: Directionality.of(context),
     );
@@ -458,7 +457,7 @@ class PCupertinoDatePicker extends StatefulWidget {
     // laying out the text.
     painter.layout();
 
-    return painter.maxIntrinsicWidth ;
+    return painter.maxIntrinsicWidth;
   }
 }
 
@@ -1210,6 +1209,8 @@ class _CupertinoDatePickerDateState extends State<PCupertinoDatePicker> {
         squeeze: _kSqueeze,
         onSelectedItemChanged: (int index) {
           selectedDay = index + 1;
+          print("------) ${Jalali(selectedYear, selectedMonth, selectedDay)}");
+
           if (_isCurrentDateValid)
             widget.onDateTimeChanged(
                 Jalali(selectedYear, selectedMonth, selectedDay));
@@ -1253,6 +1254,8 @@ class _CupertinoDatePickerDateState extends State<PCupertinoDatePicker> {
         squeeze: _kSqueeze,
         onSelectedItemChanged: (int index) {
           selectedMonth = index + 1;
+          print("------+ ${Jalali(selectedYear, selectedMonth, selectedDay)}");
+
           if (_isCurrentDateValid)
             widget.onDateTimeChanged(
                 Jalali(selectedYear, selectedMonth, selectedDay));
@@ -1300,6 +1303,8 @@ class _CupertinoDatePickerDateState extends State<PCupertinoDatePicker> {
         backgroundColor: widget.backgroundColor,
         onSelectedItemChanged: (int index) {
           selectedYear = index;
+          print("------++ ${Jalali(selectedYear, selectedMonth, selectedDay)}");
+
           if (_isCurrentDateValid)
             widget.onDateTimeChanged(
                 Jalali(selectedYear, selectedMonth, selectedDay));

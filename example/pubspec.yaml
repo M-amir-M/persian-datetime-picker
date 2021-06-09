@@ -2,6 +2,7 @@ name: example
 description: A new Flutter project.
 
 version: 1.0.0+1
+publish_to: none
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -20,10 +21,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
+
+ 
+  assets:
+    - assets/images/
+
   fonts:
-    - family: IranYekan
+    - family: Dana
       fonts:
-        - asset: assets/fonts/IRANYekanMobileLight.ttf
+        - asset: assets/fonts/Dana.ttf
           weight: 200
-        - asset: assets/fonts/IRANYekanMobileRegular.ttf
-          weight: 200 

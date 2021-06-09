@@ -37,11 +37,11 @@ const ShapeBorder _kDefaultShape =
 
 /// Interactive input mode of the time picker dialog.
 ///
-/// In [TimePickerEntryMode.dial] mode, a clock dial is displayed and
+/// In [PTimePickerEntryMode.dial] mode, a clock dial is displayed and
 /// the user taps or drags the time they wish to select. In
-/// TimePickerEntryMode.input] mode, [TextField]s are displayed and the user
+/// PTimePickerEntryMode.input] mode, [TextField]s are displayed and the user
 /// types in the time they wish to select.
-enum TimePickerEntryMode {
+enum PTimePickerEntryMode {
   /// Tapping/dragging on a clock dial.
   dial,
 
@@ -1766,7 +1766,7 @@ class _TimePickerDialog extends StatefulWidget {
     @required this.cancelText,
     @required this.confirmText,
     @required this.helpText,
-    this.initialEntryMode = TimePickerEntryMode.dial,
+    this.initialEntryMode = PTimePickerEntryMode.dial,
   })  : assert(initialTime != null),
         super(key: key);
 
@@ -1774,7 +1774,7 @@ class _TimePickerDialog extends StatefulWidget {
   final TimeOfDay initialTime;
 
   /// The entry mode for the picker. Whether it's text input or a dial.
-  final TimePickerEntryMode initialEntryMode;
+  final PTimePickerEntryMode initialEntryMode;
 
   /// Optionally provide your own text for the cancel button.
   ///
@@ -1812,7 +1812,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
     _announceModeOnce();
   }
 
-  TimePickerEntryMode _entryMode;
+  PTimePickerEntryMode _entryMode;
   _TimePickerMode _mode = _TimePickerMode.hour;
   _TimePickerMode _lastModeAnnounced;
   bool _autoValidate;
@@ -1852,13 +1852,13 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
   void _handleEntryModeToggle() {
     setState(() {
       switch (_entryMode) {
-        case TimePickerEntryMode.dial:
+        case PTimePickerEntryMode.dial:
           _autoValidate = false;
-          _entryMode = TimePickerEntryMode.input;
+          _entryMode = PTimePickerEntryMode.input;
           break;
-        case TimePickerEntryMode.input:
+        case PTimePickerEntryMode.input:
           _formKey.currentState.save();
-          _entryMode = TimePickerEntryMode.dial;
+          _entryMode = PTimePickerEntryMode.dial;
           break;
       }
     });
@@ -1917,7 +1917,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
   }
 
   void _handleOk() {
-    if (_entryMode == TimePickerEntryMode.input) {
+    if (_entryMode == PTimePickerEntryMode.input) {
       final FormState form = _formKey.currentState;
       if (!form.validate()) {
         setState(() {
@@ -1942,7 +1942,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
     double timePickerWidth;
     double timePickerHeight;
     switch (_entryMode) {
-      case TimePickerEntryMode.dial:
+      case PTimePickerEntryMode.dial:
         switch (orientation) {
           case Orientation.portrait:
             timePickerWidth = _kTimePickerWidthPortrait;
@@ -1960,7 +1960,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
             break;
         }
         break;
-      case TimePickerEntryMode.input:
+      case PTimePickerEntryMode.input:
         timePickerWidth = _kTimePickerWidthPortrait;
         timePickerHeight = _kTimePickerHeightInput;
         break;
@@ -1989,10 +1989,10 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
                 theme.colorScheme.brightness == Brightness.dark ? 1.0 : 0.6,
               ),
           onPressed: _handleEntryModeToggle,
-          icon: Icon(_entryMode == TimePickerEntryMode.dial
+          icon: Icon(_entryMode == PTimePickerEntryMode.dial
               ? Icons.keyboard
               : Icons.access_time),
-          tooltip: _entryMode == TimePickerEntryMode.dial
+          tooltip: _entryMode == PTimePickerEntryMode.dial
               ? MaterialLocalizations.of(context).inputTimeModeButtonLabel
               : MaterialLocalizations.of(context).dialModeButtonLabel,
         ),
@@ -2024,7 +2024,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
 
     Widget picker;
     switch (_entryMode) {
-      case TimePickerEntryMode.dial:
+      case PTimePickerEntryMode.dial:
         final Widget dial = Padding(
           padding: orientation == Orientation.portrait
               ? const EdgeInsets.symmetric(horizontal: 36, vertical: 24)
@@ -2090,7 +2090,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
             break;
         }
         break;
-      case TimePickerEntryMode.input:
+      case PTimePickerEntryMode.input:
         picker = Form(
           key: _formKey,
           autovalidate: _autoValidate,
@@ -2118,7 +2118,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
           theme.colorScheme.surface,
       insetPadding: EdgeInsets.symmetric(
         horizontal: 16.0,
-        vertical: _entryMode == TimePickerEntryMode.input ? 0.0 : 24.0,
+        vertical: _entryMode == PTimePickerEntryMode.input ? 0.0 : 24.0,
       ),
       child: AnimatedContainer(
         width: dialogSize.width,
@@ -2217,7 +2217,7 @@ Future<TimeOfDay> showPersianTimePicker({
   @required TimeOfDay initialTime,
   TransitionBuilder builder,
   bool useRootNavigator = true,
-  TimePickerEntryMode initialEntryMode = TimePickerEntryMode.dial,
+  PTimePickerEntryMode initialEntryMode = PTimePickerEntryMode.dial,
   String cancelText = "لغو",
   String confirmText = "تایید",
   String helpText = "انتخاب زمان",
