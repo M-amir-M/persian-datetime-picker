@@ -9,4 +9,5 @@
 ## [1.0.7] - Update shamsi_date version.
 ## [2.0.0] - Change package basicly.
 ## [2.1.0] - Add range date picker.
+## [2.2.0] - Add cupertino date picker.
 * TODO: Describe initial release.

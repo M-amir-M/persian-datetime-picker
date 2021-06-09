@@ -1,4 +1,3 @@
-// import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -82,8 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             firstDate: Jalali(1385, 8),
                             lastDate: Jalali(1450, 9),
                           );
-                          if (picked != null && picked != selectedDate){
-
+                          if (picked != null && picked != selectedDate) {
                             setState(() {
                               label = picked.toJalaliDateTime();
                             });
@@ -126,9 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                               ),
                                             ),
                                             onPressed: () {
-
-                                              Navigator.of(context)
-                                                  .pop(tempPickedDate ?? Jalali.now());
+                                              Navigator.of(context).pop(
+                                                  tempPickedDate ??
+                                                      Jalali.now());
                                             },
                                           ),
                                         ],
@@ -290,7 +288,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             lastDate: Jalali(1450, 9),
                           );
                           setState(() {
-                            label = "${picked.start.toJalaliDateTime()} ${picked.end.toJalaliDateTime()}";
+                            label =
+                                "${picked.start.toJalaliDateTime()} ${picked.end.toJalaliDateTime()}";
                           });
                         },
                         image: "03",
@@ -326,7 +325,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             lastDate: Jalali(1450, 9),
                           );
                           setState(() {
-                            label = "${picked.start.toJalaliDateTime()} ${picked.end.toJalaliDateTime()}";
+                            label =
+                                "${picked.start.toJalaliDateTime()} ${picked.end.toJalaliDateTime()}";
                           });
                         },
                         image: "06",
@@ -342,17 +342,14 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 70,
           width: double.infinity,
           padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 3,
-                spreadRadius: 0,
-                offset: Offset(0, 4),
-                color: Color(0xff000000).withOpacity(0.3),
-              ),
-            ],
-            color: Colors.white
-          ),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              blurRadius: 3,
+              spreadRadius: 0,
+              offset: Offset(0, 4),
+              color: Color(0xff000000).withOpacity(0.3),
+            ),
+          ], color: Colors.white),
           child: Center(
             child: Text(
               label,
