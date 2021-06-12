@@ -42,7 +42,7 @@ enum PDatePickerMode {
 ///
 /// See [showDatePicker], which has a [SelectableDayPredicate] parameter used
 /// to specify allowable days in the date picker.
-typedef PSelectableDayPredicate = bool Function(Jalali day);
+typedef PSelectableDayPredicate = bool Function(Jalali? day);
 
 /// Encapsulates a start and end [Jalali] that represent the range of dates
 /// between them.
@@ -56,8 +56,8 @@ class JalaliRange {
   ///
   /// [start] and [end] must be non-null.
   const JalaliRange({
-    @required this.start,
-    @required this.end,
+    required this.start,
+    required this.end,
   })  : assert(start != null),
         assert(end != null);
 

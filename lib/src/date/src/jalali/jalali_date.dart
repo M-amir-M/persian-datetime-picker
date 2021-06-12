@@ -70,7 +70,7 @@ class Jalali implements Date, Comparable<Jalali> {
   int get julianDayNumber {
     final r = _JalaliCalculation.calculate(year);
 
-    return Gregorian(r.gy, 3, r.march).julianDayNumber +
+    return Gregorian(r.gy!, 3, r.march!).julianDayNumber +
         (month - 1) * 31 -
         (month ~/ 7) * (month - 7) +
         day -
@@ -193,7 +193,7 @@ class Jalali implements Date, Comparable<Jalali> {
     int gy = Gregorian.fromJulianDayNumber(julianDayNumber).year;
     int jy = gy - 621;
     final r = _JalaliCalculation.calculate(jy);
-    int jdn1f = Gregorian(gy, 3, r.march).julianDayNumber;
+    int jdn1f = Gregorian(gy, 3, r.march!).julianDayNumber;
     int jd, jm, k;
 
     // Find number of days that passed since 1 Farvardin.
@@ -247,7 +247,7 @@ class Jalali implements Date, Comparable<Jalali> {
   ///
   /// non-null
   Jalali copy(
-      {int year, int month, int day, int hour, int minute, int second}) {
+      {int? year, int? month, int? day, int? hour, int? minute, int? second}) {
     if (year == null &&
         month == null &&
         day == null &&
@@ -566,17 +566,17 @@ class _JalaliCalculation {
   /// Number of years since the last leap year (0 to 4)
   ///
   /// non-null
-  final int leap;
+  final int? leap;
 
   /// Gregorian year of the beginning of Jalali year
   ///
   /// non-null
-  final int gy;
+  final int? gy;
 
   /// The March day of Farvardin the 1st (1st day of jy)
   ///
   /// non-null
-  final int march;
+  final int? march;
 
   _JalaliCalculation({this.leap, this.gy, this.march});
 
@@ -619,7 +619,7 @@ class _JalaliCalculation {
       3178
     ];
 
-    int bl = breaks.length,
+    int? bl = breaks.length,
         gy = jy + 621,
         leapJ = -14,
         jp = breaks[0],
@@ -637,21 +637,21 @@ class _JalaliCalculation {
     }
 
     // Find the limiting years for the Jalali year jy.
-    for (i = 1; i < bl; i += 1) {
+    for (i = 1; i! < bl; i += 1) {
       jm = breaks[i];
-      jump = jm - jp;
+      jump = jm - jp!;
       if (jy < jm) {
         break;
       }
-      leapJ = leapJ + (jump ~/ 33) * 8 + (((jump % 33)) ~/ 4);
+      leapJ = leapJ! + (jump ~/ 33) * 8 + (((jump % 33)) ~/ 4);
       jp = jm;
     }
-    n = jy - jp;
+    n = jy - jp!;
 
     // Find the number of leap years from AD 621 to the beginning
     // of the current Jalali year in the Persian calendar.
-    leapJ = leapJ + ((n) ~/ 33) * 8 + (((n % 33) + 3) ~/ 4);
-    if ((jump % 33) == 4 && jump - n == 4) {
+    leapJ = leapJ! + ((n) ~/ 33) * 8 + (((n % 33) + 3) ~/ 4);
+    if ((jump! % 33) == 4 && jump - n == 4) {
       leapJ += 1;
     }
 

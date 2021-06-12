@@ -14,13 +14,13 @@ class PInputDateRangePicker extends StatefulWidget {
   /// Creates a row with two text fields configured to accept the start and end dates
   /// of a date range.
   PInputDateRangePicker({
-    Key key,
-    Jalali initialStartDate,
-    Jalali initialEndDate,
-    @required Jalali firstDate,
-    @required Jalali lastDate,
-    @required this.onStartDateChanged,
-    @required this.onEndDateChanged,
+    Key? key,
+    Jalali? initialStartDate,
+    Jalali? initialEndDate,
+    required Jalali firstDate,
+    required Jalali lastDate,
+    required this.onStartDateChanged,
+    required this.onEndDateChanged,
     this.helpText,
     this.errorFormatText,
     this.errorInvalidText,
@@ -46,10 +46,10 @@ class PInputDateRangePicker extends StatefulWidget {
         super(key: key);
 
   /// The [Jalali] that represents the start of the initial date range selection.
-  final Jalali initialStartDate;
+  final Jalali? initialStartDate;
 
   /// The [Jalali] that represents the end of the initial date range selection.
-  final Jalali initialEndDate;
+  final Jalali? initialEndDate;
 
   /// The earliest allowable [Jalali] that the user can select.
   final Jalali firstDate;
@@ -58,38 +58,38 @@ class PInputDateRangePicker extends StatefulWidget {
   final Jalali lastDate;
 
   /// Called when the user changes the start date of the selected range.
-  final ValueChanged<Jalali> onStartDateChanged;
+  final ValueChanged<Jalali?> onStartDateChanged;
 
   /// Called when the user changes the end date of the selected range.
-  final ValueChanged<Jalali> onEndDateChanged;
+  final ValueChanged<Jalali?> onEndDateChanged;
 
   /// The text that is displayed at the top of the header.
   ///
   /// This is used to indicate to the user what they are selecting a date for.
-  final String helpText;
+  final String? helpText;
 
   /// Error text used to indicate the text in a field is not a valid date.
-  final String errorFormatText;
+  final String? errorFormatText;
 
   /// Error text used to indicate the date in a field is not in the valid range
   /// of [firstDate] - [lastDate].
-  final String errorInvalidText;
+  final String? errorInvalidText;
 
   /// Error text used to indicate the dates given don't form a valid date
   /// range (i.e. the start date is after the end date).
-  final String errorInvalidRangeText;
+  final String? errorInvalidRangeText;
 
   /// Hint text shown when the start date field is empty.
-  final String fieldStartHintText;
+  final String? fieldStartHintText;
 
   /// Hint text shown when the end date field is empty.
-  final String fieldEndHintText;
+  final String? fieldEndHintText;
 
   /// Label used for the start date field.
-  final String fieldStartLabelText;
+  final String? fieldStartLabelText;
 
   /// Label used for the end date field.
-  final String fieldEndLabelText;
+  final String? fieldEndLabelText;
 
   /// {@macro flutter.widgets.editableText.autofocus}
   final bool autofocus;
@@ -106,14 +106,14 @@ class PInputDateRangePicker extends StatefulWidget {
 /// The current state of an [PInputDateRangePicker]. Can be used to
 /// [validate] the date field entries.
 class PInputDateRangePickerState extends State<PInputDateRangePicker> {
-  String _startInputText;
-  String _endInputText;
-  Jalali _startDate;
-  Jalali _endDate;
-  TextEditingController _startController;
-  TextEditingController _endController;
-  String _startErrorText;
-  String _endErrorText;
+  String? _startInputText;
+  String? _endInputText;
+  Jalali? _startDate;
+  Jalali? _endDate;
+  TextEditingController? _startController;
+  TextEditingController? _endController;
+  String? _startErrorText;
+  String? _endErrorText;
   bool _autoSelected = false;
 
   @override
@@ -127,8 +127,8 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
 
   @override
   void dispose() {
-    _startController.dispose();
-    _endController.dispose();
+    _startController!.dispose();
+    _endController!.dispose();
     super.dispose();
   }
 
@@ -136,15 +136,15 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_startDate != null) {
-      _startInputText = _startDate.formatCompactDate();
+      _startInputText = _startDate!.formatCompactDate();
       final bool selectText = widget.autofocus && !_autoSelected;
-      _updateController(_startController, _startInputText, selectText);
+      _updateController(_startController!, _startInputText, selectText);
       _autoSelected = selectText;
     }
 
     if (_endDate != null) {
-      _endInputText = _endDate.formatCompactDate();
-      _updateController(_endController, _endInputText, false);
+      _endInputText = _endDate!.formatCompactDate();
+      _updateController(_endController!, _endInputText, false);
     }
   }
 
@@ -155,10 +155,10 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
   /// return false and display an appropriate error message under one of the
   /// text fields.
   bool validate() {
-    String startError = _validateDate(_startDate);
-    final String endError = _validateDate(_endDate);
+    String? startError = _validateDate(_startDate);
+    final String? endError = _validateDate(_endDate);
     if (startError == null && endError == null) {
-      if (_startDate.isAfter(_endDate)) {
+      if (_startDate!.isAfter(_endDate!)) {
         startError = widget.errorInvalidRangeText ?? "تاریخ معتبر نمی باشد.";
       }
     }
@@ -169,7 +169,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
     return startError == null && endError == null;
   }
 
-  Jalali _parseDate(String text) {
+  Jalali? _parseDate(String text) {
     try {
       return utils.parseCompactDate(text);
     } catch (e) {
@@ -177,7 +177,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
     }
   }
 
-  String _validateDate(Jalali date) {
+  String? _validateDate(Jalali? date) {
     if (date == null) {
       return widget.errorFormatText ?? "تاریخ انتخاب شده معتبر نمی باشد.";
     } else if (date.isBefore(widget.firstDate) ||
@@ -188,13 +188,13 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
   }
 
   void _updateController(
-      TextEditingController controller, String text, bool selectText) {
+      TextEditingController controller, String? text, bool selectText) {
     TextEditingValue textEditingValue = controller.value.copyWith(text: text);
     if (selectText) {
       textEditingValue = textEditingValue.copyWith(
           selection: TextSelection(
         baseOffset: 0,
-        extentOffset: text.length,
+        extentOffset: text!.length,
       ));
     }
     controller.value = textEditingValue;
@@ -205,7 +205,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
       _startInputText = text;
       _startDate = _parseDate(text);
       print(_startDate);
-      widget.onStartDateChanged?.call(_startDate);
+      widget.onStartDateChanged.call(_startDate);
     });
     if (widget.autovalidate) {
       validate();
@@ -216,7 +216,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
     setState(() {
       _endInputText = text;
       _endDate = _parseDate(text);
-      widget.onEndDateChanged?.call(_endDate);
+      widget.onEndDateChanged.call(_endDate);
     });
     if (widget.autovalidate) {
       validate();
@@ -235,7 +235,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
             controller: _startController,
             decoration: InputDecoration(
               border: inputTheme.border ?? const UnderlineInputBorder(),
-              filled: inputTheme.filled ?? true,
+              filled: inputTheme.filled,
               hintText: widget.fieldStartHintText ?? "##/##/####",
               labelText: widget.fieldStartLabelText ?? "تاریخ شروع",
               errorText: _startErrorText,
@@ -251,7 +251,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
             controller: _endController,
             decoration: InputDecoration(
               border: inputTheme.border ?? const UnderlineInputBorder(),
-              filled: inputTheme.filled ?? true,
+              filled: inputTheme.filled,
               hintText: widget.fieldEndHintText ?? "##/##/####",
               labelText: widget.fieldEndLabelText ?? "تاریخ پایان",
               errorText: _endErrorText,

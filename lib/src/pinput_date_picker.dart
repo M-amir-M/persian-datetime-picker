@@ -29,10 +29,10 @@ class PInputDatePickerFormField extends StatefulWidget {
   /// [firstDate], [lastDate], and [autofocus] must be non-null.
   ///
   PInputDatePickerFormField({
-    Key key,
-    Jalali initialDate,
-    @required Jalali firstDate,
-    @required Jalali lastDate,
+    Key? key,
+    Jalali? initialDate,
+    required Jalali firstDate,
+    required Jalali lastDate,
     this.onDateSubmitted,
     this.onDateSaved,
     this.selectableDayPredicate,
@@ -50,19 +50,19 @@ class PInputDatePickerFormField extends StatefulWidget {
         super(key: key) {
     assert(!this.lastDate.isBefore(this.firstDate),
         'lastDate ${this.lastDate} must be on or after firstDate ${this.firstDate}.');
-    assert(initialDate == null || !this.initialDate.isBefore(this.firstDate),
+    assert(initialDate == null || !this.initialDate!.isBefore(this.firstDate),
         'initialDate ${this.initialDate} must be on or after firstDate ${this.firstDate}.');
-    assert(initialDate == null || !this.initialDate.isAfter(this.lastDate),
+    assert(initialDate == null || !this.initialDate!.isAfter(this.lastDate),
         'initialDate ${this.initialDate} must be on or before lastDate ${this.lastDate}.');
     assert(
         selectableDayPredicate == null ||
             initialDate == null ||
-            selectableDayPredicate(this.initialDate),
+            selectableDayPredicate!(this.initialDate),
         'Provided initialDate ${this.initialDate} must satisfy provided selectableDayPredicate.');
   }
 
   /// If provided, it will be used as the default value of the field.
-  final Jalali initialDate;
+  final Jalali? initialDate;
 
   /// The earliest allowable [Jalali] that the user can input.
   final Jalali firstDate;
@@ -73,36 +73,36 @@ class PInputDatePickerFormField extends StatefulWidget {
   /// An optional method to call when the user indicates they are done editing
   /// the text in the field. Will only be called if the input represents a valid
   /// [Jalali].
-  final ValueChanged<Jalali> onDateSubmitted;
+  final ValueChanged<Jalali?>? onDateSubmitted;
 
   /// An optional method to call with the final date when the form is
   /// saved via [FormState.save]. Will only be called if the input represents
   /// a valid [Jalali].
-  final ValueChanged<Jalali> onDateSaved;
+  final ValueChanged<Jalali?>? onDateSaved;
 
   /// Function to provide full control over which [Jalali] can be selected.
-  final PSelectableDayPredicate selectableDayPredicate;
+  final PSelectableDayPredicate? selectableDayPredicate;
 
   /// The error text displayed if the entered date is not in the correct format.
-  final String errorFormatText;
+  final String? errorFormatText;
 
   /// The error text displayed if the date is not valid.
   ///
   /// A date is not valid if it is earlier than [firstDate], later than
   /// [lastDate], or doesn't pass the [selectableDayPredicate].
-  final String errorInvalidText;
+  final String? errorInvalidText;
 
   /// The hint text displayed in the [TextField].
   ///
   /// If this is null, it will default to the date format string. For example,
   /// 'mm/dd/yyyy' for en_US.
-  final String fieldHintText;
+  final String? fieldHintText;
 
   /// The label text displayed in the [TextField].
   ///
   /// If this is null, it will default to the words representing the date format
   /// string. For example, 'Month, Day, Year' for en_US.
-  final String fieldLabelText;
+  final String? fieldLabelText;
 
   /// {@macro flutter.widgets.editableText.autofocus}
   final bool autofocus;
@@ -114,8 +114,8 @@ class PInputDatePickerFormField extends StatefulWidget {
 
 class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   final TextEditingController _controller = TextEditingController();
-  Jalali _selectedDate;
-  String _inputText;
+  Jalali? _selectedDate;
+  String? _inputText;
   bool _autoSelected = false;
 
   @override
@@ -136,7 +136,7 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
     if (_selectedDate != null) {
       final MaterialLocalizations localizations =
           MaterialLocalizations.of(context);
-      _inputText = _selectedDate.formatCompactDate();
+      _inputText = _selectedDate!.formatCompactDate();
       TextEditingValue textEditingValue =
           _controller.value.copyWith(text: _inputText);
       // Select the new text if we are auto focused and haven't selected the text before.
@@ -144,16 +144,16 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
         textEditingValue = textEditingValue.copyWith(
             selection: TextSelection(
           baseOffset: 0,
-          extentOffset: _inputText.length,
+          extentOffset: _inputText!.length,
         ));
         _autoSelected = true;
       }
       _controller.value = textEditingValue;
-      _controller.text = _inputText;
+      _controller.text = _inputText!;
     }
   }
 
-  Jalali _parseDate(String text) {
+  Jalali? _parseDate(String text) {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     try {
@@ -163,16 +163,16 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
     }
   }
 
-  bool _isValidAcceptableDate(Jalali date) {
+  bool _isValidAcceptableDate(Jalali? date) {
     return date != null &&
         !date.isBefore(widget.firstDate) &&
         !date.isAfter(widget.lastDate) &&
         (widget.selectableDayPredicate == null ||
-            widget.selectableDayPredicate(date));
+            widget.selectableDayPredicate!(date));
   }
 
-  String _validateDate(String text) {
-    final Jalali date = _parseDate(text);
+  String? _validateDate(String? text) {
+    final Jalali? date = _parseDate(text!);
     if (date == null) {
       // TODO(darrenaustin): localize 'Invalid format.'
       return widget.errorFormatText ?? 'Invalid format.';
@@ -183,24 +183,24 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
     return null;
   }
 
-  void _handleSaved(String text) {
+  void _handleSaved(String? text) {
     if (widget.onDateSaved != null) {
-      final Jalali date = _parseDate(text);
+      final Jalali? date = _parseDate(text!);
       if (_isValidAcceptableDate(date)) {
         _selectedDate = date;
         _inputText = text;
-        widget.onDateSaved(date);
+        widget.onDateSaved!(date);
       }
     }
   }
 
   void _handleSubmitted(String text) {
     if (widget.onDateSubmitted != null) {
-      final Jalali date = _parseDate(text);
+      final Jalali? date = _parseDate(text);
       if (_isValidAcceptableDate(date)) {
         _selectedDate = date;
         _inputText = text;
-        widget.onDateSubmitted(date);
+        widget.onDateSubmitted!(date);
       }
     }
   }

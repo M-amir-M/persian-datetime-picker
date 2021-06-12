@@ -207,7 +207,7 @@ class Gregorian implements Date, Comparable<Gregorian> {
   ///
   /// Note: For ordering use with*() methods
   @override
-  Gregorian copy({int year, int month, int day,int hour,int minute,int second}) {
+  Gregorian copy({int? year, int? month, int? day,int? hour,int? minute,int? second}) {
     if (year == null && month == null && day == null && hour == null && minute == null && second == null) {
       return this;
     } else {

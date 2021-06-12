@@ -184,7 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                           );
                           setState(() {
-                            label = picked.persianFormat(context);
+                            if (picked != null)
+                              label = picked.persianFormat(context);
                           });
                         },
                         image: "09",
@@ -289,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                           setState(() {
                             label =
-                                "${picked.start.toJalaliDateTime()} ${picked.end.toJalaliDateTime()}";
+                                "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
                           });
                         },
                         image: "03",
@@ -307,7 +308,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                           );
                           setState(() {
-                            label = picked.persianFormat(context);
+                            if (picked != null)
+                              label = picked.persianFormat(context);
                           });
                         },
                         image: "04",
@@ -326,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                           setState(() {
                             label =
-                                "${picked.start.toJalaliDateTime()} ${picked.end.toJalaliDateTime()}";
+                                "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
                           });
                         },
                         image: "06",

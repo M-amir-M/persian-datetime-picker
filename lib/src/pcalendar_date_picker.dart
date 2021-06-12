@@ -75,11 +75,11 @@ class PCalendarDatePicker extends StatefulWidget {
   /// If [selectableDayPredicate] is non-null, it must return `true` for the
   /// [initialDate].
   PCalendarDatePicker({
-    Key key,
-    @required Jalali initialDate,
-    @required Jalali firstDate,
-    @required Jalali lastDate,
-    @required this.onDateChanged,
+    Key? key,
+    required Jalali initialDate,
+    required Jalali firstDate,
+    required Jalali lastDate,
+    required this.onDateChanged,
     this.onDisplayedMonthChanged,
     this.initialCalendarMode = PDatePickerMode.day,
     this.selectableDayPredicate,
@@ -100,7 +100,7 @@ class PCalendarDatePicker extends StatefulWidget {
         'initialDate ${this.initialDate} must be on or before lastDate ${this.lastDate}.');
     assert(
         selectableDayPredicate == null ||
-            selectableDayPredicate(this.initialDate),
+            selectableDayPredicate!(this.initialDate),
         'Provided initialDate ${this.initialDate} must satisfy provided selectableDayPredicate.');
   }
 
@@ -114,16 +114,16 @@ class PCalendarDatePicker extends StatefulWidget {
   final Jalali lastDate;
 
   /// Called when the user selects a date in the picker.
-  final ValueChanged<Jalali> onDateChanged;
+  final ValueChanged<Jalali?> onDateChanged;
 
   /// Called when the user navigates to a new month/year in the picker.
-  final ValueChanged<Jalali> onDisplayedMonthChanged;
+  final ValueChanged<Jalali?>? onDisplayedMonthChanged;
 
   /// The initial display of the calendar picker.
   final PDatePickerMode initialCalendarMode;
 
   /// Function to provide full control over which dates in the calendar can be selected.
-  final PSelectableDayPredicate selectableDayPredicate;
+  final PSelectableDayPredicate? selectableDayPredicate;
 
   @override
   _CalendarDatePickerState createState() => _CalendarDatePickerState();
@@ -131,13 +131,13 @@ class PCalendarDatePicker extends StatefulWidget {
 
 class _CalendarDatePickerState extends State<PCalendarDatePicker> {
   bool _announcedInitialDate = false;
-  PDatePickerMode _mode;
-  Jalali _currentDisplayedMonthDate;
-  Jalali _selectedDate;
+  PDatePickerMode? _mode;
+  Jalali? _currentDisplayedMonthDate;
+  Jalali? _selectedDate;
   final GlobalKey _monthPickerKey = GlobalKey();
   final GlobalKey _yearPickerKey = GlobalKey();
-  MaterialLocalizations _localizations;
-  TextDirection _textDirection;
+  MaterialLocalizations? _localizations;
+  late TextDirection _textDirection;
 
   @override
   void initState() {
@@ -156,7 +156,7 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
     if (!_announcedInitialDate) {
       _announcedInitialDate = true;
       SemanticsService.announce(
-        formatFullDate(_selectedDate),
+        formatFullDate(_selectedDate!),
         _textDirection,
       );
     }
@@ -182,22 +182,22 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
       _mode = mode;
       if (_mode == PDatePickerMode.day) {
         SemanticsService.announce(
-          formatMonthYear(_selectedDate),
+          formatMonthYear(_selectedDate!),
           _textDirection,
         );
       } else {
         SemanticsService.announce(
-          formatYear(_selectedDate),
+          formatYear(_selectedDate!),
           _textDirection,
         );
       }
     });
   }
 
-  void _handleMonthChanged(Jalali date) {
+  void _handleMonthChanged(Jalali? date) {
     setState(() {
-      if (_currentDisplayedMonthDate.year != date.year ||
-          _currentDisplayedMonthDate.month != date.month) {
+      if (_currentDisplayedMonthDate!.year != date!.year ||
+          _currentDisplayedMonthDate!.month != date.month) {
         _currentDisplayedMonthDate = Jalali(date.year, date.month);
         widget.onDisplayedMonthChanged?.call(_currentDisplayedMonthDate);
       }
@@ -223,11 +223,11 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
     _vibrate();
     setState(() {
       _selectedDate = value;
-      widget.onDateChanged?.call(_selectedDate);
+      widget.onDateChanged.call(_selectedDate);
     });
   }
 
-  Widget _buildPicker() {
+  Widget? _buildPicker() {
     assert(_mode != null);
     switch (_mode) {
       case PDatePickerMode.day:
@@ -237,7 +237,7 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
           currentDate: Jalali.now(),
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
-          selectedDate: _selectedDate,
+          selectedDate: _selectedDate!,
           onChanged: _handleDayChanged,
           onDisplayedMonthChanged: _handleMonthChanged,
           selectableDayPredicate: widget.selectableDayPredicate,
@@ -250,13 +250,15 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
             currentDate: Jalali.now(),
             firstDate: widget.firstDate,
             lastDate: widget.lastDate,
-            initialDate: _currentDisplayedMonthDate,
-            selectedDate: _selectedDate,
+            initialDate: _currentDisplayedMonthDate!,
+            selectedDate: _selectedDate!,
             onChanged: _handleYearChanged,
           ),
         );
+
+      default:
+        return null;
     }
-    return null;
   }
 
   @override
@@ -272,7 +274,7 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
         // Put the mode toggle button on top so that it won't be covered up by the _MonthPicker
         _DatePickerModeToggleButton(
           mode: _mode,
-          title: formatMonthYear(_currentDisplayedMonthDate),
+          title: formatMonthYear(_currentDisplayedMonthDate!),
           onTitlePressed: () {
             // Toggle the day/year mode.
             _handleModeChanged(_mode == PDatePickerMode.day
@@ -291,13 +293,13 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
 /// [PDatePickerMode] to display either the calendar view or the year list.
 class _DatePickerModeToggleButton extends StatefulWidget {
   const _DatePickerModeToggleButton({
-    @required this.mode,
-    @required this.title,
-    @required this.onTitlePressed,
+    required this.mode,
+    required this.title,
+    required this.onTitlePressed,
   });
 
   /// The current display of the calendar picker.
-  final PDatePickerMode mode;
+  final PDatePickerMode? mode;
 
   /// The text that displays the current month/year being viewed.
   final String title;
@@ -313,7 +315,7 @@ class _DatePickerModeToggleButton extends StatefulWidget {
 class _DatePickerModeToggleButtonState
     extends State<_DatePickerModeToggleButton>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -406,14 +408,14 @@ class _DatePickerModeToggleButtonState
 class _MonthPicker extends StatefulWidget {
   /// Creates a month picker.
   _MonthPicker({
-    Key key,
-    @required this.initialMonth,
-    @required this.currentDate,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.selectedDate,
-    @required this.onChanged,
-    @required this.onDisplayedMonthChanged,
+    Key? key,
+    required this.initialMonth,
+    required this.currentDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.selectedDate,
+    required this.onChanged,
+    required this.onDisplayedMonthChanged,
     this.selectableDayPredicate,
   })  : assert(selectedDate != null),
         assert(currentDate != null),
@@ -426,7 +428,7 @@ class _MonthPicker extends StatefulWidget {
         super(key: key);
 
   /// The initial month to display
-  final Jalali initialMonth;
+  final Jalali? initialMonth;
 
   /// The current date.
   ///
@@ -452,31 +454,31 @@ class _MonthPicker extends StatefulWidget {
   final ValueChanged<Jalali> onChanged;
 
   /// Called when the user navigates to a new month
-  final ValueChanged<Jalali> onDisplayedMonthChanged;
+  final ValueChanged<Jalali?> onDisplayedMonthChanged;
 
   /// Optional user supplied predicate function to customize selectable days.
-  final PSelectableDayPredicate selectableDayPredicate;
+  final PSelectableDayPredicate? selectableDayPredicate;
 
   @override
   State<StatefulWidget> createState() => _MonthPickerState();
 }
 
 class _MonthPickerState extends State<_MonthPicker> {
-  Jalali _currentMonth;
-  Jalali _nextMonthDate;
-  Jalali _previousMonthDate;
-  PageController _pageController;
-  MaterialLocalizations _localizations;
-  TextDirection _textDirection;
+  Jalali? _currentMonth;
+  late Jalali _nextMonthDate;
+  late Jalali _previousMonthDate;
+  PageController? _pageController;
+  MaterialLocalizations? _localizations;
+  late TextDirection _textDirection;
 
   @override
   void initState() {
     super.initState();
     _currentMonth = widget.initialMonth;
-    _previousMonthDate = utils.addMonthsToMonthDate(_currentMonth, -1);
-    _nextMonthDate = utils.addMonthsToMonthDate(_currentMonth, 1);
+    _previousMonthDate = utils.addMonthsToMonthDate(_currentMonth!, -1);
+    _nextMonthDate = utils.addMonthsToMonthDate(_currentMonth!, 1);
     _pageController = PageController(
-        initialPage: utils.monthDelta(widget.firstDate, _currentMonth));
+        initialPage: utils.monthDelta(widget.firstDate, _currentMonth!));
   }
 
   @override
@@ -495,12 +497,12 @@ class _MonthPickerState extends State<_MonthPicker> {
   void _handleMonthPageChanged(int monthPage) {
     final Jalali monthDate =
         utils.addMonthsToMonthDate(widget.firstDate, monthPage);
-    if (_currentMonth.year != monthDate.year ||
-        _currentMonth.month != monthDate.month) {
+    if (_currentMonth!.year != monthDate.year ||
+        _currentMonth!.month != monthDate.month) {
       _currentMonth = Jalali(monthDate.year, monthDate.month);
-      _previousMonthDate = utils.addMonthsToMonthDate(_currentMonth, -1);
-      _nextMonthDate = utils.addMonthsToMonthDate(_currentMonth, 1);
-      widget.onDisplayedMonthChanged?.call(_currentMonth);
+      _previousMonthDate = utils.addMonthsToMonthDate(_currentMonth!, -1);
+      _nextMonthDate = utils.addMonthsToMonthDate(_currentMonth!, 1);
+      widget.onDisplayedMonthChanged.call(_currentMonth);
     }
   }
 
@@ -510,7 +512,7 @@ class _MonthPickerState extends State<_MonthPicker> {
         formatMonthYear(_nextMonthDate),
         _textDirection,
       );
-      _pageController.nextPage(
+      _pageController!.nextPage(
         duration: _monthScrollDuration,
         curve: Curves.ease,
       );
@@ -523,7 +525,7 @@ class _MonthPickerState extends State<_MonthPicker> {
         formatMonthYear(_previousMonthDate),
         _textDirection,
       );
-      _pageController.previousPage(
+      _pageController!.previousPage(
         duration: _monthScrollDuration,
         curve: Curves.ease,
       );
@@ -532,14 +534,14 @@ class _MonthPickerState extends State<_MonthPicker> {
 
   /// True if the earliest allowable month is displayed.
   bool get _isDisplayingFirstMonth {
-    return !_currentMonth.isAfter(
+    return !_currentMonth!.isAfter(
       Jalali(widget.firstDate.year, widget.firstDate.month),
     );
   }
 
   /// True if the latest allowable month is displayed.
   bool get _isDisplayingLastMonth {
-    return !_currentMonth.isBefore(
+    return !_currentMonth!.isBefore(
       Jalali(widget.lastDate.year, widget.lastDate.month),
     );
   }
@@ -615,13 +617,13 @@ class _MonthPickerState extends State<_MonthPicker> {
 class _DayPicker extends StatelessWidget {
   /// Creates a day picker.
   _DayPicker({
-    Key key,
-    @required this.currentDate,
-    @required this.displayedMonth,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.selectedDate,
-    @required this.onChanged,
+    Key? key,
+    required this.currentDate,
+    required this.displayedMonth,
+    required this.firstDate,
+    required this.lastDate,
+    required this.selectedDate,
+    required this.onChanged,
     this.selectableDayPredicate,
   })  : assert(currentDate != null),
         assert(displayedMonth != null),
@@ -659,7 +661,7 @@ class _DayPicker extends StatelessWidget {
   final Jalali displayedMonth;
 
   /// Optional user supplied predicate function to customize selectable days.
-  final PSelectableDayPredicate selectableDayPredicate;
+  final PSelectableDayPredicate? selectableDayPredicate;
 
   @override
   Widget build(BuildContext context) {
@@ -667,7 +669,7 @@ class _DayPicker extends StatelessWidget {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final TextStyle dayStyle = textTheme.caption;
+    final TextStyle? dayStyle = textTheme.caption;
     final Color enabledDayColor = colorScheme.onSurface.withOpacity(0.87);
     final Color disabledDayColor = colorScheme.onSurface.withOpacity(0.38);
     final Color selectedDayColor = colorScheme.onPrimary;
@@ -693,9 +695,9 @@ class _DayPicker extends StatelessWidget {
         final bool isDisabled = dayToBuild.isAfter(lastDate) ||
             dayToBuild.isBefore(firstDate) ||
             (selectableDayPredicate != null &&
-                !selectableDayPredicate(dayToBuild));
+                !selectableDayPredicate!(dayToBuild));
 
-        BoxDecoration decoration;
+        BoxDecoration? decoration;
         Color dayColor = enabledDayColor;
         final bool isSelectedDay = utils.isSameDay(selectedDate, dayToBuild);
         if (isSelectedDay) {
@@ -722,7 +724,7 @@ class _DayPicker extends StatelessWidget {
           decoration: decoration,
           child: Center(
             child: Text(formatDecimal(day),
-                style: dayStyle.apply(color: dayColor)),
+                style: dayStyle!.apply(color: dayColor)),
           ),
         );
 
@@ -814,7 +816,7 @@ class _DayHeaders extends StatelessWidget {
   /// 4 5 6 7 8 9 10
   /// ```
   List<Widget> _getDayHeaders(
-      TextStyle headerStyle, MaterialLocalizations localizations) {
+      TextStyle? headerStyle, MaterialLocalizations localizations) {
     final List<Widget> result = <Widget>[];
     int firstDayOfWeekIndex = 0;
     for (int i = firstDayOfWeekIndex; true; i = (i + 1) % 7) {
@@ -831,7 +833,7 @@ class _DayHeaders extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-    final TextStyle dayHeaderStyle = theme.textTheme.caption?.apply(
+    final TextStyle? dayHeaderStyle = theme.textTheme.caption?.apply(
       color: colorScheme.onSurface.withOpacity(0.60),
     );
     final MaterialLocalizations localizations =
@@ -861,13 +863,13 @@ class _YearPicker extends StatefulWidget {
   /// The [currentDate, [firstDate], [lastDate], [selectedDate], and [onChanged]
   /// arguments must be non-null. The [lastDate] must be after the [firstDate].
   _YearPicker({
-    Key key,
-    @required this.currentDate,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.initialDate,
-    @required this.selectedDate,
-    @required this.onChanged,
+    Key? key,
+    required this.currentDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.initialDate,
+    required this.selectedDate,
+    required this.onChanged,
   })  : assert(currentDate != null),
         assert(firstDate != null),
         assert(lastDate != null),
@@ -904,7 +906,7 @@ class _YearPicker extends StatefulWidget {
 }
 
 class _YearPickerState extends State<_YearPicker> {
-  ScrollController scrollController;
+  ScrollController? scrollController;
 
   // The approximate number of years necessary to fill the available space.
   static const int minYears = 18;
@@ -948,9 +950,9 @@ class _YearPickerState extends State<_YearPicker> {
     } else {
       textColor = colorScheme.onSurface.withOpacity(0.87);
     }
-    final TextStyle itemStyle = textTheme.bodyText1?.apply(color: textColor);
+    final TextStyle? itemStyle = textTheme.bodyText1?.apply(color: textColor);
 
-    BoxDecoration decoration;
+    BoxDecoration? decoration;
     if (isSelected) {
       decoration = BoxDecoration(
         color: colorScheme.primary,
