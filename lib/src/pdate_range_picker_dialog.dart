@@ -1,4 +1,3 @@
-
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -90,29 +89,29 @@ const double _inputFormLandscapeHeight = 108.0;
 ///    select a single date.
 ///  * [JalaliRange], which is used to describe a date range.
 ///
-Future<JalaliRange> showPersianDateRangePicker({
-  @required BuildContext context,
-  JalaliRange initialDateRange,
-  @required Jalali firstDate,
-  @required Jalali lastDate,
-  Jalali currentDate,
+Future<JalaliRange?> showPersianDateRangePicker({
+  required BuildContext context,
+  JalaliRange? initialDateRange,
+  required Jalali firstDate,
+  required Jalali lastDate,
+  Jalali? currentDate,
   PDatePickerEntryMode initialEntryMode = PDatePickerEntryMode.calendar,
-  String helpText,
-  String cancelText,
-  String confirmText,
-  String saveText,
-  String errorFormatText,
-  String errorInvalidText,
-  String errorInvalidRangeText,
-  String fieldStartHintText,
-  String fieldEndHintText,
-  String fieldStartLabelText,
-  String fieldEndLabelText,
-  Locale locale,
+  String? helpText,
+  String? cancelText,
+  String? confirmText,
+  String? saveText,
+  String? errorFormatText,
+  String? errorInvalidText,
+  String? errorInvalidRangeText,
+  String? fieldStartHintText,
+  String? fieldEndHintText,
+  String? fieldStartLabelText,
+  String? fieldEndLabelText,
+  Locale? locale,
   bool useRootNavigator = true,
-  RouteSettings routeSettings,
-  TextDirection textDirection,
-  TransitionBuilder builder,
+  RouteSettings? routeSettings,
+  TextDirection? textDirection,
+  TransitionBuilder? builder,
 }) async {
   assert(context != null);
   assert(
@@ -191,10 +190,10 @@ Future<JalaliRange> showPersianDateRangePicker({
 
 class _DateRangePickerDialog extends StatefulWidget {
   const _DateRangePickerDialog({
-    Key key,
+    Key? key,
     this.initialDateRange,
-    @required this.firstDate,
-    @required this.lastDate,
+    required this.firstDate,
+    required this.lastDate,
     this.currentDate,
     this.initialEntryMode = PDatePickerEntryMode.calendar,
     this.helpText,
@@ -210,32 +209,32 @@ class _DateRangePickerDialog extends StatefulWidget {
     this.fieldEndLabelText,
   }) : super(key: key);
 
-  final JalaliRange initialDateRange;
+  final JalaliRange? initialDateRange;
   final Jalali firstDate;
   final Jalali lastDate;
-  final Jalali currentDate;
+  final Jalali? currentDate;
   final PDatePickerEntryMode initialEntryMode;
-  final String cancelText;
-  final String confirmText;
-  final String saveText;
-  final String helpText;
-  final String errorInvalidRangeText;
-  final String errorFormatText;
-  final String errorInvalidText;
-  final String fieldStartHintText;
-  final String fieldEndHintText;
-  final String fieldStartLabelText;
-  final String fieldEndLabelText;
+  final String? cancelText;
+  final String? confirmText;
+  final String? saveText;
+  final String? helpText;
+  final String? errorInvalidRangeText;
+  final String? errorFormatText;
+  final String? errorInvalidText;
+  final String? fieldStartHintText;
+  final String? fieldEndHintText;
+  final String? fieldStartLabelText;
+  final String? fieldEndLabelText;
 
   @override
   _DateRangePickerDialogState createState() => _DateRangePickerDialogState();
 }
 
 class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
-  PDatePickerEntryMode _entryMode;
-  Jalali _selectedStart;
-  Jalali _selectedEnd;
-  bool _autoValidate;
+  PDatePickerEntryMode? _entryMode;
+  Jalali? _selectedStart;
+  Jalali? _selectedEnd;
+  late bool _autoValidate;
   final GlobalKey _calendarPickerKey = GlobalKey();
   final GlobalKey<PInputDateRangePickerState> _inputPickerKey =
       GlobalKey<PInputDateRangePickerState>();
@@ -251,7 +250,7 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
 
   void _handleOk() {
     if (_entryMode == PDatePickerEntryMode.input) {
-      final PInputDateRangePickerState picker = _inputPickerKey.currentState;
+      final PInputDateRangePickerState picker = _inputPickerKey.currentState!;
       if (!picker.validate()) {
         setState(() {
           _autoValidate = true;
@@ -259,8 +258,8 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
         return;
       }
     }
-    final JalaliRange selectedRange = _hasSelectedDateRange
-        ? JalaliRange(start: _selectedStart, end: _selectedEnd)
+    final JalaliRange? selectedRange = _hasSelectedDateRange
+        ? JalaliRange(start: _selectedStart!, end: _selectedEnd!)
         : null;
 
     Navigator.pop(context, selectedRange);
@@ -282,7 +281,7 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           // If invalid range (start after end), then just use the start date
           if (_selectedStart != null &&
               _selectedEnd != null &&
-              _selectedStart.isAfter(_selectedEnd)) {
+              _selectedStart!.isAfter(_selectedEnd!)) {
             _selectedEnd = null;
           }
           _entryMode = PDatePickerEntryMode.calendar;
@@ -291,11 +290,11 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
     });
   }
 
-  void _handleStartDateChanged(Jalali date) {
+  void _handleStartDateChanged(Jalali? date) {
     setState(() => _selectedStart = date);
   }
 
-  void _handleEndDateChanged(Jalali date) {
+  void _handleEndDateChanged(Jalali? date) {
     setState(() => _selectedEnd = date);
   }
 
@@ -308,12 +307,11 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
     final Orientation orientation = mediaQuery.orientation;
     final double textScaleFactor = math.min(mediaQuery.textScaleFactor, 1.3);
 
-
-    Widget contents;
-    Size size;
-    ShapeBorder shape;
-    double elevation;
-    EdgeInsets insetPadding;
+    late Widget contents;
+    late Size size;
+    ShapeBorder? shape;
+    double? elevation;
+    EdgeInsets? insetPadding;
     switch (_entryMode) {
       case PDatePickerEntryMode.calendar:
         contents = _CalendarRangePickerDialog(
@@ -420,29 +418,29 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
 
 class _CalendarRangePickerDialog extends StatelessWidget {
   const _CalendarRangePickerDialog({
-    Key key,
-    @required this.selectedStartDate,
-    @required this.selectedEndDate,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.currentDate,
-    @required this.onStartDateChanged,
-    @required this.onEndDateChanged,
-    @required this.onConfirm,
-    @required this.onCancel,
-    @required this.onToggleEntryMode,
-    @required this.confirmText,
-    @required this.helpText,
+    Key? key,
+    required this.selectedStartDate,
+    required this.selectedEndDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.currentDate,
+    required this.onStartDateChanged,
+    required this.onEndDateChanged,
+    required this.onConfirm,
+    required this.onCancel,
+    required this.onToggleEntryMode,
+    required this.confirmText,
+    required this.helpText,
   }) : super(key: key);
 
-  final Jalali selectedStartDate;
-  final Jalali selectedEndDate;
+  final Jalali? selectedStartDate;
+  final Jalali? selectedEndDate;
   final Jalali firstDate;
   final Jalali lastDate;
-  final Jalali currentDate;
-  final ValueChanged<Jalali> onStartDateChanged;
-  final ValueChanged<Jalali> onEndDateChanged;
-  final VoidCallback onConfirm;
+  final Jalali? currentDate;
+  final ValueChanged<Jalali?> onStartDateChanged;
+  final ValueChanged<Jalali?> onEndDateChanged;
+  final VoidCallback? onConfirm;
   final VoidCallback onCancel;
   final VoidCallback onToggleEntryMode;
   final String confirmText;
@@ -464,16 +462,16 @@ class _CalendarRangePickerDialog extends StatelessWidget {
         localizations, selectedStartDate, selectedEndDate);
     final String endDateText = utils.formatRangeEndDate(
         localizations, selectedStartDate, selectedEndDate, Jalali.now());
-    final TextStyle headlineStyle = textTheme.headline5;
-    final TextStyle startDateStyle = headlineStyle?.apply(
+    final TextStyle? headlineStyle = textTheme.headline5;
+    final TextStyle? startDateStyle = headlineStyle?.apply(
         color: selectedStartDate != null
             ? headerForeground
             : headerDisabledForeground);
-    final TextStyle endDateStyle = headlineStyle?.apply(
+    final TextStyle? endDateStyle = headlineStyle?.apply(
         color: selectedEndDate != null
             ? headerForeground
             : headerDisabledForeground);
-    final TextStyle saveButtonStyle = textTheme.button.apply(
+    final TextStyle saveButtonStyle = textTheme.button!.apply(
         color: onConfirm != null ? headerForeground : headerDisabledForeground);
 
     final IconButton entryModeIcon = IconButton(
@@ -517,7 +515,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         helpText,
-                        style: textTheme.overline.apply(
+                        style: textTheme.overline!.apply(
                           color: headerForeground,
                         ),
                       ),
@@ -574,22 +572,22 @@ class _CalendarRangePickerDialog extends StatelessWidget {
 
 class _PInputDateRangePickerDialog extends StatelessWidget {
   const _PInputDateRangePickerDialog({
-    Key key,
-    @required this.selectedStartDate,
-    @required this.selectedEndDate,
-    @required this.currentDate,
-    @required this.picker,
-    @required this.onConfirm,
-    @required this.onCancel,
-    @required this.onToggleEntryMode,
-    @required this.confirmText,
-    @required this.cancelText,
-    @required this.helpText,
+    Key? key,
+    required this.selectedStartDate,
+    required this.selectedEndDate,
+    required this.currentDate,
+    required this.picker,
+    required this.onConfirm,
+    required this.onCancel,
+    required this.onToggleEntryMode,
+    required this.confirmText,
+    required this.cancelText,
+    required this.helpText,
   }) : super(key: key);
 
-  final Jalali selectedStartDate;
-  final Jalali selectedEndDate;
-  final Jalali currentDate;
+  final Jalali? selectedStartDate;
+  final Jalali? selectedEndDate;
+  final Jalali? currentDate;
   final Widget picker;
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
@@ -599,7 +597,7 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
   final String helpText;
 
   String _formatDateRange(
-      BuildContext context, Jalali start, Jalali end, Jalali now) {
+      BuildContext context, Jalali? start, Jalali? end, Jalali? now) {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final String startText =
@@ -628,19 +626,19 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
     final Color dateColor = colorScheme.brightness == Brightness.light
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
-    final TextStyle dateStyle = orientation == Orientation.landscape
+    final TextStyle? dateStyle = orientation == Orientation.landscape
         ? textTheme.headline5?.apply(color: dateColor)
         : textTheme.headline4?.apply(color: dateColor);
     final String dateText = _formatDateRange(
         context, selectedStartDate, selectedEndDate, currentDate);
     final String semanticDateText = selectedStartDate != null &&
             selectedEndDate != null
-        ? '${selectedStartDate.formatMediumDate()} – ${selectedEndDate.formatMediumDate()}'
+        ? '${selectedStartDate!.formatMediumDate()} – ${selectedEndDate!.formatMediumDate()}'
         : '';
 
     final Widget header = PDatePickerHeader(
-      helpText: helpText ?? "انتخاب تاریخ",
-      titleText: dateText ?? "انتخاب تاریخ",
+      helpText: helpText,
+      titleText: dateText,
       titleSemanticsLabel: semanticDateText,
       titleStyle: dateStyle,
       orientation: orientation,
@@ -658,11 +656,11 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
         spacing: 8,
         children: <Widget>[
           TextButton(
-            child: Text(cancelText ?? "لغو"),
+            child: Text(cancelText),
             onPressed: onCancel,
           ),
           TextButton(
-            child: Text(confirmText ?? "تایید"),
+            child: Text(confirmText),
             onPressed: onConfirm,
           ),
         ],
@@ -700,6 +698,5 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
           ],
         );
     }
-    return null;
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'pdate_utils.dart';
@@ -61,14 +60,13 @@ String formatMinute(TimeOfDay timeOfDay) {
   return minute < 10 ? '0$minute' : minute.toString();
 }
 
-
 TimeOfDayFormat timeOfDayFormat({bool alwaysUse24HourFormat = false}) {
   return alwaysUse24HourFormat
       ? TimeOfDayFormat.HH_colon_mm
       : TimeOfDayFormat.h_colon_mm_space_a;
 }
 
-String _formatDayPeriod(TimeOfDay timeOfDay) {
+String? _formatDayPeriod(TimeOfDay timeOfDay) {
   switch (timeOfDay.period) {
     case DayPeriod.am:
       return "ق.ظ";

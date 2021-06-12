@@ -69,13 +69,13 @@ class PDayPicker extends StatelessWidget {
   ///
   /// Rarely used directly. Instead, typically used as part of a [MonthPicker].
   PDayPicker({
-    Key key,
-    @required this.selectedDate,
-    @required this.currentDate,
-    @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.displayedMonth,
+    Key? key,
+    required this.selectedDate,
+    required this.currentDate,
+    required this.onChanged,
+    required this.firstDate,
+    required this.lastDate,
+    required this.displayedMonth,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
@@ -109,7 +109,7 @@ class PDayPicker extends StatelessWidget {
   final Jalali displayedMonth;
 
   /// Optional user supplied predicate function to customize selectable days.
-  final PSelectableDayPredicate selectableDayPredicate;
+  final PSelectableDayPredicate? selectableDayPredicate;
 
   /// Determines the way that drag start behavior is handled.
   ///
@@ -148,7 +148,7 @@ class PDayPicker extends StatelessWidget {
   /// 4 5 6 7 8 9 10
   /// ```
   List<Widget> _getDayHeaders(
-      TextStyle headerStyle, MaterialLocalizations localizations) {
+      TextStyle? headerStyle, MaterialLocalizations localizations) {
     int firstDayOfWeekIndex = 0;
     final List<Widget> result = <Widget>[];
     for (int i = firstDayOfWeekIndex; true; i = (i + 1) % 7) {
@@ -261,10 +261,10 @@ class PDayPicker extends StatelessWidget {
         final bool disabled = dayToBuild.isAfter(lastDate) ||
             dayToBuild.isBefore(firstDate) ||
             (selectableDayPredicate != null &&
-                !selectableDayPredicate(dayToBuild));
+                !selectableDayPredicate!(dayToBuild));
 
-        BoxDecoration decoration;
-        TextStyle itemStyle = themeData.textTheme.bodyText2;
+        BoxDecoration? decoration;
+        TextStyle? itemStyle = themeData.textTheme.bodyText2;
 
         final bool isSelectedDay = selectedDate.year == year &&
             selectedDate.month == month &&
@@ -277,13 +277,13 @@ class PDayPicker extends StatelessWidget {
             shape: BoxShape.circle,
           );
         } else if (disabled) {
-          itemStyle = themeData.textTheme.bodyText2
+          itemStyle = themeData.textTheme.bodyText2!
               .copyWith(color: themeData.disabledColor);
         } else if (currentDate.year == year &&
             currentDate.month == month &&
             currentDate.day == day) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.bodyText1
+          itemStyle = themeData.textTheme.bodyText1!
               .copyWith(color: themeData.accentColor);
         }
 
@@ -374,11 +374,11 @@ class PMonthPicker extends StatefulWidget {
   /// Rarely used directly. Instead, typically used as part of the dialog shown
   /// by [showDatePicker].
   PMonthPicker({
-    Key key,
-    @required this.selectedDate,
-    @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
+    Key? key,
+    required this.selectedDate,
+    required this.onChanged,
+    required this.firstDate,
+    required this.lastDate,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
@@ -403,7 +403,7 @@ class PMonthPicker extends StatefulWidget {
   final Jalali lastDate;
 
   /// Optional user supplied predicate function to customize selectable days.
-  final PSelectableDayPredicate selectableDayPredicate;
+  final PSelectableDayPredicate? selectableDayPredicate;
 
   /// {@macro flutter.widgets.scrollable.dragStartBehavior}
   final DragStartBehavior dragStartBehavior;
@@ -434,7 +434,7 @@ class _MonthPickerState extends State<PMonthPicker>
       duration: const Duration(milliseconds: 250),
     );
     _chevronOpacityAnimation =
-        _chevronOpacityController.drive(_chevronOpacityTween);
+        _chevronOpacityController!.drive(_chevronOpacityTween);
   }
 
   @override
@@ -448,8 +448,8 @@ class _MonthPickerState extends State<PMonthPicker>
     }
   }
 
-  MaterialLocalizations localizations;
-  TextDirection textDirection;
+  MaterialLocalizations? localizations;
+  late TextDirection textDirection;
 
   @override
   void didChangeDependencies() {
@@ -458,12 +458,12 @@ class _MonthPickerState extends State<PMonthPicker>
     textDirection = Directionality.of(context);
   }
 
-  Jalali _todayDate;
-  Jalali _currentDisplayedMonthDate;
-  Timer _timer;
-  PageController _dayPickerController;
-  AnimationController _chevronOpacityController;
-  Animation<double> _chevronOpacityAnimation;
+  late Jalali _todayDate;
+  late Jalali _currentDisplayedMonthDate;
+  Timer? _timer;
+  PageController? _dayPickerController;
+  AnimationController? _chevronOpacityController;
+  late Animation<double> _chevronOpacityAnimation;
 
   void _updateCurrentDate() {
     _todayDate = Jalali.now();
@@ -513,7 +513,7 @@ class _MonthPickerState extends State<PMonthPicker>
     if (!_isDisplayingLastMonth) {
       SemanticsService.announce(
           _nextMonthDate.formatMonthYear(), textDirection);
-      _dayPickerController.nextPage(
+      _dayPickerController!.nextPage(
           duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
@@ -522,7 +522,7 @@ class _MonthPickerState extends State<PMonthPicker>
     if (!_isDisplayingFirstMonth) {
       SemanticsService.announce(
           _previousMonthDate.formatMonthYear(), textDirection);
-      _dayPickerController.previousPage(
+      _dayPickerController!.previousPage(
           duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
@@ -539,8 +539,8 @@ class _MonthPickerState extends State<PMonthPicker>
         .isBefore(Jalali(widget.lastDate.year, widget.lastDate.month));
   }
 
-  Jalali _previousMonthDate;
-  Jalali _nextMonthDate;
+  late Jalali _previousMonthDate;
+  late Jalali _nextMonthDate;
 
   void _handleMonthPageChanged(int monthPage) {
     setState(() {
@@ -564,12 +564,12 @@ class _MonthPickerState extends State<PMonthPicker>
             sortKey: _MonthPickerSortKey.calendar,
             child: NotificationListener<ScrollStartNotification>(
               onNotification: (_) {
-                _chevronOpacityController.forward();
+                _chevronOpacityController!.forward();
                 return false;
               },
               child: NotificationListener<ScrollEndNotification>(
                 onNotification: (_) {
-                  _chevronOpacityController.reverse();
+                  _chevronOpacityController!.reverse();
                   return false;
                 },
                 child: PageView.builder(
@@ -668,11 +668,11 @@ class PYearPicker extends StatefulWidget {
   /// Rarely used directly. Instead, typically used as part of the dialog shown
   /// by [showDatePicker].
   PYearPicker({
-    Key key,
-    @required this.selectedDate,
-    @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
+    Key? key,
+    required this.selectedDate,
+    required this.onChanged,
+    required this.firstDate,
+    required this.lastDate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
@@ -703,7 +703,7 @@ class PYearPicker extends StatefulWidget {
 // ignore: deprecated_member_use_from_same_package
 class _YearPickerState extends State<PYearPicker> {
   static const double _itemExtent = 50.0;
-  ScrollController scrollController;
+  ScrollController? scrollController;
 
   @override
   void initState() {
@@ -719,7 +719,7 @@ class _YearPickerState extends State<PYearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle style = themeData.textTheme.bodyText2;
+    final TextStyle? style = themeData.textTheme.bodyText2;
     return ListView.builder(
       dragStartBehavior: widget.dragStartBehavior,
       controller: scrollController,
@@ -728,8 +728,8 @@ class _YearPickerState extends State<PYearPicker> {
       itemBuilder: (BuildContext context, int index) {
         final int year = widget.firstDate.year + index;
         final bool isSelected = year == widget.selectedDate.year;
-        final TextStyle itemStyle = isSelected
-            ? themeData.textTheme.headline5
+        final TextStyle? itemStyle = isSelected
+            ? themeData.textTheme.headline5!
                 .copyWith(color: themeData.accentColor)
             : style;
         return InkWell(

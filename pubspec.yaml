@@ -5,7 +5,7 @@ author: Mohammad amir mohammdi <mem.amir.m@gamil.com>
 homepage: https://github.com/M-amir-M/persian-datetime-picker
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
