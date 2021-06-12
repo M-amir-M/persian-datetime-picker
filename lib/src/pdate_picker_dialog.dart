@@ -279,6 +279,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           _formKey.currentState!.save();
           _entryMode = DatePickerEntryMode.calendar;
           break;
+        default:
+          break;
       }
     });
   }
@@ -391,6 +393,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
         entryModeIcon = Icons.calendar_today;
         // TODO(darrenaustin): localize 'Switch to calendar'
         entryModeTooltip = 'Switch to calendar';
+        break;
+      default:
         break;
     }
 

@@ -205,7 +205,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
       _startInputText = text;
       _startDate = _parseDate(text);
       print(_startDate);
-      widget.onStartDateChanged?.call(_startDate);
+      widget.onStartDateChanged.call(_startDate);
     });
     if (widget.autovalidate) {
       validate();
@@ -216,7 +216,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
     setState(() {
       _endInputText = text;
       _endDate = _parseDate(text);
-      widget.onEndDateChanged?.call(_endDate);
+      widget.onEndDateChanged.call(_endDate);
     });
     if (widget.autovalidate) {
       validate();
@@ -235,7 +235,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
             controller: _startController,
             decoration: InputDecoration(
               border: inputTheme.border ?? const UnderlineInputBorder(),
-              filled: inputTheme.filled ?? true,
+              filled: inputTheme.filled,
               hintText: widget.fieldStartHintText ?? "##/##/####",
               labelText: widget.fieldStartLabelText ?? "تاریخ شروع",
               errorText: _startErrorText,
@@ -251,7 +251,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
             controller: _endController,
             decoration: InputDecoration(
               border: inputTheme.border ?? const UnderlineInputBorder(),
-              filled: inputTheme.filled ?? true,
+              filled: inputTheme.filled,
               hintText: widget.fieldEndHintText ?? "##/##/####",
               labelText: widget.fieldEndLabelText ?? "تاریخ پایان",
               errorText: _endErrorText,

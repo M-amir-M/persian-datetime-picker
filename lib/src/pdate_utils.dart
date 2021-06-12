@@ -24,7 +24,7 @@ bool isSameDay(Jalali? dateA, Jalali? dateB) {
 /// Returns true if the two [Jalali] objects have the same month, and
 /// year, or are both null.
 bool isSameMonth(Jalali dateA, Jalali dateB) {
-  return dateA?.year == dateB?.year && dateA?.month == dateB?.month;
+  return dateA.year == dateB.year && dateA.month == dateB.month;
 }
 
 /// Determines the number of months between two [Jalali] objects.
@@ -163,8 +163,8 @@ String formatRangeStartDate(
 /// is in the same year as the `startDate` and the `currentDate` then it will
 /// just use the short month day format (i.e. 'Jan 21'), otherwise it will
 /// include the year (i.e. 'Jan 21, 2020').
-String formatRangeEndDate(MaterialLocalizations localizations, Jalali? startDate,
-    Jalali? endDate, Jalali? currentDate) {
+String formatRangeEndDate(MaterialLocalizations localizations,
+    Jalali? startDate, Jalali? endDate, Jalali? currentDate) {
   return endDate == null
       ? "تاریخ پایان"
       : (startDate != null &&

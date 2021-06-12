@@ -354,7 +354,7 @@ class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
     if (_controller != null)
       _controller!.removeListener(_handleScrollUpdate);
     else
-      _currentIndex = value!.initialItem ?? 0;
+      _currentIndex = value!.initialItem;
     value!.addListener(_handleScrollUpdate);
     _controller = value;
   }

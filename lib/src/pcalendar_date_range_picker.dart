@@ -157,13 +157,13 @@ class _PCalendarDateRangePickerState extends State<PCalendarDateRangePicker> {
           _endDate == null &&
           !date.isBefore(_startDate!)) {
         _endDate = date;
-        widget.onEndDateChanged?.call(_endDate);
+        widget.onEndDateChanged.call(_endDate);
       } else {
         _startDate = date;
-        widget.onStartDateChanged?.call(_startDate);
+        widget.onStartDateChanged.call(_startDate);
         if (_endDate != null) {
           _endDate = null;
-          widget.onEndDateChanged?.call(_endDate);
+          widget.onEndDateChanged.call(_endDate);
         }
       }
     });
@@ -373,7 +373,8 @@ class _CalendarKeyboardNavigatorState
       onFocusChange: _handleGridFocusChange,
       child: _FocusedDate(
         date: _dayGridFocus!.hasFocus ? _focusedDay : null,
-        scrollDirection: _dayGridFocus!.hasFocus ? _dayTraversalDirection : null,
+        scrollDirection:
+            _dayGridFocus!.hasFocus ? _dayTraversalDirection : null,
         child: widget.child,
       ),
     );

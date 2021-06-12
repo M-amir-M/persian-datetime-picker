@@ -286,6 +286,8 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           }
           _entryMode = PDatePickerEntryMode.calendar;
           break;
+        default:
+          break;
       }
     });
   }
@@ -387,6 +389,8 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0);
         shape = dialogTheme.shape;
         elevation = dialogTheme.elevation ?? 24;
+        break;
+      default:
         break;
     }
 
