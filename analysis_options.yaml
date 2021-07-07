@@ -1,0 +1,43 @@
+include: package:flutter_lints/flutter.yaml
+
+
+linter:
+
+  rules:
+    parameter_assignments : true
+    sort_unnamed_constructors_first : true
+    argument_type_not_assignable : true
+    prefer_single_quotes : true
+    avoid_void_async : true
+    unawaited_futures : true
+    await_only_futures : true
+  
+
+    
+    
+
+analyzer:
+
+  exclude:
+    - 'example/**'
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+
+  errors:
+     missing_required_param: error
+     parameter_assignments: ignore
+     missing_return: error
+     sort_unnamed_constructors_first : ignore
+     avoid_function_literals_in_foreach_calls: ignore
+     avoid_print : ignore
+     argument_type_not_assignable : ignore
+     prefer_single_quotes : ignore
+     avoid_void_async : ignore
+     unawaited_futures : error
+     await_only_futures : error 
+     overridden_fields : ignore
+     avoid_bool_literals_in_conditional_expressions : ignore
+     prefer_final_locals : ignore 
+     
+     
+     

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
+import 'package:persian_datetime_picker/src/date/src/gregorian/gregorian_date.dart';
 
 import 'pdate_picker_common.dart';
 
@@ -263,10 +264,6 @@ extension JalaliExt on Jalali {
     return other.compareTo(this) == 0;
   }
 
-  DateTime toDateTime() {
-    return this.toDateTime();
-  }
-
   String _twoDigits(int n) {
     if (n >= 10) return "${n}";
     return "0${n}";
@@ -315,13 +312,13 @@ extension JalaliExt on Jalali {
   }
 
   String formatShortMonthDay() {
-    final f = this.formatter;
+    final f = formatter;
     return '${f.dd} ${f.mN}';
   }
 }
 
 extension DateTimeExt on DateTime {
   Jalali toJalali() {
-    return this.toJalali();
+    return Jalali.fromDateTime(this);
   }
 }
