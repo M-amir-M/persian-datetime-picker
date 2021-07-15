@@ -18,6 +18,7 @@ const Duration _dialogSizeAnimationDuration = Duration(milliseconds: 200);
 const double _inputFormPortraitHeight = 98.0;
 const double _inputFormLandscapeHeight = 108.0;
 
+ShapeBorder? shape;
 /// Shows a full screen modal dialog containing a Material Design date range
 /// picker.
 ///
@@ -94,6 +95,8 @@ Future<JalaliRange?> showPersianDateRangePicker({
   JalaliRange? initialDateRange,
   required Jalali firstDate,
   required Jalali lastDate,
+  ShapeBorder selectedShape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.zero)),
   Jalali? currentDate,
   PDatePickerEntryMode initialEntryMode = PDatePickerEntryMode.calendar,
   String? helpText,
@@ -113,6 +116,7 @@ Future<JalaliRange?> showPersianDateRangePicker({
   TextDirection? textDirection,
   TransitionBuilder? builder,
 }) async {
+  shape = selectedShape;
   assert(context != null);
   assert(
       initialDateRange == null ||
@@ -311,7 +315,6 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
 
     late Widget contents;
     late Size size;
-    ShapeBorder? shape;
     double? elevation;
     EdgeInsets? insetPadding;
     switch (_entryMode) {
@@ -333,8 +336,6 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
         );
         size = mediaQuery.size;
         insetPadding = const EdgeInsets.all(0.0);
-        shape = const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.zero));
         elevation = 0;
         break;
 
@@ -387,7 +388,7 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
             : _inputLandscapeDialogSize;
         insetPadding =
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0);
-        shape = dialogTheme.shape;
+        shape = dialogTheme.shape ?? shape;
         elevation = dialogTheme.elevation ?? 24;
         break;
       default:
@@ -652,7 +653,7 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
       onIconPressed: onToggleEntryMode,
     );
 
-    final Widget actions = Container(
+    final Widget actions = Container(// what about here?
       alignment: AlignmentDirectional.centerEnd,
       constraints: const BoxConstraints(minHeight: 52.0),
       padding: const EdgeInsets.symmetric(horizontal: 8),

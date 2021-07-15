@@ -31,8 +31,10 @@ const double _kTimePickerHeightLandscapeCollapsed = 304.0;
 
 const BorderRadius _kDefaultBorderRadius =
     BorderRadius.all(Radius.circular(4.0));
+BorderRadius selectedBorderRadius = _kDefaultBorderRadius;
 const ShapeBorder _kDefaultShape =
     RoundedRectangleBorder(borderRadius: _kDefaultBorderRadius);
+ShapeBorder selectedShape = _kDefaultShape;
 
 /// Interactive input mode of the time picker dialog.
 ///
@@ -263,7 +265,7 @@ class _HourMinuteControl extends StatelessWidget {
         });
     final TextStyle style =
         timePickerTheme.hourMinuteTextStyle ?? themeData.textTheme.headline2!;
-    final ShapeBorder shape = timePickerTheme.hourMinuteShape ?? _kDefaultShape;
+    final ShapeBorder shape = timePickerTheme.hourMinuteShape ?? selectedShape;
 
     final Set<MaterialState> states = isSelected
         ? <MaterialState>{MaterialState.selected}
@@ -559,7 +561,7 @@ class _DayPeriodControl extends StatelessWidget {
       color: MaterialStateProperty.resolveAs(textColor, pmStates),
     );
     OutlinedBorder shape = timePickerTheme.dayPeriodShape ??
-        const RoundedRectangleBorder(borderRadius: _kDefaultBorderRadius);
+        RoundedRectangleBorder(borderRadius: selectedBorderRadius);
     final BorderSide borderSide = timePickerTheme.dayPeriodBorderSide ??
         BorderSide(
           color: Color.alphaBlend(
@@ -1981,7 +1983,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
     final bool use24HourDials = hourFormat(of: timeOfDayFormat) != HourFormat.h;
     final ThemeData theme = Theme.of(context);
     final ShapeBorder shape =
-        TimePickerTheme.of(context).shape ?? _kDefaultShape;
+        TimePickerTheme.of(context).shape ?? selectedShape;
     final Orientation orientation = media.orientation;
 
     final Widget actions = Row(
@@ -2219,6 +2221,8 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
 Future<TimeOfDay?> showPersianTimePicker({
   required BuildContext context,
   required TimeOfDay initialTime,
+  BorderRadius borderRadius = _kDefaultBorderRadius,
+  ShapeBorder shapeBorder = _kDefaultShape,
   TransitionBuilder? builder,
   bool useRootNavigator = true,
   PTimePickerEntryMode initialEntryMode = PTimePickerEntryMode.dial,
@@ -2232,6 +2236,8 @@ Future<TimeOfDay?> showPersianTimePicker({
   assert(useRootNavigator != null);
   assert(initialEntryMode != null);
   assert(debugCheckHasMaterialLocalizations(context));
+  selectedBorderRadius = borderRadius;
+  selectedShape = shapeBorder;
 
   final Widget dialog = _TimePickerDialog(
     initialTime: initialTime,
