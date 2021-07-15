@@ -80,6 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             initialDate: Jalali.now(),
                             firstDate: Jalali(1385, 8),
                             lastDate: Jalali(1450, 9),
+                            //use this to set the border radius. remove to set default value
+                            //selectedShape: const RoundedRectangleBorder(
+                            //    borderRadius: BorderRadius.all(Radius.circular(15.0)))
                           );
                           if (picked != null && picked != selectedDate) {
                             setState(() {
@@ -174,6 +177,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () async {
                           var picked = await showPersianTimePicker(
                             context: context,
+                            //sets the border of window. remove to set default value
+                            //borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            //sets the border around numbers. remove to set default value
+                            //shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
                             initialTime: TimeOfDay.now(),
                             initialEntryMode: PTimePickerEntryMode.input,
                             builder: (BuildContext context, Widget child) {
@@ -285,6 +292,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               start: Jalali(1400, 1, 2),
                               end: Jalali(1400, 1, 10),
                             ),
+                            //sets the border of window. remove to apply default value
+                            //selectedShape: RoundedRectangleBorder(
+                            //    borderRadius: BorderRadius.all(Radius.circular(15))),
                             firstDate: Jalali(1385, 8),
                             lastDate: Jalali(1450, 9),
                           );
@@ -300,6 +310,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           var picked = await showPersianTimePicker(
                             context: context,
                             initialTime: TimeOfDay.now(),
+                            //sets the border of window. remove to set default value
+                            //borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            //sets the border around numbers. remove to set default value
+                            //shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
                             builder: (BuildContext context, Widget child) {
                               return Directionality(
                                 textDirection: TextDirection.rtl,
@@ -318,6 +332,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () async {
                           var picked = await showPersianDateRangePicker(
                             context: context,
+                            //sets the border of window. remove to apply default value
+                            //selectedShape: RoundedRectangleBorder(
+                            //    borderRadius: BorderRadius.all(Radius.circular(15))),
                             initialEntryMode: PDatePickerEntryMode.input,
                             initialDateRange: JalaliRange(
                               start: Jalali(1400, 1, 2),

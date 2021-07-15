@@ -21,6 +21,9 @@ const Size _inputPortraitDialogSize = Size(330.0, 270.0);
 const Size _inputLandscapeDialogSize = Size(496, 160.0);
 const Duration _dialogSizeAnimationDuration = Duration(milliseconds: 200);
 
+ShapeBorder shapeBorder = const RoundedRectangleBorder(
+borderRadius: BorderRadius.all(Radius.circular(4.0)));
+
 /// Shows a dialog containing a Material Design date picker.
 ///
 /// The returned [Future] resolves to the date selected by the user when the
@@ -85,6 +88,8 @@ Future<Jalali?> showPersianDatePicker({
   required Jalali lastDate,
   DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
   PSelectableDayPredicate? selectableDayPredicate,
+  ShapeBorder selectedShape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4.0))),
   String? helpText,
   String? cancelText,
   String? confirmText,
@@ -99,6 +104,7 @@ Future<Jalali?> showPersianDatePicker({
   String fieldHintText = "##/##/####",
   String fieldLabelText = "ورود تاریخ",
 }) async {
+  shapeBorder = selectedShape;
   assert(context != null);
   assert(initialDate != null);
   assert(firstDate != null);
@@ -465,8 +471,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       // been updated to 4, so we will use that here for the Date Picker, but
       // only if there isn't one provided in the theme.
       shape: dialogTheme.shape ??
-          const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4.0))),
+         shapeBorder ,
       clipBehavior: Clip.antiAlias,
     );
   }
