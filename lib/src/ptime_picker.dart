@@ -47,7 +47,6 @@ enum PTimePickerEntryMode {
 }
 
 /// Provides properties for rendering time picker header fragments.
-@immutable
 class _TimePickerFragmentContext {
   const _TimePickerFragmentContext({
     required this.selectedTime,

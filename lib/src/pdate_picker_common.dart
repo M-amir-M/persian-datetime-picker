@@ -50,7 +50,7 @@ typedef PSelectableDayPredicate = bool Function(Jalali? day);
 /// See also:
 ///  * [showDateRangePicker], which displays a dialog that allows the user to
 ///    select a date range.
-@immutable
+
 class JalaliRange {
   /// Creates a date range for the given start and end [Jalali].
   ///
