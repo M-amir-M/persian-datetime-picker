@@ -97,6 +97,7 @@ Future<JalaliRange?> showPersianDateRangePicker({
   Jalali? currentDate,
   PDatePickerEntryMode initialEntryMode = PDatePickerEntryMode.calendar,
   String? helpText,
+  bool? showEntryModeIcon,
   String? cancelText,
   String? confirmText,
   String? saveText,
@@ -150,6 +151,7 @@ Future<JalaliRange?> showPersianDateRangePicker({
     currentDate: currentDate,
     initialEntryMode: initialEntryMode,
     helpText: helpText,
+    showEntryModeIcon: showEntryModeIcon,
     cancelText: cancelText,
     confirmText: confirmText,
     saveText: saveText,
@@ -197,6 +199,7 @@ class _DateRangePickerDialog extends StatefulWidget {
     this.currentDate,
     this.initialEntryMode = PDatePickerEntryMode.calendar,
     this.helpText,
+    this.showEntryModeIcon,
     this.cancelText,
     this.confirmText,
     this.saveText,
@@ -218,6 +221,7 @@ class _DateRangePickerDialog extends StatefulWidget {
   final String? confirmText;
   final String? saveText;
   final String? helpText;
+  final bool? showEntryModeIcon;
   final String? errorInvalidRangeText;
   final String? errorFormatText;
   final String? errorInvalidText;
@@ -330,6 +334,7 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           onToggleEntryMode: _handleEntryModeToggle,
           confirmText: widget.saveText ?? "تایید",
           helpText: widget.helpText ?? "انتخاب تاریخ",
+          showEntryModeIcon: widget.showEntryModeIcon ?? true,
         );
         size = mediaQuery.size;
         insetPadding = const EdgeInsets.all(0.0);
@@ -435,6 +440,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
     required this.onToggleEntryMode,
     required this.confirmText,
     required this.helpText,
+    required this.showEntryModeIcon,
   }) : super(key: key);
 
   final Jalali? selectedStartDate;
@@ -449,6 +455,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
   final VoidCallback onToggleEntryMode;
   final String confirmText;
   final String helpText;
+  final bool showEntryModeIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -551,7 +558,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              if (orientation == Orientation.portrait)
+              if (showEntryModeIcon && orientation == Orientation.portrait)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: entryModeIcon,
