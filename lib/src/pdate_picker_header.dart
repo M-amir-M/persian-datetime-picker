@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // NOTE: This is an internal implementation file. Even though there are public
 // classes and functions defined here, they are only meant to be used by the
@@ -37,10 +36,7 @@ class PDatePickerHeader extends StatelessWidget {
     required this.icon,
     required this.iconTooltip,
     required this.onIconPressed,
-  })  : assert(helpText != null),
-        assert(orientation != null),
-        assert(isShort != null),
-        super(key: key);
+  })  : super(key: key);
 
   /// The text that is displayed at the top of the header.
   ///

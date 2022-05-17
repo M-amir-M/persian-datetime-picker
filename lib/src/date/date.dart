@@ -1,4 +1,6 @@
 
+// ignore_for_file: constant_identifier_names
+
 library date;
 
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
