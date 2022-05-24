@@ -1,3 +1,5 @@
+## 2.5.1
+* [FIX]  Fix responsive issues
 ## 2.5.0
 * [FIX]  Fix flutter lint error in Flutter 3.
 * [FIX]  Fix some issues.
