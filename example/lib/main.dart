@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             initialDate: Jalali.now(),
                             firstDate: Jalali(1385, 8),
                             lastDate: Jalali(1450, 9),
-                            
+                            initialEntryMode: PDatePickerEntryMode.calendar
                           );
                           if (picked != null && picked != selectedDate) {
                             setState(() {
@@ -274,6 +274,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             firstDate: Jalali(1385, 8),
                             lastDate: Jalali(1450, 9),
+                            
                           );
                           setState(() {
                             label = "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
