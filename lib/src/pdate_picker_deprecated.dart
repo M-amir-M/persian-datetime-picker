@@ -8,7 +8,6 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_picker_common.dart';
@@ -78,12 +77,7 @@ class PDayPicker extends StatelessWidget {
     required this.displayedMonth,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
-  })  : assert(selectedDate != null),
-        assert(currentDate != null),
-        assert(onChanged != null),
-        assert(displayedMonth != null),
-        assert(dragStartBehavior != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate) ||
             selectedDate.isAtSameMomentAs(firstDate)),
         super(key: key);
@@ -228,9 +222,9 @@ class PDayPicker extends StatelessWidget {
     // 0-based day of week, with 0 representing Monday.
     final int weekdayFromMonday = Jalali(year, month).weekDay - 1;
     // 0-based day of week, with 0 representing Sunday.
-    final int firstDayOfWeekFromSunday = 0;
+    const int firstDayOfWeekFromSunday = 0;
     // firstDayOfWeekFromSunday recomputed to be Monday-based
-    final int firstDayOfWeekFromMonday = (firstDayOfWeekFromSunday - 1) % 7;
+    const int firstDayOfWeekFromMonday = (firstDayOfWeekFromSunday - 1) % 7;
     // Number of days between the first day of week appearing on the calendar,
     // and the day corresponding to the 1-st of the month.
     return (weekdayFromMonday - firstDayOfWeekFromMonday) % 7;
@@ -313,8 +307,8 @@ class PDayPicker extends StatelessWidget {
             onTap: () {
               onChanged(dayToBuild);
             },
-            child: dayWidget,
             dragStartBehavior: dragStartBehavior,
+            child: dayWidget,
           );
         }
 
@@ -326,7 +320,7 @@ class PDayPicker extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: _kDayPickerRowHeight,
             child: Center(
               child: ExcludeSemantics(
@@ -381,9 +375,7 @@ class PMonthPicker extends StatefulWidget {
     required this.lastDate,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
-  })  : assert(selectedDate != null),
-        assert(onChanged != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate) ||
             selectedDate.isAtSameMomentAs(firstDate)),
         super(key: key);
@@ -409,7 +401,7 @@ class PMonthPicker extends StatefulWidget {
   final DragStartBehavior dragStartBehavior;
 
   @override
-  _MonthPickerState createState() => _MonthPickerState();
+  State<PMonthPicker> createState() => _MonthPickerState();
 }
 
 // ignore: deprecated_member_use_from_same_package
@@ -513,8 +505,8 @@ class _MonthPickerState extends State<PMonthPicker>
     if (!_isDisplayingLastMonth) {
       SemanticsService.announce(
           _nextMonthDate.formatMonthYear(), textDirection);
-      _dayPickerController!.nextPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+      _dayPickerController!
+          .nextPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
@@ -522,8 +514,8 @@ class _MonthPickerState extends State<PMonthPicker>
     if (!_isDisplayingFirstMonth) {
       SemanticsService.announce(
           _previousMonthDate.formatMonthYear(), textDirection);
-      _dayPickerController!.previousPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+      _dayPickerController!
+          .previousPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
@@ -595,7 +587,7 @@ class _MonthPickerState extends State<PMonthPicker>
                   icon: const Icon(Icons.chevron_left),
                   tooltip: _isDisplayingFirstMonth
                       ? null
-                      : '${_previousMonthDate.formatMonthYear()}',
+                      : _previousMonthDate.formatMonthYear(),
                   onPressed:
                       _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
@@ -613,7 +605,7 @@ class _MonthPickerState extends State<PMonthPicker>
                   icon: const Icon(Icons.chevron_right),
                   tooltip: _isDisplayingLastMonth
                       ? null
-                      : '${_nextMonthDate.formatMonthYear()}',
+                      : _nextMonthDate.formatMonthYear(),
                   onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
                 ),
               ),
@@ -674,9 +666,7 @@ class PYearPicker extends StatefulWidget {
     required this.firstDate,
     required this.lastDate,
     this.dragStartBehavior = DragStartBehavior.start,
-  })  : assert(selectedDate != null),
-        assert(onChanged != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         super(key: key);
 
   /// The currently selected date.
@@ -697,7 +687,7 @@ class PYearPicker extends StatefulWidget {
   final DragStartBehavior dragStartBehavior;
 
   @override
-  _YearPickerState createState() => _YearPickerState();
+  State<PYearPicker> createState() => _YearPickerState();
 }
 
 // ignore: deprecated_member_use_from_same_package
@@ -730,7 +720,7 @@ class _YearPickerState extends State<PYearPicker> {
         final bool isSelected = year == widget.selectedDate.year;
         final TextStyle? itemStyle = isSelected
             ? themeData.textTheme.headline5!
-                .copyWith(color: themeData.accentColor)
+                .copyWith(color: themeData.colorScheme.secondary)
             : style;
         return InkWell(
           key: ValueKey<int>(year),

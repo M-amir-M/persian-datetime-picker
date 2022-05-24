@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_utils.dart' as utils;
@@ -35,14 +33,8 @@ class PInputDateRangePicker extends StatefulWidget {
             initialStartDate == null ? null : utils.dateOnly(initialStartDate),
         initialEndDate =
             initialEndDate == null ? null : utils.dateOnly(initialEndDate),
-        assert(firstDate != null),
         firstDate = utils.dateOnly(firstDate),
-        assert(lastDate != null),
         lastDate = utils.dateOnly(lastDate),
-        assert(firstDate != null),
-        assert(lastDate != null),
-        assert(autofocus != null),
-        assert(autovalidate != null),
         super(key: key);
 
   /// The [Jalali] that represents the start of the initial date range selection.
@@ -159,7 +151,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
     final String? endError = _validateDate(_endDate);
     if (startError == null && endError == null) {
       if (_startDate!.isAfter(_endDate!)) {
-        startError = widget.errorInvalidRangeText ?? "تاریخ معتبر نمی باشد.";
+        startError = widget.errorInvalidRangeText ?? 'تاریخ معتبر نمی باشد.';
       }
     }
     setState(() {
@@ -179,10 +171,10 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
 
   String? _validateDate(Jalali? date) {
     if (date == null) {
-      return widget.errorFormatText ?? "تاریخ انتخاب شده معتبر نمی باشد.";
+      return widget.errorFormatText ?? 'تاریخ انتخاب شده معتبر نمی باشد.';
     } else if (date.isBefore(widget.firstDate) ||
         date.isAfter(widget.lastDate)) {
-      return widget.errorInvalidText ?? "تاریخ انتخاب شده معتبر نمی باشد.";
+      return widget.errorInvalidText ?? 'تاریخ انتخاب شده معتبر نمی باشد.';
     }
     return null;
   }
@@ -204,6 +196,7 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
     setState(() {
       _startInputText = text;
       _startDate = _parseDate(text);
+      // ignore: avoid_print
       print(_startDate);
       widget.onStartDateChanged.call(_startDate);
     });
@@ -236,8 +229,8 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
             decoration: InputDecoration(
               border: inputTheme.border ?? const UnderlineInputBorder(),
               filled: inputTheme.filled,
-              hintText: widget.fieldStartHintText ?? "##/##/####",
-              labelText: widget.fieldStartLabelText ?? "تاریخ شروع",
+              hintText: widget.fieldStartHintText ?? '##/##/####',
+              labelText: widget.fieldStartLabelText ?? 'تاریخ شروع',
               errorText: _startErrorText,
             ),
             keyboardType: TextInputType.datetime,
@@ -252,8 +245,8 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
             decoration: InputDecoration(
               border: inputTheme.border ?? const UnderlineInputBorder(),
               filled: inputTheme.filled,
-              hintText: widget.fieldEndHintText ?? "##/##/####",
-              labelText: widget.fieldEndLabelText ?? "تاریخ پایان",
+              hintText: widget.fieldEndHintText ?? '##/##/####',
+              labelText: widget.fieldEndLabelText ?? 'تاریخ پایان',
               errorText: _endErrorText,
             ),
             keyboardType: TextInputType.datetime,

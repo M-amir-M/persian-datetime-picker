@@ -5,11 +5,9 @@
 import 'dart:math' as math;
 
 import './pdate_utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_picker_common.dart';
@@ -83,14 +81,9 @@ class PCalendarDatePicker extends StatefulWidget {
     this.onDisplayedMonthChanged,
     this.initialCalendarMode = PDatePickerMode.day,
     this.selectableDayPredicate,
-  })  : assert(initialDate != null),
-        assert(firstDate != null),
-        assert(lastDate != null),
-        initialDate = utils.dateOnly(initialDate),
+  })  : initialDate = utils.dateOnly(initialDate),
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
-        assert(onDateChanged != null),
-        assert(initialCalendarMode != null),
         super(key: key) {
     assert(!this.lastDate.isBefore(this.firstDate),
         'lastDate ${this.lastDate} must be on or after firstDate ${this.firstDate}.');
@@ -126,7 +119,7 @@ class PCalendarDatePicker extends StatefulWidget {
   final PSelectableDayPredicate? selectableDayPredicate;
 
   @override
-  _CalendarDatePickerState createState() => _CalendarDatePickerState();
+  State<PCalendarDatePicker> createState() => _CalendarDatePickerState();
 }
 
 class _CalendarDatePickerState extends State<PCalendarDatePicker> {
@@ -136,7 +129,6 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
   Jalali? _selectedDate;
   final GlobalKey _monthPickerKey = GlobalKey();
   final GlobalKey _yearPickerKey = GlobalKey();
-  MaterialLocalizations? _localizations;
   late TextDirection _textDirection;
 
   @override
@@ -151,7 +143,6 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _localizations = MaterialLocalizations.of(context);
     _textDirection = Directionality.of(context);
     if (!_announcedInitialDate) {
       _announcedInitialDate = true;
@@ -359,7 +350,7 @@ class _DatePickerModeToggleButtonState
               label: 'Select year',
               excludeSemantics: true,
               button: true,
-              child: Container(
+              child: SizedBox(
                 height: _subHeaderHeight,
                 child: InkWell(
                   onTap: widget.onTitlePressed,
@@ -417,12 +408,7 @@ class _MonthPicker extends StatefulWidget {
     required this.onChanged,
     required this.onDisplayedMonthChanged,
     this.selectableDayPredicate,
-  })  : assert(selectedDate != null),
-        assert(currentDate != null),
-        assert(onChanged != null),
-        assert(firstDate != null),
-        assert(lastDate != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(!selectedDate.isBefore(firstDate)),
         assert(!selectedDate.isAfter(lastDate)),
         super(key: key);
@@ -468,7 +454,6 @@ class _MonthPickerState extends State<_MonthPicker> {
   late Jalali _nextMonthDate;
   late Jalali _previousMonthDate;
   PageController? _pageController;
-  MaterialLocalizations? _localizations;
   late TextDirection _textDirection;
 
   @override
@@ -484,7 +469,6 @@ class _MonthPickerState extends State<_MonthPicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _localizations = MaterialLocalizations.of(context);
     _textDirection = Directionality.of(context);
   }
 
@@ -625,13 +609,7 @@ class _DayPicker extends StatelessWidget {
     required this.selectedDate,
     required this.onChanged,
     this.selectableDayPredicate,
-  })  : assert(currentDate != null),
-        assert(displayedMonth != null),
-        assert(firstDate != null),
-        assert(lastDate != null),
-        assert(selectedDate != null),
-        assert(onChanged != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(!selectedDate.isBefore(firstDate)),
         assert(!selectedDate.isAfter(lastDate)),
         super(key: key);
@@ -666,8 +644,6 @@ class _DayPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
     final TextTheme textTheme = Theme.of(context).textTheme;
     final TextStyle? dayStyle = textTheme.caption;
     final Color enabledDayColor = colorScheme.onSurface.withOpacity(0.87);
@@ -870,13 +846,7 @@ class _YearPicker extends StatefulWidget {
     required this.initialDate,
     required this.selectedDate,
     required this.onChanged,
-  })  : assert(currentDate != null),
-        assert(firstDate != null),
-        assert(lastDate != null),
-        assert(initialDate != null),
-        assert(selectedDate != null),
-        assert(onChanged != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         super(key: key);
 
   /// The current date.

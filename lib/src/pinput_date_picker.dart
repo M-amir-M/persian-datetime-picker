@@ -3,8 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_picker_common.dart';
@@ -41,19 +39,20 @@ class PInputDatePickerFormField extends StatefulWidget {
     this.fieldHintText,
     this.fieldLabelText,
     this.autofocus = false,
-  })  : assert(firstDate != null),
-        assert(lastDate != null),
-        assert(autofocus != null),
-        initialDate = initialDate != null ? utils.dateOnly(initialDate) : null,
+  })  : initialDate = initialDate != null ? utils.dateOnly(initialDate) : null,
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
         super(key: key) {
-    assert(!this.lastDate.isBefore(this.firstDate), 'lastDate ${this.lastDate} must be on or after firstDate ${this.firstDate}.');
+    assert(!this.lastDate.isBefore(this.firstDate),
+        'lastDate ${this.lastDate} must be on or after firstDate ${this.firstDate}.');
     assert(initialDate == null || !this.initialDate!.isBefore(this.firstDate),
         'initialDate ${this.initialDate} must be on or after firstDate ${this.firstDate}.');
     assert(initialDate == null || !this.initialDate!.isAfter(this.lastDate),
         'initialDate ${this.initialDate} must be on or before lastDate ${this.lastDate}.');
-    assert(selectableDayPredicate == null || initialDate == null || selectableDayPredicate!(this.initialDate),
+    assert(
+        selectableDayPredicate == null ||
+            initialDate == null ||
+            selectableDayPredicate!(this.initialDate),
         'Provided initialDate ${this.initialDate} must satisfy provided selectableDayPredicate.');
   }
 
@@ -104,7 +103,8 @@ class PInputDatePickerFormField extends StatefulWidget {
   final bool autofocus;
 
   @override
-  _InputDatePickerFormFieldState createState() => _InputDatePickerFormFieldState();
+  State<PInputDatePickerFormField> createState() =>
+      _InputDatePickerFormFieldState();
 }
 
 class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
@@ -129,9 +129,9 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_selectedDate != null) {
-      final MaterialLocalizations localizations = MaterialLocalizations.of(context);
       _inputText = _selectedDate!.formatCompactDate();
-      TextEditingValue textEditingValue = _controller.value.copyWith(text: _inputText);
+      TextEditingValue textEditingValue =
+          _controller.value.copyWith(text: _inputText);
       // Select the new text if we are auto focused and haven't selected the text before.
       if (widget.autofocus && !_autoSelected) {
         textEditingValue = textEditingValue.copyWith(
@@ -147,7 +147,6 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   }
 
   Jalali? _parseDate(String text) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
     try {
       return parseCompactDate(text);
     } catch (e) {
@@ -159,7 +158,8 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
     return date != null &&
         !date.isBefore(widget.firstDate) &&
         !date.isAfter(widget.lastDate) &&
-        (widget.selectableDayPredicate == null || widget.selectableDayPredicate!(date));
+        (widget.selectableDayPredicate == null ||
+            widget.selectableDayPredicate!(date));
   }
 
   String? _validateDate(String? text) {
@@ -198,12 +198,13 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(builder: (BuildContext context, Orientation orientation) {
-      assert(orientation != null);
-
+    return OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        height: orientation == Orientation.portrait ? _inputPortraitHeight : _inputLandscapeHeight,
+        height: orientation == Orientation.portrait
+            ? _inputPortraitHeight
+            : _inputLandscapeHeight,
         child: Column(
           children: <Widget>[
             const Spacer(),
@@ -234,21 +235,21 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   }
 }
 
-class _DateTextInputFormatter extends TextInputFormatter {
-  _DateTextInputFormatter(this.separator);
+// class _DateTextInputFormatter extends TextInputFormatter {
+//   _DateTextInputFormatter(this.separator);
 
-  final String separator;
+//   final String separator;
 
-  final FilteringTextInputFormatter _filterFormatter =
-      // Only allow digits and separators (slash, dot, comma, hyphen, space).
-      FilteringTextInputFormatter.allow(RegExp(r'[\d\/\.,-\s]+'));
+//   final FilteringTextInputFormatter _filterFormatter =
+//       // Only allow digits and separators (slash, dot, comma, hyphen, space).
+//       FilteringTextInputFormatter.allow(RegExp(r'[\d\/\.,-\s]+'));
 
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    final TextEditingValue filteredValue = _filterFormatter.formatEditUpdate(oldValue, newValue);
-    return filteredValue.copyWith(
-      // Replace any separator character with the given separator
-      text: filteredValue.text.replaceAll(RegExp(r'[\D]'), separator),
-    );
-  }
-}
+//   @override
+//   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+//     final TextEditingValue filteredValue = _filterFormatter.formatEditUpdate(oldValue, newValue);
+//     return filteredValue.copyWith(
+//       // Replace any separator character with the given separator
+//       text: filteredValue.text.replaceAll(RegExp(r'[\D]'), separator),
+//     );
+//   }
+// }
