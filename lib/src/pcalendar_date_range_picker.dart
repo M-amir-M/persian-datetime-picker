@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_utils.dart' as utils;
@@ -40,8 +39,6 @@ class PCalendarDateRangePicker extends StatefulWidget {
             initialStartDate != null ? utils.dateOnly(initialStartDate) : null,
         initialEndDate =
             initialEndDate != null ? utils.dateOnly(initialEndDate) : null,
-        assert(firstDate != null),
-        assert(lastDate != null),
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
         currentDate = utils.dateOnly(currentDate ?? Jalali.now()),
@@ -77,7 +74,7 @@ class PCalendarDateRangePicker extends StatefulWidget {
   final ValueChanged<Jalali?> onEndDateChanged;
 
   @override
-  _PCalendarDateRangePickerState createState() =>
+  State<PCalendarDateRangePicker> createState() =>
       _PCalendarDateRangePickerState();
 }
 
@@ -345,10 +342,11 @@ class _CalendarKeyboardNavigatorState
       TraversalDirection traversalDirection, TextDirection textDirection) {
     // Swap left and right if the text direction if RTL
     if (textDirection == TextDirection.rtl) {
-      if (traversalDirection == TraversalDirection.left)
+      if (traversalDirection == TraversalDirection.left) {
         traversalDirection = TraversalDirection.right;
-      else if (traversalDirection == TraversalDirection.right)
+      } else if (traversalDirection == TraversalDirection.right) {
         traversalDirection = TraversalDirection.left;
+      }
     }
     return _directionOffset[traversalDirection];
   }
@@ -507,10 +505,9 @@ class _MonthSliverGridLayout extends SliverGridLayout {
     required this.dayChildWidth,
     required this.edgeChildWidth,
     required this.reverseCrossAxis,
-  })  : assert(crossAxisCount != null && crossAxisCount > 0),
-        assert(dayChildWidth != null && dayChildWidth >= 0),
-        assert(edgeChildWidth != null && edgeChildWidth >= 0),
-        assert(reverseCrossAxis != null);
+  })  : assert(crossAxisCount > 0),
+        assert(dayChildWidth >= 0),
+        assert(edgeChildWidth >= 0);
 
   /// The number of children in the cross axis.
   final int crossAxisCount;
@@ -603,10 +600,9 @@ class _MonthItem extends StatefulWidget {
     required this.firstDate,
     required this.lastDate,
     required this.displayedMonth,
+    // ignore: unused_element
     this.dragStartBehavior = DragStartBehavior.start,
-  })  : assert(firstDate != null),
-        assert(lastDate != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDateStart == null ||
             !selectedDateStart.isBefore(firstDate)),
         assert(selectedDateEnd == null || !selectedDateEnd.isBefore(firstDate)),
@@ -616,10 +612,6 @@ class _MonthItem extends StatefulWidget {
         assert(selectedDateStart == null ||
             selectedDateEnd == null ||
             !selectedDateStart.isAfter(selectedDateEnd)),
-        assert(currentDate != null),
-        assert(onChanged != null),
-        assert(displayedMonth != null),
-        assert(dragStartBehavior != null),
         super(key: key);
 
   /// The currently selected start date.

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 /// Color of the 'magnifier' lens border.
 const Color _kHighlighterBorder = CupertinoDynamicColor.withBrightness(
@@ -75,14 +74,10 @@ class PCupertinoPicker extends StatefulWidget {
     required this.onSelectedItemChanged,
     required List<Widget> children,
     bool looping = false,
-  })  : assert(children != null),
-        assert(diameterRatio != null),
-        assert(diameterRatio > 0.0,
+  })  : assert(diameterRatio > 0.0,
             RenderListWheelViewport.diameterRatioZeroMessage),
         assert(magnification > 0),
-        assert(itemExtent != null),
         assert(itemExtent > 0),
-        assert(squeeze != null),
         assert(squeeze > 0),
         childDelegate = looping
             ? ListWheelChildLoopingListDelegate(children: children)
@@ -119,14 +114,10 @@ class PCupertinoPicker extends StatefulWidget {
     required this.onSelectedItemChanged,
     required IndexedWidgetBuilder itemBuilder,
     int? childCount,
-  })  : assert(itemBuilder != null),
-        assert(diameterRatio != null),
-        assert(diameterRatio > 0.0,
+  })  : assert(diameterRatio > 0.0,
             RenderListWheelViewport.diameterRatioZeroMessage),
         assert(magnification > 0),
-        assert(itemExtent != null),
         assert(itemExtent > 0),
-        assert(squeeze != null),
         assert(squeeze > 0),
         childDelegate = ListWheelChildBuilderDelegate(
             builder: itemBuilder, childCount: childCount),
@@ -239,15 +230,12 @@ class _PCupertinoPickerState extends State<PCupertinoPicker> {
         hasSuitableHapticHardware = false;
         break;
     }
-    assert(hasSuitableHapticHardware != null);
     if (hasSuitableHapticHardware && index != _lastHapticIndex) {
       _lastHapticIndex = index;
       HapticFeedback.selectionClick();
     }
 
-    if (widget.onSelectedItemChanged != null) {
-      widget.onSelectedItemChanged(index);
-    }
+    widget.onSelectedItemChanged(index);
   }
 
   /// Draws the magnifier borders.
@@ -351,10 +339,11 @@ class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
   FixedExtentScrollController? _controller;
   set controller(FixedExtentScrollController? value) {
     if (value == _controller) return;
-    if (_controller != null)
+    if (_controller != null) {
       _controller!.removeListener(_handleScrollUpdate);
-    else
+    } else {
       _currentIndex = value!.initialItem;
+    }
     value!.addListener(_handleScrollUpdate);
     _controller = value;
   }
@@ -394,8 +383,9 @@ class _RenderPCupertinoPickerSemantics extends RenderProxyBox {
   @override
   void assembleSemanticsNode(SemanticsNode node, SemanticsConfiguration config,
       Iterable<SemanticsNode> children) {
-    if (children.isEmpty)
+    if (children.isEmpty) {
       return super.assembleSemanticsNode(node, config, children);
+    }
     final SemanticsNode scrollable = children.first;
     final Map<int?, SemanticsNode> indexedChildren = <int?, SemanticsNode>{};
     scrollable.visitChildren((SemanticsNode child) {
