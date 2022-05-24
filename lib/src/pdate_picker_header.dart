@@ -107,7 +107,7 @@ class PDatePickerHeader extends StatelessWidget {
       semanticsLabel: titleSemanticsLabel ?? titleText,
       style: titleStyle,
       maxLines: (isShort || orientation == Orientation.portrait) ? 1 : 2,
-      overflow: TextOverflow.ellipsis,
+      overflow: TextOverflow.visible,
     );
     final IconButton icon = IconButton(
       icon: Icon(this.icon),

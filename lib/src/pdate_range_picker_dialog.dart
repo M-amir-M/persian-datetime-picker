@@ -111,28 +111,43 @@ Future<JalaliRange?> showPersianDateRangePicker({
   TextDirection? textDirection,
   TransitionBuilder? builder,
 }) async {
-  assert(initialDateRange == null,
-      'initialDateRange must be null or have non-null start and end dates.');
+  assert(context != null);
   assert(
-      initialDateRange == null ||
-          !initialDateRange.start.isAfter(initialDateRange.end),
-      'initialDateRange\'s start date must not be after it\'s end date.');
-  initialDateRange =
-      initialDateRange == null ? null : utils.datesOnly(initialDateRange);
+    initialDateRange == null || (initialDateRange.start != null && initialDateRange.end != null),
+    'initialDateRange must be null or have non-null start and end dates.',
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.start.isAfter(initialDateRange.end),
+    "initialDateRange's start date must not be after it's end date.",
+  );
+  initialDateRange = initialDateRange == null ? null : utils.datesOnly(initialDateRange);
+  assert(firstDate != null);
   firstDate = utils.dateOnly(firstDate);
+  assert(lastDate != null);
   lastDate = utils.dateOnly(lastDate);
-  assert(!lastDate.isBefore(firstDate),
-      'lastDate $lastDate must be on or after firstDate $firstDate.');
   assert(
-      initialDateRange == null || !initialDateRange.start.isBefore(firstDate),
-      'initialDateRange\'s start date must be on or after firstDate $firstDate.');
-  assert(initialDateRange == null || !initialDateRange.end.isBefore(firstDate),
-      'initialDateRange\'s end date must be on or after firstDate $firstDate.');
-  assert(initialDateRange == null || !initialDateRange.start.isAfter(lastDate),
-      'initialDateRange\'s start date must be on or before lastDate $lastDate.');
-  assert(initialDateRange == null || !initialDateRange.end.isAfter(lastDate),
-      'initialDateRange\'s end date must be on or before lastDate $lastDate.');
+    !lastDate.isBefore(firstDate),
+    'lastDate $lastDate must be on or after firstDate $firstDate.',
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.start.isBefore(firstDate),
+    "initialDateRange's start date must be on or after firstDate $firstDate.",
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.end.isBefore(firstDate),
+    "initialDateRange's end date must be on or after firstDate $firstDate.",
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.start.isAfter(lastDate),
+    "initialDateRange's start date must be on or before lastDate $lastDate.",
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.end.isAfter(lastDate),
+    "initialDateRange's end date must be on or before lastDate $lastDate.",
+  );
   currentDate = utils.dateOnly(currentDate ?? Jalali.now());
+  assert(initialEntryMode != null);
+  assert(useRootNavigator != null);
 
   Widget dialog = _DateRangePickerDialog(
     initialDateRange: initialDateRange,
@@ -463,7 +478,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
         localizations, selectedStartDate, selectedEndDate);
     final String endDateText = utils.formatRangeEndDate(
         localizations, selectedStartDate, selectedEndDate, Jalali.now());
-    final TextStyle? headlineStyle = textTheme.headline5;
+    final TextStyle? headlineStyle = textTheme.headline6;
     final TextStyle? startDateStyle = headlineStyle?.apply(
         color: selectedStartDate != null
             ? headerForeground
@@ -626,8 +641,8 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
     final TextStyle? dateStyle = orientation == Orientation.landscape
-        ? textTheme.headline5?.apply(color: dateColor)
-        : textTheme.headline4?.apply(color: dateColor);
+        ? textTheme.subtitle1?.apply(color: dateColor)
+        : textTheme.headline5?.apply(color: dateColor);
     final String dateText = _formatDateRange(
         context, selectedStartDate, selectedEndDate, currentDate);
     final String semanticDateText = selectedStartDate != null &&

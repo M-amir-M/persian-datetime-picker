@@ -1,4 +1,7 @@
 ## 2.4.0
+* [FIX]  Fix flutter lint error in Flutter 3.
+* [FIX]  Fix some issues.
+## 2.4.0
 * [FIX]  Fix WhitelistingTextInputFormatter error in Flutter 2.8.
 ## 2.3.0
 * [BREAKING]  Now,We support (null-safety), check out the [migration guide](https://dart.dev/null-safety/migration-guide).
