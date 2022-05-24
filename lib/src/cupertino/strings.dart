@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
-import '../pdate_utils.dart';
 
 class StringsText {
   
@@ -17,7 +16,7 @@ class StringsText {
  static String datePickerHour(int hour) => hour.toString();
 
   
- static String datePickerHourSemanticsLabel(int hour) => hour.toString() + " o'clock";
+ static String datePickerHourSemanticsLabel(int hour) => "$hour o'clock";
 
   
  static String datePickerMinute(int minute) => minute.toString().padLeft(2, '0');
@@ -25,7 +24,7 @@ class StringsText {
   
 static  String datePickerMinuteSemanticsLabel(int minute) {
     if (minute == 1) return '1 minute';
-    return minute.toString() + ' minutes';
+    return '$minute minutes';
   }
 
   

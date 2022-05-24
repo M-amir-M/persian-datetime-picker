@@ -123,23 +123,23 @@ int getDaysInMonth(int year, int month) {
 }
 
 List<String> narrowWeekdays = [
-  "ش",
-  "ی",
-  "د",
-  "س",
-  "چ",
-  "پ",
-  "ج",
+  'ش',
+  'ی',
+  'د',
+  'س',
+  'چ',
+  'پ',
+  'ج',
 ];
 
 List<String> shortDayName = [
-  "شنبه",
-  "۱شنبه",
-  "۲شنبه",
-  "۳شنبه",
-  "۴شنبه",
-  "۵شنبه",
-  "جمعه",
+  'شنبه',
+  '۱شنبه',
+  '۲شنبه',
+  '۳شنبه',
+  '۴شنبه',
+  '۵شنبه',
+  'جمعه',
 ];
 
 /// Returns a locale-appropriate string to describe the start of a date range.
@@ -151,7 +151,7 @@ List<String> shortDayName = [
 String formatRangeStartDate(
     MaterialLocalizations localizations, Jalali? startDate, Jalali? endDate) {
   return startDate == null
-      ? "تاریخ شروع"
+      ? 'تاریخ شروع'
       : (endDate == null || startDate.year == endDate.year)
           ? startDate.formatShortMonthDay()
           : startDate.formatShortDate();
@@ -166,7 +166,7 @@ String formatRangeStartDate(
 String formatRangeEndDate(MaterialLocalizations localizations,
     Jalali? startDate, Jalali? endDate, Jalali? currentDate) {
   return endDate == null
-      ? "تاریخ پایان"
+      ? 'تاریخ پایان'
       : (startDate != null &&
               startDate.year == endDate.year &&
               startDate.year == currentDate!.year)
@@ -188,7 +188,7 @@ String formatDecimal(int number) {
 }
 
 String formatYear(Jalali date) {
-  return '${date.formatter.yy}';
+  return date.formatter.yy;
 }
 
 String formatMonthYear(Jalali date) {
@@ -204,7 +204,7 @@ String formatMediumDate(Jalali date) {
 }
 
 Jalali parseCompactDate(String inputString) {
-  List<int> split = inputString.split("/").map((e) => int.parse(e)).toList();
+  List<int> split = inputString.split('/').map((e) => int.parse(e)).toList();
   return Jalali(split[0], split[1], split[2]);
 }
 
@@ -264,54 +264,54 @@ extension JalaliExt on Jalali {
   }
 
   String _twoDigits(int n) {
-    if (n >= 10) return "${n}";
-    return "0${n}";
+    if (n >= 10) return '$n';
+    return '0$n';
   }
 
   ///formats
   String datePickerMediumDate() {
-    return '${shortDayName[this.weekDay - DateTime.monday]} '
-        '${this.formatter.mN} '
-        '${this.day.toString().padRight(2)}';
+    return '${shortDayName[weekDay - DateTime.monday]} '
+        '${formatter.mN} '
+        '${day.toString().padRight(2)}';
   }
 
   String formatMediumDate() {
-    final f = this.formatter;
-    return '${shortDayName[this.weekDay - 1]} ${f.d} ${f.mN}';
+    final f = formatter;
+    return '${shortDayName[weekDay - 1]} ${f.d} ${f.mN}';
   }
 
   String formatFullDate() {
-    final f = this.formatter;
+    final f = formatter;
     return '${f.wN} ${f.d} ${f.mN} ${f.yyyy}';
   }
 
   String toJalaliDateTime() {
-    final f = this.formatter;
-    return '${f.yyyy}-${f.mm}-${f.dd} ${_twoDigits(this.hour)}:${_twoDigits(this.minute)}:${_twoDigits(this.second)}';
+    final f = formatter;
+    return '${f.yyyy}-${f.mm}-${f.dd} ${_twoDigits(hour)}:${_twoDigits(minute)}:${_twoDigits(second)}';
   }
 
   String formatYear() {
-    final f = this.formatter;
-    return '${f.yyyy}';
+    final f = formatter;
+    return f.yyyy;
   }
 
   String formatCompactDate() {
-    final f = this.formatter;
+    final f = formatter;
     return '${f.yyyy}/${f.mm}/${f.dd}';
   }
 
   String formatShortDate() {
-    final f = this.formatter;
+    final f = formatter;
     return '${f.dd} ${f.mN}  ,${f.yyyy}';
   }
 
   String formatMonthYear() {
-    final f = this.formatter;
+    final f = formatter;
     return '${f.yyyy}/${f.mm}';
   }
 
   String formatShortMonthDay() {
-    final f = this.formatter;
+    final f = formatter;
     return '${f.dd} ${f.mN}';
   }
 }

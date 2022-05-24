@@ -25,6 +25,7 @@ class Gregorian implements Date, Comparable<Gregorian> {
   /// Gregorian month lengths
   ///
   /// For month 2 (index 1) should check leap year
+  // ignore: constant_identifier_names
   static const List<int> _MONTH_LENGTHS = <int>[
     31,
     0, // should check leap year
@@ -119,18 +120,12 @@ class Gregorian implements Date, Comparable<Gregorian> {
   /// Create a Gregorian date by using [year], [month] and [day]
   ///
   /// year and month default to 1
-  Gregorian(int year,
-      [int month = 1,
-      int day = 1,
-      int hour = 0,
-      int minute = 0,
-      int second = 0])
-      : year = year,
-        month = month,
-        day = day,
-        hour = hour,
-        minute = minute,
-        second = second {
+  Gregorian(this.year,
+      [this.month = 1,
+      this.day = 1,
+      this.hour = 0,
+      this.minute = 0,
+      this.second = 0]) {
     // should be between: Gregorian(560,3,20) and Gregorian(3798,12,31)
     if (year < 560 || year > 3798) {
       throw DateException('Gregorian date is out of computable range.');
@@ -207,8 +202,14 @@ class Gregorian implements Date, Comparable<Gregorian> {
   ///
   /// Note: For ordering use with*() methods
   @override
-  Gregorian copy({int? year, int? month, int? day,int? hour,int? minute,int? second}) {
-    if (year == null && month == null && day == null && hour == null && minute == null && second == null) {
+  Gregorian copy(
+      {int? year, int? month, int? day, int? hour, int? minute, int? second}) {
+    if (year == null &&
+        month == null &&
+        day == null &&
+        hour == null &&
+        minute == null &&
+        second == null) {
       return this;
     } else {
       return Gregorian(
@@ -223,6 +224,7 @@ class Gregorian implements Date, Comparable<Gregorian> {
   }
 
   /// Converts Gregorian date to [DateTime] object
+  @override
   DateTime toDateTime() {
     return DateTime(year, month, day, hour, minute, second);
   }

@@ -1,6 +1,5 @@
 import 'dart:ui' show hashValues;
 
-import 'package:flutter/foundation.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 /// Mode of the date picker dialog.
@@ -58,8 +57,7 @@ class JalaliRange {
   const JalaliRange({
     required this.start,
     required this.end,
-  })  : assert(start != null),
-        assert(end != null);
+  });
 
   /// The start of the range of dates.
   final Jalali start;
