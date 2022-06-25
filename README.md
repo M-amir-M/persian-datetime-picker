@@ -148,7 +148,7 @@ var picked = await showPersianDateRangePicker(
 ### Donation
 Zarinpal donation link.
 
-<a href="https://zarinp.al/amirlogs.com"><img src="https://cdn.zarinpal.com/badges/trustLogo/1.png" width=360 /></a>
+<a href="https://zarinp.al/amirlogs.com"><img src="https://cdn.zarinpal.com/badges/trustLogo/1.png" width=100 /></a>
 
 All the money will be spent on charity.
 <br>
