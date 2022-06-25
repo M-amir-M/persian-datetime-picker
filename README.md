@@ -151,9 +151,8 @@ Zarinpal donation link.
 <a href="https://zarinp.al/amirlogs.com"><img src="https://www.zarinpal.com/webservice/TrustCode" width=360 /></a>
 
 All the money will be spent on charity.
+<br>
 تمامی مبالغ پرداخت صرف امور خیریه خواهد شد.
-
-`1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
 
  
 ##Pull request and feedback are always appreciated.
