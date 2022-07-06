@@ -1867,51 +1867,49 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
       double offAxisFraction, TransitionBuilder itemPositioningBuilder) {
     final int daysInCurrentMonth =
         _lastDayInMonth(selectedYear!, selectedMonth!).day;
-    return widget.mode == PCupertinoDatePickerMode.dateWithoutDay
-        ? const SizedBox()
-        : NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification notification) {
-              if (notification is ScrollStartNotification) {
-                isDayPickerScrolling = true;
-              } else if (notification is ScrollEndNotification) {
-                isDayPickerScrolling = false;
-                _pickerDidStopScrolling();
-              }
+    return NotificationListener<ScrollNotification>(
+      onNotification: (ScrollNotification notification) {
+        if (notification is ScrollStartNotification) {
+          isDayPickerScrolling = true;
+        } else if (notification is ScrollEndNotification) {
+          isDayPickerScrolling = false;
+          _pickerDidStopScrolling();
+        }
 
-              return false;
-            },
-            child: PCupertinoPicker(
-              scrollController: dayController,
-              offAxisFraction: offAxisFraction,
-              itemExtent: _kItemExtent,
-              useMagnifier: _kUseMagnifier,
-              magnification: _kMagnification,
-              backgroundColor: widget.backgroundColor,
-              squeeze: _kSqueeze,
-              onSelectedItemChanged: (int index) {
-                selectedDay = index + 1;
-                print(
-                    '------) ${Jalali(selectedYear!, selectedMonth!, selectedDay!)}');
+        return false;
+      },
+      child: PCupertinoPicker(
+        scrollController: dayController,
+        offAxisFraction: offAxisFraction,
+        itemExtent: _kItemExtent,
+        useMagnifier: _kUseMagnifier,
+        magnification: _kMagnification,
+        backgroundColor: widget.backgroundColor,
+        squeeze: _kSqueeze,
+        onSelectedItemChanged: (int index) {
+          selectedDay = index + 1;
+          print(
+              '------) ${Jalali(selectedYear!, selectedMonth!, selectedDay!)}');
 
-                if (_isCurrentDateValid) {
-                  widget.onDateTimeChanged(
-                      Jalali(selectedYear!, selectedMonth!, selectedDay!));
-                }
-              },
-              looping: true,
-              children: List<Widget>.generate(31, (int index) {
-                final int day = index + 1;
-                return itemPositioningBuilder(
-                  context,
-                  Text(
-                    StringsText.datePickerDayOfMonth(day),
-                    style: _themeTextStyle(context,
-                        isValid: day <= daysInCurrentMonth),
-                  ),
-                );
-              }),
+          if (_isCurrentDateValid) {
+            widget.onDateTimeChanged(
+                Jalali(selectedYear!, selectedMonth!, selectedDay!));
+          }
+        },
+        looping: true,
+        children: List<Widget>.generate(31, (int index) {
+          final int day = index + 1;
+          return itemPositioningBuilder(
+            context,
+            Text(
+              StringsText.datePickerDayOfMonth(day),
+              style:
+                  _themeTextStyle(context, isValid: day <= daysInCurrentMonth),
             ),
           );
+        }),
+      ),
+    );
   }
 
   Widget _buildMonthPicker(
@@ -2099,8 +2097,9 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
         ];
         columnWidths = <double?>[
           estimatedColumnWidths[_PickerColumnType.month.index],
-          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
-            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
+          (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+              ? 0.0
+              : estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
           estimatedColumnWidths[_PickerColumnType.year.index]
         ];
         break;
@@ -2111,8 +2110,9 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
           _buildYearPicker
         ];
         columnWidths = <double?>[
-          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
-            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
+          (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+              ? 0.0
+              : estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
           estimatedColumnWidths[_PickerColumnType.month.index],
           estimatedColumnWidths[_PickerColumnType.year.index]
         ];
@@ -2126,8 +2126,9 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
         columnWidths = <double?>[
           estimatedColumnWidths[_PickerColumnType.year.index],
           estimatedColumnWidths[_PickerColumnType.month.index],
-          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
-            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index]
+          (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+              ? 0.0
+              : estimatedColumnWidths[_PickerColumnType.dayOfMonth.index]
         ];
         break;
       case DatePickerDateOrder.ydm:
@@ -2138,8 +2139,9 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
         ];
         columnWidths = <double?>[
           estimatedColumnWidths[_PickerColumnType.year.index],
-          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
-            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
+          (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+              ? 0.0
+              : estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
           estimatedColumnWidths[_PickerColumnType.month.index]
         ];
         break;
@@ -2156,27 +2158,27 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
       if (textDirectionFactor == -1) {
         padding = const EdgeInsets.only(left: _kDatePickerPadSize);
       }
-      if (pickerBuilders[i] is! SizedBox) {
-        pickers.add(LayoutId(
-          id: i,
-          child: pickerBuilders[i](
-            offAxisFraction,
-            (BuildContext context, Widget? child) {
-              return Container(
-                alignment: i == columnWidths.length - 1
-                    ? alignCenterLeft
-                    : alignCenterRight,
-                padding: i == 0 ? null : padding,
-                child: Container(
-                  alignment: i == 0 ? alignCenterLeft : alignCenterRight,
-                  width: columnWidths[i]! + _kDatePickerPadSize,
-                  child: child,
-                ),
-              );
-            },
-          ),
-        ));
-      }
+      pickers.add(LayoutId(
+        id: i,
+        child: pickerBuilders[i](
+          offAxisFraction,
+          (BuildContext context, Widget? child) {
+            return columnWidths[i]! == 0.0
+                ? const SizedBox()
+                : Container(
+                    alignment: i == columnWidths.length - 1
+                        ? alignCenterLeft
+                        : alignCenterRight,
+                    padding: i == 0 ? null : padding,
+                    child: Container(
+                      alignment: i == 0 ? alignCenterLeft : alignCenterRight,
+                      width: columnWidths[i]! + _kDatePickerPadSize,
+                      child: child,
+                    ),
+                  );
+          },
+        ),
+      ));
     }
 
     return MediaQuery(
