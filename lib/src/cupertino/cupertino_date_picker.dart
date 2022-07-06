@@ -2099,7 +2099,8 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
         ];
         columnWidths = <double?>[
           estimatedColumnWidths[_PickerColumnType.month.index],
-          estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
+          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
           estimatedColumnWidths[_PickerColumnType.year.index]
         ];
         break;
@@ -2110,7 +2111,8 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
           _buildYearPicker
         ];
         columnWidths = <double?>[
-          estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
+          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
           estimatedColumnWidths[_PickerColumnType.month.index],
           estimatedColumnWidths[_PickerColumnType.year.index]
         ];
@@ -2124,7 +2126,8 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
         columnWidths = <double?>[
           estimatedColumnWidths[_PickerColumnType.year.index],
           estimatedColumnWidths[_PickerColumnType.month.index],
-          estimatedColumnWidths[_PickerColumnType.dayOfMonth.index]
+          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index]
         ];
         break;
       case DatePickerDateOrder.ydm:
@@ -2135,7 +2138,8 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
         ];
         columnWidths = <double?>[
           estimatedColumnWidths[_PickerColumnType.year.index],
-          estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
+          if (widget.mode == PCupertinoDatePickerMode.dateWithoutDay)
+            estimatedColumnWidths[_PickerColumnType.dayOfMonth.index],
           estimatedColumnWidths[_PickerColumnType.month.index]
         ];
         break;
@@ -2152,26 +2156,27 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
       if (textDirectionFactor == -1) {
         padding = const EdgeInsets.only(left: _kDatePickerPadSize);
       }
-
-      pickers.add(LayoutId(
-        id: i,
-        child: pickerBuilders[i](
-          offAxisFraction,
-          (BuildContext context, Widget? child) {
-            return Container(
-              alignment: i == columnWidths.length - 1
-                  ? alignCenterLeft
-                  : alignCenterRight,
-              padding: i == 0 ? null : padding,
-              child: Container(
-                alignment: i == 0 ? alignCenterLeft : alignCenterRight,
-                width: columnWidths[i]! + _kDatePickerPadSize,
-                child: child,
-              ),
-            );
-          },
-        ),
-      ));
+      if (pickerBuilders[i] is! SizedBox) {
+        pickers.add(LayoutId(
+          id: i,
+          child: pickerBuilders[i](
+            offAxisFraction,
+            (BuildContext context, Widget? child) {
+              return Container(
+                alignment: i == columnWidths.length - 1
+                    ? alignCenterLeft
+                    : alignCenterRight,
+                padding: i == 0 ? null : padding,
+                child: Container(
+                  alignment: i == 0 ? alignCenterLeft : alignCenterRight,
+                  width: columnWidths[i]! + _kDatePickerPadSize,
+                  child: child,
+                ),
+              );
+            },
+          ),
+        ));
+      }
     }
 
     return MediaQuery(
