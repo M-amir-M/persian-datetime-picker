@@ -151,6 +151,12 @@ enum PCupertinoDatePickerMode {
   /// Example: ` July | 13 | 2012 `.
   date,
 
+  /// Mode that shows the date in month, and year.
+  /// Column order is subject to internationalization.
+  ///
+  /// Example: ` July | 2012 `.
+  dateWithoutDay,
+
   /// Mode that shows the date as day of the week, month, day of month and
   /// the time in hour, minute, and (optional) an AM/PM designation.
   /// The AM/PM designation is shown only if [PCupertinoDatePicker] does not use 24h format.
@@ -316,6 +322,7 @@ class PCupertinoDatePicker extends StatelessWidget {
           onDateTimeChanged: onDateTimeChanged,
           use24hFormat: use24hFormat,
         );
+      case PCupertinoDatePickerMode.dateWithoutDay:
       case PCupertinoDatePickerMode.date:
         return _CupertinoDatePickerDate(
           backgroundColor: backgroundColor,
@@ -1122,6 +1129,7 @@ class _CupertinoDatePickerDateTimeState
         return dateController!.hasClients ? dateController!.selectedItem : 0;
       case PCupertinoDatePickerMode.time:
         return 0;
+      case PCupertinoDatePickerMode.dateWithoutDay:
       case PCupertinoDatePickerMode.date:
         break;
     }
@@ -1859,49 +1867,51 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
       double offAxisFraction, TransitionBuilder itemPositioningBuilder) {
     final int daysInCurrentMonth =
         _lastDayInMonth(selectedYear!, selectedMonth!).day;
-    return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification notification) {
-        if (notification is ScrollStartNotification) {
-          isDayPickerScrolling = true;
-        } else if (notification is ScrollEndNotification) {
-          isDayPickerScrolling = false;
-          _pickerDidStopScrolling();
-        }
+    return widget.mode == PCupertinoDatePickerMode.dateWithoutDay
+        ? const SizedBox()
+        : NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification notification) {
+              if (notification is ScrollStartNotification) {
+                isDayPickerScrolling = true;
+              } else if (notification is ScrollEndNotification) {
+                isDayPickerScrolling = false;
+                _pickerDidStopScrolling();
+              }
 
-        return false;
-      },
-      child: PCupertinoPicker(
-        scrollController: dayController,
-        offAxisFraction: offAxisFraction,
-        itemExtent: _kItemExtent,
-        useMagnifier: _kUseMagnifier,
-        magnification: _kMagnification,
-        backgroundColor: widget.backgroundColor,
-        squeeze: _kSqueeze,
-        onSelectedItemChanged: (int index) {
-          selectedDay = index + 1;
-          print(
-              '------) ${Jalali(selectedYear!, selectedMonth!, selectedDay!)}');
+              return false;
+            },
+            child: PCupertinoPicker(
+              scrollController: dayController,
+              offAxisFraction: offAxisFraction,
+              itemExtent: _kItemExtent,
+              useMagnifier: _kUseMagnifier,
+              magnification: _kMagnification,
+              backgroundColor: widget.backgroundColor,
+              squeeze: _kSqueeze,
+              onSelectedItemChanged: (int index) {
+                selectedDay = index + 1;
+                print(
+                    '------) ${Jalali(selectedYear!, selectedMonth!, selectedDay!)}');
 
-          if (_isCurrentDateValid) {
-            widget.onDateTimeChanged(
-                Jalali(selectedYear!, selectedMonth!, selectedDay!));
-          }
-        },
-        looping: true,
-        children: List<Widget>.generate(31, (int index) {
-          final int day = index + 1;
-          return itemPositioningBuilder(
-            context,
-            Text(
-              StringsText.datePickerDayOfMonth(day),
-              style:
-                  _themeTextStyle(context, isValid: day <= daysInCurrentMonth),
+                if (_isCurrentDateValid) {
+                  widget.onDateTimeChanged(
+                      Jalali(selectedYear!, selectedMonth!, selectedDay!));
+                }
+              },
+              looping: true,
+              children: List<Widget>.generate(31, (int index) {
+                final int day = index + 1;
+                return itemPositioningBuilder(
+                  context,
+                  Text(
+                    StringsText.datePickerDayOfMonth(day),
+                    style: _themeTextStyle(context,
+                        isValid: day <= daysInCurrentMonth),
+                  ),
+                );
+              }),
             ),
           );
-        }),
-      ),
-    );
   }
 
   Widget _buildMonthPicker(
