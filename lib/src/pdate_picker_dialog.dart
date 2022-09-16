@@ -239,7 +239,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
   }
 
   void _handleOk() {
-    if (_entryMode == PDatePickerEntryMode.input) {
+    if (_entryMode == PDatePickerEntryMode.input ||  _entryMode == DatePickerEntryMode.inputOnly) {
       final FormState form = _formKey.currentState!;
       if (!form.validate()) {
         setState(() => _autoValidate = true);
@@ -265,7 +265,9 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           _formKey.currentState!.save();
           _entryMode = PDatePickerEntryMode.calendar;
           break;
-        default:
+        case PDatePickerEntryMode.calendarOnly:
+        case PDatePickerEntryMode.inputOnly:
+          assert(false, 'Can not change entry mode from _entryMode');
           break;
       }
     });
@@ -279,6 +281,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     final Orientation orientation = MediaQuery.of(context).orientation;
     switch (_entryMode) {
       case PDatePickerEntryMode.calendar:
+      case PDatePickerEntryMode.calendarOnly:
         switch (orientation) {
           case Orientation.portrait:
             return _calendarPortraitDialogSize;
@@ -286,6 +289,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
             return _calendarLandscapeDialogSize;
         }
       case PDatePickerEntryMode.input:
+      case PDatePickerEntryMode.inputOnly:
         switch (orientation) {
           case Orientation.portrait:
             return _inputPortraitDialogSize;
@@ -334,23 +338,50 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       ],
     );
 
+    PCalendarDatePicker pCalendarDatePicker () {
+      return PCalendarDatePicker(
+        key: _calendarPickerKey,
+        initialDate: _selectedDate!,
+        firstDate: widget.firstDate,
+        lastDate: widget.lastDate,
+        onDateChanged: _handleDateChanged,
+        selectableDayPredicate: widget.selectableDayPredicate,
+        initialCalendarMode: widget.initialCalendarMode,
+      );
+    }
+
+    PInputDatePickerFormField pInputDatePickerFormField() {
+      return PInputDatePickerFormField(
+        initialDate: _selectedDate,
+        firstDate: widget.firstDate,
+        lastDate: widget.lastDate,
+        onDateSubmitted: _handleDateChanged,
+        onDateSaved: _handleDateChanged,
+        selectableDayPredicate: widget.selectableDayPredicate,
+        errorFormatText: widget.errorFormatText,
+        errorInvalidText: widget.errorInvalidText,
+        fieldHintText: widget.fieldHintText,
+        fieldLabelText: widget.fieldLabelText,
+        autofocus: true,
+      );
+    }
+
     late Widget picker;
     IconData? entryModeIcon;
     String? entryModeTooltip;
     switch (_entryMode) {
       case PDatePickerEntryMode.calendar:
-        picker = PCalendarDatePicker(
-          key: _calendarPickerKey,
-          initialDate: _selectedDate!,
-          firstDate: widget.firstDate,
-          lastDate: widget.lastDate,
-          onDateChanged: _handleDateChanged,
-          selectableDayPredicate: widget.selectableDayPredicate,
-          initialCalendarMode: widget.initialCalendarMode,
-        );
+        picker = pCalendarDatePicker();
         entryModeIcon = Icons.edit;
         // TODO(darrenaustin): localize 'Switch to input'
         entryModeTooltip = 'Switch to input';
+        break;
+
+      case PDatePickerEntryMode.calendarOnly:
+        picker = pCalendarDatePicker();
+        // TODO(darrenaustin): localize 'Switch to calendarOnly'
+        entryModeIcon = null;
+        entryModeTooltip = null;
         break;
 
       case PDatePickerEntryMode.input:
@@ -359,23 +390,22 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           autovalidateMode: _autoValidate
               ? AutovalidateMode.onUserInteraction
               : AutovalidateMode.disabled,
-          child: PInputDatePickerFormField(
-            initialDate: _selectedDate,
-            firstDate: widget.firstDate,
-            lastDate: widget.lastDate,
-            onDateSubmitted: _handleDateChanged,
-            onDateSaved: _handleDateChanged,
-            selectableDayPredicate: widget.selectableDayPredicate,
-            errorFormatText: widget.errorFormatText,
-            errorInvalidText: widget.errorInvalidText,
-            fieldHintText: widget.fieldHintText,
-            fieldLabelText: widget.fieldLabelText,
-            autofocus: true,
-          ),
+          child: pInputDatePickerFormField(),
         );
         entryModeIcon = Icons.calendar_today;
         // TODO(darrenaustin): localize 'Switch to calendar'
         entryModeTooltip = 'Switch to calendar';
+        break;
+
+      case PDatePickerEntryMode.inputOnly:
+        picker = Form(
+          key: _formKey,
+          autovalidateMode: _autoValidate
+              ? AutovalidateMode.onUserInteraction
+              : AutovalidateMode.disabled,
+          child: pInputDatePickerFormField(),
+        );
+        // TODO(darrenaustin): localize 'Switch to calendar'
         break;
       default:
         break;
