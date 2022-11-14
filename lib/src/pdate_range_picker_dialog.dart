@@ -1,9 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pcalendar_date_range_picker.dart';
@@ -100,6 +97,7 @@ Future<JalaliRange?> showPersianDateRangePicker({
   Jalali? currentDate,
   PDatePickerEntryMode initialEntryMode = PDatePickerEntryMode.calendar,
   String? helpText,
+  bool? showEntryModeIcon,
   String? cancelText,
   String? confirmText,
   String? saveText,
@@ -119,30 +117,38 @@ Future<JalaliRange?> showPersianDateRangePicker({
   shape = selectedShape;
   assert(context != null);
   assert(
-      initialDateRange == null ||
-          (initialDateRange.start != null && initialDateRange.end != null),
-      'initialDateRange must be null or have non-null start and end dates.');
+    initialDateRange == null || (initialDateRange.start != null && initialDateRange.end != null),
+    'initialDateRange must be null or have non-null start and end dates.',
+  );
   assert(
-      initialDateRange == null ||
-          !initialDateRange.start.isAfter(initialDateRange.end),
-      'initialDateRange\'s start date must not be after it\'s end date.');
-  initialDateRange =
-      initialDateRange == null ? null : utils.datesOnly(initialDateRange);
+    initialDateRange == null || !initialDateRange.start.isAfter(initialDateRange.end),
+    "initialDateRange's start date must not be after it's end date.",
+  );
+  initialDateRange = initialDateRange == null ? null : utils.datesOnly(initialDateRange);
   assert(firstDate != null);
   firstDate = utils.dateOnly(firstDate);
   assert(lastDate != null);
   lastDate = utils.dateOnly(lastDate);
-  assert(!lastDate.isBefore(firstDate),
-      'lastDate $lastDate must be on or after firstDate $firstDate.');
   assert(
-      initialDateRange == null || !initialDateRange.start.isBefore(firstDate),
-      'initialDateRange\'s start date must be on or after firstDate $firstDate.');
-  assert(initialDateRange == null || !initialDateRange.end.isBefore(firstDate),
-      'initialDateRange\'s end date must be on or after firstDate $firstDate.');
-  assert(initialDateRange == null || !initialDateRange.start.isAfter(lastDate),
-      'initialDateRange\'s start date must be on or before lastDate $lastDate.');
-  assert(initialDateRange == null || !initialDateRange.end.isAfter(lastDate),
-      'initialDateRange\'s end date must be on or before lastDate $lastDate.');
+    !lastDate.isBefore(firstDate),
+    'lastDate $lastDate must be on or after firstDate $firstDate.',
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.start.isBefore(firstDate),
+    "initialDateRange's start date must be on or after firstDate $firstDate.",
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.end.isBefore(firstDate),
+    "initialDateRange's end date must be on or after firstDate $firstDate.",
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.start.isAfter(lastDate),
+    "initialDateRange's start date must be on or before lastDate $lastDate.",
+  );
+  assert(
+    initialDateRange == null || !initialDateRange.end.isAfter(lastDate),
+    "initialDateRange's end date must be on or before lastDate $lastDate.",
+  );
   currentDate = utils.dateOnly(currentDate ?? Jalali.now());
   assert(initialEntryMode != null);
   assert(useRootNavigator != null);
@@ -154,6 +160,7 @@ Future<JalaliRange?> showPersianDateRangePicker({
     currentDate: currentDate,
     initialEntryMode: initialEntryMode,
     helpText: helpText,
+    showEntryModeIcon: showEntryModeIcon,
     cancelText: cancelText,
     confirmText: confirmText,
     saveText: saveText,
@@ -201,6 +208,7 @@ class _DateRangePickerDialog extends StatefulWidget {
     this.currentDate,
     this.initialEntryMode = PDatePickerEntryMode.calendar,
     this.helpText,
+    this.showEntryModeIcon,
     this.cancelText,
     this.confirmText,
     this.saveText,
@@ -222,6 +230,7 @@ class _DateRangePickerDialog extends StatefulWidget {
   final String? confirmText;
   final String? saveText;
   final String? helpText;
+  final bool? showEntryModeIcon;
   final String? errorInvalidRangeText;
   final String? errorFormatText;
   final String? errorInvalidText;
@@ -333,6 +342,7 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           onToggleEntryMode: _handleEntryModeToggle,
           confirmText: widget.saveText ?? "تایید",
           helpText: widget.helpText ?? "انتخاب تاریخ",
+          showEntryModeIcon: widget.showEntryModeIcon ?? true,
         );
         size = mediaQuery.size;
         insetPadding = const EdgeInsets.all(0.0);
@@ -378,9 +388,9 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           onConfirm: _handleOk,
           onCancel: _handleCancel,
           onToggleEntryMode: _handleEntryModeToggle,
-          confirmText: widget.confirmText ?? "تایید",
-          cancelText: widget.cancelText ?? "لغو",
-          helpText: widget.helpText ?? "انتخاب تاریخ",
+          confirmText: widget.confirmText ?? 'تایید',
+          cancelText: widget.cancelText ?? 'لغو',
+          helpText: widget.helpText ?? 'انتخاب تاریخ',
         );
         final DialogTheme dialogTheme = Theme.of(context).dialogTheme;
         size = orientation == Orientation.portrait
@@ -396,6 +406,10 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
     }
 
     return Dialog(
+      insetPadding: insetPadding,
+      shape: shape,
+      elevation: elevation,
+      clipBehavior: Clip.antiAlias,
       child: AnimatedContainer(
         width: size.width,
         height: size.height,
@@ -407,16 +421,12 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
           ),
           child: Builder(builder: (BuildContext context) {
             return Directionality(
-              child: contents,
               textDirection: TextDirection.rtl,
+              child: contents,
             );
           }),
         ),
       ),
-      insetPadding: insetPadding,
-      shape: shape,
-      elevation: elevation,
-      clipBehavior: Clip.antiAlias,
     );
   }
 }
@@ -436,6 +446,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
     required this.onToggleEntryMode,
     required this.confirmText,
     required this.helpText,
+    required this.showEntryModeIcon,
   }) : super(key: key);
 
   final Jalali? selectedStartDate;
@@ -450,6 +461,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
   final VoidCallback onToggleEntryMode;
   final String confirmText;
   final String helpText;
+  final bool showEntryModeIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -467,7 +479,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
         localizations, selectedStartDate, selectedEndDate);
     final String endDateText = utils.formatRangeEndDate(
         localizations, selectedStartDate, selectedEndDate, Jalali.now());
-    final TextStyle? headlineStyle = textTheme.headline5;
+    final TextStyle? headlineStyle = textTheme.headline6;
     final TextStyle? startDateStyle = headlineStyle?.apply(
         color: selectedStartDate != null
             ? headerForeground
@@ -483,7 +495,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
       padding: EdgeInsets.zero,
       color: headerForeground,
       icon: const Icon(Icons.edit),
-      tooltip: "ورود تاریخ",
+      tooltip: 'ورود تاریخ',
       onPressed: onToggleEntryMode,
     );
 
@@ -508,6 +520,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
             const SizedBox(width: 8),
           ],
           bottom: PreferredSize(
+            preferredSize: const Size(double.infinity, 64),
             child: Row(children: <Widget>[
               SizedBox(
                   width: MediaQuery.of(context).size.width < 360 ? 42 : 72),
@@ -552,13 +565,12 @@ class _CalendarRangePickerDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              if (orientation == Orientation.portrait)
+              if (showEntryModeIcon && orientation == Orientation.portrait)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: entryModeIcon,
                 ),
             ]),
-            preferredSize: const Size(double.infinity, 64),
           ),
         ),
         body: PCalendarDateRangePicker(
@@ -623,8 +635,6 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
     final Orientation orientation = MediaQuery.of(context).orientation;
     final TextTheme textTheme = theme.textTheme;
 
@@ -632,8 +642,8 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
     final TextStyle? dateStyle = orientation == Orientation.landscape
-        ? textTheme.headline5?.apply(color: dateColor)
-        : textTheme.headline4?.apply(color: dateColor);
+        ? textTheme.subtitle1?.apply(color: dateColor)
+        : textTheme.headline5?.apply(color: dateColor);
     final String dateText = _formatDateRange(
         context, selectedStartDate, selectedEndDate, currentDate);
     final String semanticDateText = selectedStartDate != null &&
@@ -649,7 +659,7 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
       orientation: orientation,
       isShort: orientation == Orientation.landscape,
       icon: Icons.calendar_today,
-      iconTooltip: "انتخاب تاریخ",
+      iconTooltip: 'انتخاب تاریخ',
       onIconPressed: onToggleEntryMode,
     );
 
@@ -661,12 +671,12 @@ class _PInputDateRangePickerDialog extends StatelessWidget {
         spacing: 8,
         children: <Widget>[
           TextButton(
-            child: Text(cancelText),
             onPressed: onCancel,
+            child: Text(cancelText),
           ),
           TextButton(
-            child: Text(confirmText),
             onPressed: onConfirm,
+            child: Text(confirmText),
           ),
         ],
       ),

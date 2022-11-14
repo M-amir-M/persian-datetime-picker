@@ -1,6 +1,5 @@
 import 'dart:ui' show hashValues;
 
-import 'package:flutter/foundation.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 /// Mode of the date picker dialog.
@@ -16,9 +15,12 @@ import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 enum PDatePickerEntryMode {
   /// Tapping on a calendar.
   calendar,
-
+  /// only calendar.
+  calendarOnly,
   /// Text input.
   input,
+  /// Text input only.
+  inputOnly,
 }
 
 /// Initial display of a calendar date picker.
@@ -50,7 +52,7 @@ typedef PSelectableDayPredicate = bool Function(Jalali? day);
 /// See also:
 ///  * [showDateRangePicker], which displays a dialog that allows the user to
 ///    select a date range.
-@immutable
+
 class JalaliRange {
   /// Creates a date range for the given start and end [Jalali].
   ///
@@ -58,8 +60,7 @@ class JalaliRange {
   const JalaliRange({
     required this.start,
     required this.end,
-  })  : assert(start != null),
-        assert(end != null);
+  });
 
   /// The start of the range of dates.
   final Jalali start;

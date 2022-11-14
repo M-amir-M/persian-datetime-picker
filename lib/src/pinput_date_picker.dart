@@ -3,8 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 import 'pdate_picker_common.dart';
@@ -41,10 +39,7 @@ class PInputDatePickerFormField extends StatefulWidget {
     this.fieldHintText,
     this.fieldLabelText,
     this.autofocus = false,
-  })  : assert(firstDate != null),
-        assert(lastDate != null),
-        assert(autofocus != null),
-        initialDate = initialDate != null ? utils.dateOnly(initialDate) : null,
+  })  : initialDate = initialDate != null ? utils.dateOnly(initialDate) : null,
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
         super(key: key) {
@@ -108,7 +103,7 @@ class PInputDatePickerFormField extends StatefulWidget {
   final bool autofocus;
 
   @override
-  _InputDatePickerFormFieldState createState() =>
+  State<PInputDatePickerFormField> createState() =>
       _InputDatePickerFormFieldState();
 }
 
@@ -134,8 +129,6 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_selectedDate != null) {
-      final MaterialLocalizations localizations =
-          MaterialLocalizations.of(context);
       _inputText = _selectedDate!.formatCompactDate();
       TextEditingValue textEditingValue =
           _controller.value.copyWith(text: _inputText);
@@ -154,8 +147,6 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   }
 
   Jalali? _parseDate(String text) {
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
     try {
       return parseCompactDate(text);
     } catch (e) {
@@ -209,8 +200,6 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   Widget build(BuildContext context) {
     return OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
-      assert(orientation != null);
-
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         height: orientation == Orientation.portrait
@@ -246,23 +235,21 @@ class _InputDatePickerFormFieldState extends State<PInputDatePickerFormField> {
   }
 }
 
-class _DateTextInputFormatter extends TextInputFormatter {
-  _DateTextInputFormatter(this.separator);
+// class _DateTextInputFormatter extends TextInputFormatter {
+//   _DateTextInputFormatter(this.separator);
 
-  final String separator;
+//   final String separator;
 
-  final WhitelistingTextInputFormatter _filterFormatter =
-      // Only allow digits and separators (slash, dot, comma, hyphen, space).
-      WhitelistingTextInputFormatter(RegExp(r'[\d\/\.,-\s]+'));
+//   final FilteringTextInputFormatter _filterFormatter =
+//       // Only allow digits and separators (slash, dot, comma, hyphen, space).
+//       FilteringTextInputFormatter.allow(RegExp(r'[\d\/\.,-\s]+'));
 
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    final TextEditingValue filteredValue =
-        _filterFormatter.formatEditUpdate(oldValue, newValue);
-    return filteredValue.copyWith(
-      // Replace any separator character with the given separator
-      text: filteredValue.text.replaceAll(RegExp(r'[\D]'), separator),
-    );
-  }
-}
+//   @override
+//   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+//     final TextEditingValue filteredValue = _filterFormatter.formatEditUpdate(oldValue, newValue);
+//     return filteredValue.copyWith(
+//       // Replace any separator character with the given separator
+//       text: filteredValue.text.replaceAll(RegExp(r'[\D]'), separator),
+//     );
+//   }
+// }
