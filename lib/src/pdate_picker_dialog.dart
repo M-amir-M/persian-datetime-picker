@@ -267,6 +267,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           break;
         case PDatePickerEntryMode.calendarOnly:
         case PDatePickerEntryMode.inputOnly:
+        default:
           assert(false, 'Can not change entry mode from _entryMode');
           break;
       }
