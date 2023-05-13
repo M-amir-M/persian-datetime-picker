@@ -265,9 +265,9 @@ class PDayPicker extends StatelessWidget {
             selectedDate.day == day;
         if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.accentTextTheme.bodyText1;
+          itemStyle = themeData.textTheme.bodyText1;
           decoration = BoxDecoration(
-            color: themeData.accentColor,
+            color: themeData.colorScheme.onSecondary,
             shape: BoxShape.circle,
           );
         } else if (disabled) {
@@ -278,7 +278,7 @@ class PDayPicker extends StatelessWidget {
             currentDate.day == day) {
           // The current day gets a different text color.
           itemStyle = themeData.textTheme.bodyText1!
-              .copyWith(color: themeData.accentColor);
+              .copyWith(color: themeData.colorScheme.onSecondary);
         }
 
         Widget dayWidget = Container(
