@@ -267,6 +267,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           break;
         case PDatePickerEntryMode.calendarOnly:
         case PDatePickerEntryMode.inputOnly:
+        default:
           assert(false, 'Can not change entry mode from _entryMode');
           break;
       }
@@ -320,8 +321,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
     final TextStyle? dateStyle = orientation == Orientation.landscape
-        ? textTheme.subtitle1?.copyWith(color: dateColor)
-        : textTheme.headline5?.copyWith(color: dateColor);
+        ? textTheme.titleMedium?.copyWith(color: dateColor)
+        : textTheme.headlineSmall?.copyWith(color: dateColor);
 
     final Widget actions = ButtonBar(
       buttonTextTheme: ButtonTextTheme.primary,

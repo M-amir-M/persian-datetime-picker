@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               lastDate: Jalali(1450, 9),
                               initialEntryMode: PDatePickerEntryMode.calendarOnly,
                               initialDatePickerMode: PDatePickerMode.year,
-                              builder: (condex, child) {
+                              builder: (context, child) {
                                 return Theme(
                                   data: ThemeData(
                                     dialogTheme: const DialogTheme(
@@ -374,7 +374,7 @@ class _MyHomePageState extends State<MyHomePage> {
               label,
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   .copyWith(color: Colors.black),
               textAlign: TextAlign.center,
             ),
