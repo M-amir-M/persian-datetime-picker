@@ -1,3 +1,5 @@
+## 2.6.0
+* [FIX]  Fix the issue related to the new 3rd version of Flutter. (https://github.com/M-amir-M/persian-datetime-picker/issues/59), #59
 ## 2.5.1
 * [FIX]  Fix responsive issues
 ## 2.5.0
