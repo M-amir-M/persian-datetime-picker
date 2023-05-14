@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               initialEntryMode:
                                   PDatePickerEntryMode.calendarOnly,
                               initialDatePickerMode: PDatePickerMode.year,
-                              builder: (condex, child) {
+                              builder: (context, child) {
                                 return Theme(
                                   data: ThemeData(
                                     dialogTheme: const DialogTheme(
@@ -152,21 +152,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        child: CupertinoTheme(
-                                          data: CupertinoThemeData(
-                                            textTheme: CupertinoTextThemeData(
-                                              dateTimePickerTextStyle:
-                                                  TextStyle(fontFamily: 'Dana'),
-                                            ),
-                                          ),
-                                          child: PCupertinoDatePicker(
-                                            mode: PCupertinoDatePickerMode
-                                                .dateAndTime,
-                                            onDateTimeChanged:
-                                                (Jalali dateTime) {
-                                              tempPickedDate = dateTime;
-                                            },
-                                          ),
+                                        child: PCupertinoDatePicker(
+                                          mode: PCupertinoDatePickerMode
+                                              .dateAndTime,
+                                          onDateTimeChanged: (Jalali dateTime) {
+                                            tempPickedDate = dateTime;
+                                          },
                                         ),
                                       ),
                                     ),
@@ -243,10 +234,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              print(tempPickedDate);
+                                              print(tempPickedDate ??
+                                                  Jalali.now());
 
-                                              Navigator.of(context)
-                                                  .pop(tempPickedDate);
+                                              Navigator.of(context).pop(
+                                                  tempPickedDate ??
+                                                      Jalali.now());
                                             },
                                           ),
                                         ],
@@ -258,20 +251,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        child: CupertinoTheme(
-                                          data: CupertinoThemeData(
-                                            textTheme: CupertinoTextThemeData(
-                                              dateTimePickerTextStyle:
-                                                  TextStyle(fontFamily: 'Dana'),
-                                            ),
-                                          ),
-                                          child: PCupertinoDatePicker(
-                                            mode: PCupertinoDatePickerMode.time,
-                                            onDateTimeChanged:
-                                                (Jalali dateTime) {
-                                              tempPickedDate = dateTime;
-                                            },
-                                          ),
+                                        child: PCupertinoDatePicker(
+                                          mode: PCupertinoDatePickerMode.time,
+                                          onDateTimeChanged: (Jalali dateTime) {
+                                            tempPickedDate = dateTime;
+                                          },
                                         ),
                                       ),
                                     ),
