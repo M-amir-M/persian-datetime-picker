@@ -77,6 +77,7 @@ class PCalendarDatePicker extends StatefulWidget {
     required Jalali initialDate,
     required Jalali firstDate,
     required Jalali lastDate,
+    this.currentDate,
     required this.onDateChanged,
     this.onDisplayedMonthChanged,
     this.initialCalendarMode = PDatePickerMode.day,
@@ -105,6 +106,8 @@ class PCalendarDatePicker extends StatefulWidget {
 
   /// The latest allowable [Jalali] that the user can select.
   final Jalali lastDate;
+
+  final Jalali? currentDate;
 
   /// Called when the user selects a date in the picker.
   final ValueChanged<Jalali?> onDateChanged;
@@ -225,7 +228,7 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
         return _MonthPicker(
           key: _monthPickerKey,
           initialMonth: _currentDisplayedMonthDate,
-          currentDate: Jalali.now(),
+          currentDate: widget.currentDate ?? Jalali.now(),
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
           selectedDate: _selectedDate!,
@@ -238,7 +241,7 @@ class _CalendarDatePickerState extends State<PCalendarDatePicker> {
           padding: const EdgeInsets.only(top: _subHeaderHeight),
           child: _YearPicker(
             key: _yearPickerKey,
-            currentDate: Jalali.now(),
+            currentDate: widget.currentDate ?? Jalali.now(),
             firstDate: widget.firstDate,
             lastDate: widget.lastDate,
             initialDate: _currentDisplayedMonthDate!,

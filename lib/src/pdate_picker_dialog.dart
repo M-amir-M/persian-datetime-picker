@@ -81,6 +81,7 @@ Future<Jalali?> showPersianDatePicker({
   required Jalali initialDate,
   required Jalali firstDate,
   required Jalali lastDate,
+  Jalali? currentDate,
   PDatePickerEntryMode initialEntryMode = PDatePickerEntryMode.calendar,
   PSelectableDayPredicate? selectableDayPredicate,
   String? helpText,
@@ -114,6 +115,7 @@ Future<Jalali?> showPersianDatePicker({
     initialDate: initialDate,
     firstDate: firstDate,
     lastDate: lastDate,
+    currentDate: currentDate,
     initialEntryMode: initialEntryMode,
     selectableDayPredicate: selectableDayPredicate,
     helpText: helpText,
@@ -157,6 +159,7 @@ class _DatePickerDialog extends StatefulWidget {
     required Jalali initialDate,
     required Jalali firstDate,
     required Jalali lastDate,
+    this.currentDate,
     this.initialEntryMode = PDatePickerEntryMode.calendar,
     this.selectableDayPredicate,
     this.cancelText,
@@ -191,6 +194,8 @@ class _DatePickerDialog extends StatefulWidget {
 
   /// The latest allowable [Jalali] that the user can select.
   final Jalali lastDate;
+
+  final Jalali? currentDate;
 
   final PDatePickerEntryMode initialEntryMode;
 
@@ -345,6 +350,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
         initialDate: _selectedDate!,
         firstDate: widget.firstDate,
         lastDate: widget.lastDate,
+        currentDate: widget.currentDate,
         onDateChanged: _handleDateChanged,
         selectableDayPredicate: widget.selectableDayPredicate,
         initialCalendarMode: widget.initialCalendarMode,
