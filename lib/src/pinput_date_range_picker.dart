@@ -171,10 +171,10 @@ class PInputDateRangePickerState extends State<PInputDateRangePicker> {
 
   String? _validateDate(Jalali? date) {
     if (date == null) {
-      return widget.errorFormatText ?? 'تاریخ انتخاب شده معتبر نمی باشد.';
+      return widget.errorFormatText ?? 'تاریخ معتبر نمی باشد.';
     } else if (date.isBefore(widget.firstDate) ||
         date.isAfter(widget.lastDate)) {
-      return widget.errorInvalidText ?? 'تاریخ انتخاب شده معتبر نمی باشد.';
+      return widget.errorInvalidText ?? 'تاریخ معتبر نمی باشد.';
     }
     return null;
   }
