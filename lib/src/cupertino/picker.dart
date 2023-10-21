@@ -11,7 +11,7 @@ const Color _kHighlighterBorder = CupertinoDynamicColor.withBrightness(
 );
 // Eyeballed values comparing with a native picker to produce the right
 // curvatures and densities.
-const double _kDefaultDiameterRatio = 1.07;
+const double _kDefaultDiameterRatio = 1.0;
 const double _kDefaultPerspective = 0.003;
 const double _kSqueeze = 1.45;
 

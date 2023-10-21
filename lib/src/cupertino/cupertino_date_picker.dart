@@ -243,6 +243,7 @@ class PCupertinoDatePicker extends StatelessWidget {
   PCupertinoDatePicker({
     Key? key,
     this.mode = PCupertinoDatePickerMode.dateAndTime,
+    this.dateOrder = DatePickerDateOrder.dmy,
     required this.onDateTimeChanged,
     Jalali? initialDateTime,
     this.minimumDate,
@@ -319,6 +320,7 @@ class PCupertinoDatePicker extends StatelessWidget {
       case PCupertinoDatePickerMode.date:
         return _CupertinoDatePickerDate(
           backgroundColor: backgroundColor,
+          dateOrder: dateOrder,
           initialDateTime: initialDateTime,
           maximumDate: maximumDate,
           maximumYear: maximumYear,
@@ -331,6 +333,11 @@ class PCupertinoDatePicker extends StatelessWidget {
         );
     }
   }
+
+  /// The date order of the date picker as one of [DatePickerDateOrder].
+  /// Defaults to [PCupertinoDatePickerMode.dmy]. Cannot be null and
+  /// value cannot change after initial build.
+  final DatePickerDateOrder dateOrder;
 
   /// The mode of the date picker as one of [PCupertinoDatePickerMode].
   /// Defaults to [PCupertinoDatePickerMode.dateAndTime]. Cannot be null and
@@ -1725,6 +1732,7 @@ class _CupertinoDatePickerDateTimeState
 
 class _CupertinoDatePickerDate extends StatefulWidget {
   final PCupertinoDatePickerMode mode;
+  final DatePickerDateOrder dateOrder;
   final Jalali initialDateTime;
   final Jalali? minimumDate;
   final Jalali? maximumDate;
@@ -1738,6 +1746,7 @@ class _CupertinoDatePickerDate extends StatefulWidget {
   const _CupertinoDatePickerDate({
     Key? key,
     required this.backgroundColor,
+    required this.dateOrder,
     required this.initialDateTime,
     required this.maximumDate,
     required this.maximumYear,
@@ -2080,7 +2089,7 @@ class _CupertinoDatePickerDateState extends State<_CupertinoDatePickerDate> {
     List<_ColumnBuilder> pickerBuilders = <_ColumnBuilder>[];
     List<double?> columnWidths = <double>[];
 
-    switch (StringsText.datePickerDateOrder) {
+    switch (widget.dateOrder) {
       case DatePickerDateOrder.mdy:
         pickerBuilders = <_ColumnBuilder>[
           _buildMonthPicker,
