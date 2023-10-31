@@ -46,6 +46,7 @@ String formatHour(TimeOfDay timeOfDay, {bool alwaysUse24HourFormat = false}) {
 
 /// Formats [number] using two digits, assuming it's in the 0-99 inclusive
 /// range. Not designed to format values outside this range.
+///
 String _formatTwoDigitZeroPad(int number) {
   assert(0 <= number && number < 100);
 

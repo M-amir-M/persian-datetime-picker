@@ -76,25 +76,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () async {
                           Jalali? picked = await showPersianDatePicker(
                               context: context,
+                              headerColor: Colors.green,
                               initialDate: Jalali.now(),
-                              firstDate: Jalali(1385, 8),
+                              firstDate: Jalali(1401, 8),
                               lastDate: Jalali(1450, 9),
                               initialEntryMode:
                                   PDatePickerEntryMode.calendarOnly,
                               initialDatePickerMode: PDatePickerMode.year,
-                              builder: (context, child) {
-                                return Theme(
-                                  data: ThemeData(
-                                    dialogTheme: const DialogTheme(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(0)),
-                                      ),
-                                    ),
-                                  ),
-                                  child: child!,
-                                );
-                              });
+                              // builder: (context, child) {
+                              //   return Theme(
+                              //
+                              //     data: ThemeData(
+                              //      highlightColor: Colors.red,
+                              //       cardColor: Colors.green,
+                              //       dialogTheme: const DialogTheme(
+                              //         shape: RoundedRectangleBorder(
+                              //           borderRadius: BorderRadius.all(
+                              //               Radius.circular(20)),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     child: child!,
+                              //   );
+                              // }
+                              );
                           if (picked != null && picked != selectedDate) {
                             setState(() {
                               label = picked.toJalaliDateTime();

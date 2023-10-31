@@ -36,6 +36,7 @@ class PDatePickerHeader extends StatelessWidget {
     required this.icon,
     required this.iconTooltip,
     required this.onIconPressed,
+    this.headerColor
   })  : super(key: key);
 
   /// The text that is displayed at the top of the header.
@@ -78,6 +79,11 @@ class PDatePickerHeader extends StatelessWidget {
   ///
   /// The picker will use this to toggle between entry modes.
   final VoidCallback onIconPressed;
+
+  /// Color for the header background
+  /// if user didn't choose headerColor the default color
+  /// will be use
+  final Color? headerColor;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +129,8 @@ class PDatePickerHeader extends StatelessWidget {
           children: <Widget>[
             Container(
               height: _datePickerHeaderPortraitHeight,
-              color: primarySurfaceColor,
+             // color: primarySurfaceColor?=nu,
+              color: headerColor!=null?headerColor:primarySurfaceColor,
               padding: const EdgeInsetsDirectional.only(
                 start: 24,
                 end: 12,

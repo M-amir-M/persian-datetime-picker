@@ -96,7 +96,9 @@ Future<Jalali?> showPersianDatePicker({
   String? errorInvalidText,
   String fieldHintText = '##/##/####',
   String fieldLabelText = 'ورود تاریخ',
+  Color? headerColor
 }) async {
+
   initialDate = utils.dateOnly(initialDate);
   firstDate = utils.dateOnly(firstDate);
   lastDate = utils.dateOnly(lastDate);
@@ -124,6 +126,7 @@ Future<Jalali?> showPersianDatePicker({
     errorInvalidText: errorInvalidText,
     fieldHintText: fieldHintText,
     fieldLabelText: fieldLabelText,
+    headerColor: headerColor,
   );
 
   if (textDirection != null) {
@@ -167,6 +170,7 @@ class _DatePickerDialog extends StatefulWidget {
     this.errorInvalidText,
     this.fieldHintText,
     this.fieldLabelText,
+    this.headerColor
   })  : initialDate = utils.dateOnly(initialDate),
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
@@ -218,6 +222,12 @@ class _DatePickerDialog extends StatefulWidget {
   final String? fieldHintText;
 
   final String? fieldLabelText;
+
+  /// Color for the header background
+  /// if user didn't choose headerColor the default color
+  /// will be use
+  final Color? headerColor;
+
 
   @override
   _DatePickerDialogState createState() => _DatePickerDialogState();
@@ -422,6 +432,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       icon: entryModeIcon,
       iconTooltip: entryModeTooltip,
       onIconPressed: _handelEntryModeToggle,
+      headerColor: widget.headerColor,
     );
 
     final Size dialogSize = _dialogSize(context)! * textScaleFactor;
