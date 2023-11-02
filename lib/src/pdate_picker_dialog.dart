@@ -6,6 +6,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
+import 'package:persian_datetime_picker/src/style/pdate_color.dart';
 
 import 'pcalendar_date_picker.dart';
 import 'pdate_picker_common.dart';
@@ -96,7 +97,8 @@ Future<Jalali?> showPersianDatePicker({
   String? errorInvalidText,
   String fieldHintText = '##/##/####',
   String fieldLabelText = 'ورود تاریخ',
-  Color? headerColor
+  Color? headerColor,
+  Color? textBackgroundColor
 }) async {
 
   initialDate = utils.dateOnly(initialDate);
@@ -112,6 +114,8 @@ Future<Jalali?> showPersianDatePicker({
       'Provided initialDate $initialDate must satisfy provided selectableDayPredicate.');
   assert(debugCheckHasMaterialLocalizations(context));
 
+  // textbackground color
+  PDatePickerColors.dayBackgroundColor = textBackgroundColor;
   Widget dialog = _DatePickerDialog(
     initialDate: initialDate,
     firstDate: firstDate,

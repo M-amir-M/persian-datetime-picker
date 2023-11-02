@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Jalali? picked = await showPersianDatePicker(
                               context: context,
                               headerColor: Colors.green,
+                              textBackgroundColor: Colors.green,
                               initialDate: Jalali.now(),
                               firstDate: Jalali(1401, 8),
                               lastDate: Jalali(1450, 9),

@@ -4,6 +4,8 @@
 
 import 'dart:math' as math;
 
+import 'package:persian_datetime_picker/src/style/pdate_color.dart';
+
 import './pdate_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,6 +31,8 @@ const double _yearPickerRowSpacing = 8.0;
 
 const double _subHeaderHeight = 52.0;
 const double _monthNavButtonsWidth = 108.0;
+
+
 
 /// Displays a grid of days for a given month and allows the user to select a date.
 ///
@@ -117,6 +121,7 @@ class PCalendarDatePicker extends StatefulWidget {
 
   /// Function to provide full control over which dates in the calendar can be selected.
   final PSelectableDayPredicate? selectableDayPredicate;
+
 
   @override
   State<PCalendarDatePicker> createState() => _CalendarDatePickerState();
@@ -540,6 +545,7 @@ class _MonthPickerState extends State<_MonthPicker> {
       firstDate: widget.firstDate,
       lastDate: widget.lastDate,
       displayedMonth: month,
+
       selectableDayPredicate: widget.selectableDayPredicate,
     );
   }
@@ -645,12 +651,16 @@ class _DayPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
+
+    //final TextStyle? dayStyle = textTheme.caption;
     final TextStyle? dayStyle = textTheme.caption;
     final Color enabledDayColor = colorScheme.onSurface.withOpacity(0.87);
     final Color disabledDayColor = colorScheme.onSurface.withOpacity(0.38);
     final Color selectedDayColor = colorScheme.onPrimary;
-    final Color selectedDayBackground = colorScheme.primary;
-    final Color todayColor = colorScheme.primary;
+    final Color selectedDayBackground = PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!
+        :colorScheme.primary;
+    final Color todayColor = PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!
+        :colorScheme.primary;
 
     final int year = displayedMonth.year;
     final int month = displayedMonth.month;
