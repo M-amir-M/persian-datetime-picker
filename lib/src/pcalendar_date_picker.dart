@@ -926,7 +926,9 @@ class _YearPickerState extends State<_YearPicker> {
     } else if (isDisabled) {
       textColor = colorScheme.onSurface.withOpacity(0.38);
     } else if (isCurrentYear) {
-      textColor = colorScheme.primary;
+      // textColor = colorScheme.primary;
+      textColor = PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!:colorScheme.primary;
+
     } else {
       textColor = colorScheme.onSurface.withOpacity(0.87);
     }
@@ -935,14 +937,14 @@ class _YearPickerState extends State<_YearPicker> {
     BoxDecoration? decoration;
     if (isSelected) {
       decoration = BoxDecoration(
-        color: colorScheme.primary,
+        color: PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!:colorScheme.primary,
         borderRadius: BorderRadius.circular(decorationHeight / 2),
         shape: BoxShape.rectangle,
       );
     } else if (isCurrentYear && !isDisabled) {
       decoration = BoxDecoration(
         border: Border.all(
-          color: colorScheme.primary,
+          color: PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!:colorScheme.primary,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(decorationHeight / 2),
