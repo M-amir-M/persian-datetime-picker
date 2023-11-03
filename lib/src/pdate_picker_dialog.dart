@@ -6,6 +6,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
+import 'package:persian_datetime_picker/src/style/pdate_color.dart';
 
 import 'pcalendar_date_picker.dart';
 import 'pdate_picker_common.dart';
@@ -96,7 +97,12 @@ Future<Jalali?> showPersianDatePicker({
   String? errorInvalidText,
   String fieldHintText = '##/##/####',
   String fieldLabelText = 'ورود تاریخ',
+  Color? headerColor,
+  Color? textBackgroundColor,
+  Widget? cancelWidget,
+  Widget? confirmWidget,
 }) async {
+
   initialDate = utils.dateOnly(initialDate);
   firstDate = utils.dateOnly(firstDate);
   lastDate = utils.dateOnly(lastDate);
@@ -109,6 +115,11 @@ Future<Jalali?> showPersianDatePicker({
   assert(selectableDayPredicate == null || selectableDayPredicate(initialDate),
       'Provided initialDate $initialDate must satisfy provided selectableDayPredicate.');
   assert(debugCheckHasMaterialLocalizations(context));
+
+  // initial header color
+  PDatePickerColors.headerColor = headerColor;
+  // initial textbackground color
+  PDatePickerColors.dayBackgroundColor = textBackgroundColor;
 
   Widget dialog = _DatePickerDialog(
     initialDate: initialDate,
@@ -124,6 +135,8 @@ Future<Jalali?> showPersianDatePicker({
     errorInvalidText: errorInvalidText,
     fieldHintText: fieldHintText,
     fieldLabelText: fieldLabelText,
+    cancelWidget:  cancelWidget,
+    confirmWidget: confirmWidget,
   );
 
   if (textDirection != null) {
@@ -167,6 +180,8 @@ class _DatePickerDialog extends StatefulWidget {
     this.errorInvalidText,
     this.fieldHintText,
     this.fieldLabelText,
+    this.cancelWidget,
+    this.confirmWidget
   })  : initialDate = utils.dateOnly(initialDate),
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
@@ -218,6 +233,12 @@ class _DatePickerDialog extends StatefulWidget {
   final String? fieldHintText;
 
   final String? fieldLabelText;
+
+  ///  use any widget for confirm and cancel text
+  ///  Icon, image, and a Text with custom style
+  Widget? cancelWidget;
+  Widget? confirmWidget;
+
 
   @override
   _DatePickerDialogState createState() => _DatePickerDialogState();
@@ -328,13 +349,23 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       buttonTextTheme: ButtonTextTheme.primary,
       layoutBehavior: ButtonBarLayoutBehavior.constrained,
       children: <Widget>[
-        TextButton(
-          onPressed: _handleCancel,
-          child: Text(widget.cancelText ?? 'لغو'),
+        // TextButton(
+        //   onPressed: _handleCancel,
+        //   child: Text(widget.cancelText ?? 'لغو'),
+        // ),
+        InkWell(
+          onTap: _handleCancel,
+          child: widget.cancelWidget ?? Text(widget.cancelText ?? 'لغو',
+            style: TextStyle(color: PDatePickerColors.headerColor),),
         ),
-        TextButton(
-          onPressed: _handleOk,
-          child: Text(widget.confirmText ?? 'تایید'),
+        // TextButton(
+        //   onPressed: _handleOk,
+        //   child: Text(widget.confirmText ?? 'تایید'),
+        // ),
+        InkWell(
+          onTap: _handleOk,
+          child: widget.confirmWidget ?? Text(widget.confirmText ?? 'تایید',
+            style: TextStyle(color: PDatePickerColors.headerColor),),
         ),
       ],
     );

@@ -19,6 +19,8 @@ const double _horizontalPadding = 8.0;
 const double _maxCalendarWidthLandscape = 384.0;
 const double _maxCalendarWidthPortrait = 480.0;
 
+
+
 /// Displays a scrollable calendar grid that allows a user to select a range
 /// of dates.
 //

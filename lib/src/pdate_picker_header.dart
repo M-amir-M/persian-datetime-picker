@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:persian_datetime_picker/src/style/pdate_color.dart';
 
 // NOTE: This is an internal implementation file. Even though there are public
 // classes and functions defined here, they are only meant to be used by the
@@ -79,6 +80,7 @@ class PDatePickerHeader extends StatelessWidget {
   /// The picker will use this to toggle between entry modes.
   final VoidCallback onIconPressed;
 
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -123,7 +125,8 @@ class PDatePickerHeader extends StatelessWidget {
           children: <Widget>[
             Container(
               height: _datePickerHeaderPortraitHeight,
-              color: primarySurfaceColor,
+             // color: primarySurfaceColor?=nu,
+              color: PDatePickerColors.headerColor ?? primarySurfaceColor,
               padding: const EdgeInsetsDirectional.only(
                 start: 24,
                 end: 12,
