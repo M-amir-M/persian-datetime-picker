@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 
 class PDatePickerColors {
 
+  /// Color for the header background
+  /// if user didn't choose headerColor the default color
+  /// will be use
+  static Color? headerColor;
+
   ///  day picker background color
   static  Color? dayBackgroundColor;
 }

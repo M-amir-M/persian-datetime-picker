@@ -657,10 +657,8 @@ class _DayPicker extends StatelessWidget {
     final Color enabledDayColor = colorScheme.onSurface.withOpacity(0.87);
     final Color disabledDayColor = colorScheme.onSurface.withOpacity(0.38);
     final Color selectedDayColor = colorScheme.onPrimary;
-    final Color selectedDayBackground = PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!
-        :colorScheme.primary;
-    final Color todayColor = PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!
-        :colorScheme.primary;
+    final Color selectedDayBackground = PDatePickerColors.dayBackgroundColor??colorScheme.primary;
+    final Color todayColor = PDatePickerColors.dayBackgroundColor??colorScheme.primary;
 
     final int year = displayedMonth.year;
     final int month = displayedMonth.month;
@@ -937,14 +935,14 @@ class _YearPickerState extends State<_YearPicker> {
     BoxDecoration? decoration;
     if (isSelected) {
       decoration = BoxDecoration(
-        color: PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!:colorScheme.primary,
+        color: PDatePickerColors.dayBackgroundColor??colorScheme.primary,
         borderRadius: BorderRadius.circular(decorationHeight / 2),
         shape: BoxShape.rectangle,
       );
     } else if (isCurrentYear && !isDisabled) {
       decoration = BoxDecoration(
         border: Border.all(
-          color: PDatePickerColors.dayBackgroundColor!=null?PDatePickerColors.dayBackgroundColor!:colorScheme.primary,
+          color: PDatePickerColors.dayBackgroundColor??colorScheme.primary,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(decorationHeight / 2),
