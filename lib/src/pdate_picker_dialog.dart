@@ -98,7 +98,9 @@ Future<Jalali?> showPersianDatePicker({
   String fieldHintText = '##/##/####',
   String fieldLabelText = 'ورود تاریخ',
   Color? headerColor,
-  Color? textBackgroundColor
+  Color? textBackgroundColor,
+  Widget? cancelWidget,
+  Widget? confirmWidget,
 }) async {
 
   initialDate = utils.dateOnly(initialDate);
@@ -133,6 +135,8 @@ Future<Jalali?> showPersianDatePicker({
     errorInvalidText: errorInvalidText,
     fieldHintText: fieldHintText,
     fieldLabelText: fieldLabelText,
+    cancelWidget:  cancelWidget,
+    confirmWidget: confirmWidget,
   );
 
   if (textDirection != null) {
@@ -176,6 +180,8 @@ class _DatePickerDialog extends StatefulWidget {
     this.errorInvalidText,
     this.fieldHintText,
     this.fieldLabelText,
+    this.cancelWidget,
+    this.confirmWidget
   })  : initialDate = utils.dateOnly(initialDate),
         firstDate = utils.dateOnly(firstDate),
         lastDate = utils.dateOnly(lastDate),
@@ -228,6 +234,10 @@ class _DatePickerDialog extends StatefulWidget {
 
   final String? fieldLabelText;
 
+  ///  use any widget for confirm and cancel text
+  ///  Icon, image, and a Text with custom style
+  Widget? cancelWidget;
+  Widget? confirmWidget;
 
 
   @override
@@ -339,13 +349,23 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       buttonTextTheme: ButtonTextTheme.primary,
       layoutBehavior: ButtonBarLayoutBehavior.constrained,
       children: <Widget>[
-        TextButton(
-          onPressed: _handleCancel,
-          child: Text(widget.cancelText ?? 'لغو'),
+        // TextButton(
+        //   onPressed: _handleCancel,
+        //   child: Text(widget.cancelText ?? 'لغو'),
+        // ),
+        InkWell(
+          onTap: _handleCancel,
+          child: widget.cancelWidget ?? Text(widget.cancelText ?? 'لغو',
+            style: TextStyle(color: PDatePickerColors.headerColor),),
         ),
-        TextButton(
-          onPressed: _handleOk,
-          child: Text(widget.confirmText ?? 'تایید'),
+        // TextButton(
+        //   onPressed: _handleOk,
+        //   child: Text(widget.confirmText ?? 'تایید'),
+        // ),
+        InkWell(
+          onTap: _handleOk,
+          child: widget.confirmWidget ?? Text(widget.confirmText ?? 'تایید',
+            style: TextStyle(color: PDatePickerColors.headerColor),),
         ),
       ],
     );
