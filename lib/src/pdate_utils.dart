@@ -203,8 +203,22 @@ String formatMediumDate(Jalali date) {
   return '${date.formatter.wN}, ${date.formatter.m} ${date.day}';
 }
 
+/// Persian numbers
+const persianNumbers = '۰۱۲۳۴۵۶۷۸۹';
+
+/// Takes a String that includes Persian digits and converts them to English digits
+String convertPersianDigitsToEnglish(String digits) {
+  for (var i = 0; i < 10; i++) {
+    digits = digits.replaceAll(persianNumbers[i], '$i');
+  }
+  return digits;
+}
+
 Jalali parseCompactDate(String inputString) {
-  List<int> split = inputString.split('/').map((e) => int.parse(e)).toList();
+  List<int> split = convertPersianDigitsToEnglish(inputString)
+      .split('/')
+      .map((e) => int.parse(e))
+      .toList();
   return Jalali(split[0], split[1], split[2]);
 }
 
