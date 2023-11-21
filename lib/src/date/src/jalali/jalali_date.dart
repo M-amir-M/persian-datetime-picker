@@ -475,8 +475,10 @@ class Jalali implements Date, Comparable<Jalali> {
       final int mod = sum % 12;
       // can not use "sum ~/ 12" directly
       final int deltaYear = (sum - mod) ~/ 12;
-
-      return Jalali(year + deltaYear, mod + 1, day);
+      final int newMonth = mod + 1;
+      final int newMonthLength = Jalali(year + deltaYear, newMonth).monthLength;
+      final int newDay = day <= newMonthLength ? day : newMonthLength;
+      return Jalali(year + deltaYear, newMonth, newDay);
     }
   }
 
