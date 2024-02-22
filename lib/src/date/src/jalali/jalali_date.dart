@@ -434,8 +434,29 @@ class Jalali implements Date, Comparable<Jalali> {
         seconds == 0) {
       return this;
     } else {
-      return Jalali(year + years, month + months, day + days, hour + hours,
-          minute + minutes, second + seconds);
+      years += year;
+      months += month;
+      days += day;
+      hours += hour;
+      minutes += minute;
+      seconds += second;
+
+      minutes += seconds ~/ 60;
+      seconds = seconds % 60;
+
+      hours += minutes ~/ 60;
+      minutes = minutes % 60;
+
+      days += hours ~/ 24;
+      hours = hours % 24;
+
+      months += days ~/ monthLength;
+      days = days % monthLength;
+
+      years += months ~/ 12;
+      months = months % 12;
+
+      return Jalali(years, months, days, hours, minutes, seconds);
     }
   }
 
