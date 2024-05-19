@@ -2,31 +2,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
-final ThemeData androidTheme = new ThemeData(
+final ThemeData androidTheme = ThemeData(
   fontFamily: 'Dana',
 );
 
-void main() => runApp(new MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       theme: androidTheme,
-      home: new MyHomePage(key: super.key, title: 'دیت تایم پیکر فارسی'),
+      home: MyHomePage(key: super.key, title: 'دیت تایم پیکر فارسی'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
-
   final String title;
+  const MyHomePage({super.key, required this.title});
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -42,30 +43,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: new AppBar(
-          title: new Text(
+        appBar: AppBar(
+          title: Text(
             widget.title,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               colors: [Colors.white, Color(0xffE4F5F9)],
             ),
           ),
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            physics: BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            physics: const BouncingScrollPhysics(),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -110,55 +111,50 @@ class _MyHomePageState extends State<MyHomePage> {
                             context: context,
                             builder: (context) {
                               Jalali? tempPickedDate;
-                              return Container(
+                              return SizedBox(
                                 height: 250,
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          CupertinoButton(
-                                            child: Text(
-                                              'لغو',
-                                              style: TextStyle(
-                                                fontFamily: 'Dana',
-                                              ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        CupertinoButton(
+                                          child: const Text(
+                                            'لغو',
+                                            style: TextStyle(
+                                              fontFamily: 'Dana',
                                             ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
                                           ),
-                                          CupertinoButton(
-                                            child: Text(
-                                              'تایید',
-                                              style: TextStyle(
-                                                fontFamily: 'Dana',
-                                              ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        CupertinoButton(
+                                          child: const Text(
+                                            'تایید',
+                                            style: TextStyle(
+                                              fontFamily: 'Dana',
                                             ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop(
-                                                  tempPickedDate ??
-                                                      Jalali.now());
-                                            },
                                           ),
-                                        ],
-                                      ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                tempPickedDate ?? Jalali.now());
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                    Divider(
+                                    const Divider(
                                       height: 0,
                                       thickness: 1,
                                     ),
                                     Expanded(
-                                      child: Container(
-                                        child: PCupertinoDatePicker(
-                                          mode: PCupertinoDatePickerMode
-                                              .dateAndTime,
-                                          onDateTimeChanged: (Jalali dateTime) {
-                                            tempPickedDate = dateTime;
-                                          },
-                                        ),
+                                      child: PCupertinoDatePicker(
+                                        mode: PCupertinoDatePickerMode
+                                            .dateAndTime,
+                                        onDateTimeChanged: (Jalali dateTime) {
+                                          tempPickedDate = dateTime;
+                                        },
                                       ),
                                     ),
                                   ],
@@ -193,8 +189,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                           );
                           setState(() {
-                            if (picked != null)
+                            if (picked != null) {
                               label = picked.persianFormat(context);
+                            }
                           });
                         },
                         image: '09',
@@ -206,57 +203,52 @@ class _MyHomePageState extends State<MyHomePage> {
                             context: context,
                             builder: (context) {
                               Jalali? tempPickedDate;
-                              return Container(
+                              return SizedBox(
                                 height: 250,
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          CupertinoButton(
-                                            child: Text(
-                                              'لغو',
-                                              style: TextStyle(
-                                                fontFamily: 'Dana',
-                                              ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        CupertinoButton(
+                                          child: const Text(
+                                            'لغو',
+                                            style: TextStyle(
+                                              fontFamily: 'Dana',
                                             ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
                                           ),
-                                          CupertinoButton(
-                                            child: Text(
-                                              'تایید',
-                                              style: TextStyle(
-                                                fontFamily: 'Dana',
-                                              ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        CupertinoButton(
+                                          child: const Text(
+                                            'تایید',
+                                            style: TextStyle(
+                                              fontFamily: 'Dana',
                                             ),
-                                            onPressed: () {
-                                              print(tempPickedDate ??
-                                                  Jalali.now());
+                                          ),
+                                          onPressed: () {
+                                            print(
+                                                tempPickedDate ?? Jalali.now());
 
-                                              Navigator.of(context).pop(
-                                                  tempPickedDate ??
-                                                      Jalali.now());
-                                            },
-                                          ),
-                                        ],
-                                      ),
+                                            Navigator.of(context).pop(
+                                                tempPickedDate ?? Jalali.now());
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                    Divider(
+                                    const Divider(
                                       height: 0,
                                       thickness: 1,
                                     ),
                                     Expanded(
-                                      child: Container(
-                                        child: PCupertinoDatePicker(
-                                          mode: PCupertinoDatePickerMode.time,
-                                          onDateTimeChanged: (Jalali dateTime) {
-                                            tempPickedDate = dateTime;
-                                          },
-                                        ),
+                                      child: PCupertinoDatePicker(
+                                        mode: PCupertinoDatePickerMode.time,
+                                        onDateTimeChanged: (Jalali dateTime) {
+                                          tempPickedDate = dateTime;
+                                        },
                                       ),
                                     ),
                                   ],
@@ -267,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           if (pickedDate != null) {
                             setState(() {
-                              label = '${pickedDate.toJalaliDateTime()}';
+                              label = pickedDate.toJalaliDateTime();
                             });
                           }
                         },
@@ -292,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                           setState(() {
                             label =
-                                "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
+                                "${picked?.start.toJalaliDateTime() ?? ""} ${picked?.end.toJalaliDateTime() ?? ""}";
                           });
                         },
                         image: '03',
@@ -310,8 +302,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                           );
                           setState(() {
-                            if (picked != null)
+                            if (picked != null) {
                               label = picked.persianFormat(context);
+                            }
                           });
                         },
                         image: '04',
@@ -330,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                           setState(() {
                             label =
-                                "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
+                                "${picked?.start.toJalaliDateTime() ?? ""} ${picked?.end.toJalaliDateTime() ?? ""}";
                           });
                         },
                         image: '06',
@@ -345,13 +338,13 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomNavigationBar: Container(
           height: 70,
           width: double.infinity,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
               blurRadius: 3,
               spreadRadius: 0,
-              offset: Offset(0, 4),
-              color: Color(0xff000000).withOpacity(0.3),
+              offset: const Offset(0, 4),
+              color: const Color(0xff000000).withOpacity(0.3),
             ),
           ], color: Colors.white),
           child: Center(
@@ -376,18 +369,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return ScaleGesture(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
               BoxShadow(
                 blurRadius: 3,
                 spreadRadius: 0,
-                offset: Offset(0, 4),
-                color: Color(0xff000000).withOpacity(0.3),
+                offset: const Offset(0, 4),
+                color: const Color(0xff000000).withOpacity(0.3),
               ),
             ],
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Image.asset(
           'assets/images/$image.png',
           fit: BoxFit.fitWidth,
@@ -401,15 +394,15 @@ class ScaleGesture extends StatefulWidget {
   final Widget child;
   final double scale;
   final Function onTap;
-
-  ScaleGesture({
+  const ScaleGesture({
+    super.key,
     required this.child,
     this.scale = 1.1,
     required this.onTap,
   });
 
   @override
-  _ScaleGestureState createState() => _ScaleGestureState();
+  State<ScaleGesture> createState() => _ScaleGestureState();
 }
 
 class _ScaleGestureState extends State<ScaleGesture> {
@@ -438,7 +431,7 @@ class _ScaleGestureState extends State<ScaleGesture> {
         setState(() {
           scale = 1;
         });
-        widget?.onTap();
+        widget.onTap();
       },
       child: Transform.scale(
         scale: scale,
