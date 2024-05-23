@@ -362,7 +362,7 @@ class _DatePickerModeToggleButtonState
                           child: Text(
                             widget.title,
                             overflow: TextOverflow.ellipsis,
-                            style: textTheme.subtitle2?.copyWith(
+                            style: textTheme.titleSmall?.copyWith(
                               color: controlColor,
                             ),
                           ),
@@ -548,7 +548,8 @@ class _MonthPickerState extends State<_MonthPicker> {
   Widget build(BuildContext context) {
     final String previousTooltipText =
         'ماه قبل ${_previousMonthDate.formatMonthYear()}';
-    final String nextTooltipText = 'ماه بعد ${_nextMonthDate.formatMonthYear()}';
+    final String nextTooltipText =
+        'ماه بعد ${_nextMonthDate.formatMonthYear()}';
     final Color controlColor =
         Theme.of(context).colorScheme.onSurface.withOpacity(0.60);
 
@@ -645,7 +646,7 @@ class _DayPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final TextStyle? dayStyle = textTheme.caption;
+    final TextStyle? dayStyle = textTheme.bodySmall;
     final Color enabledDayColor = colorScheme.onSurface.withOpacity(0.87);
     final Color disabledDayColor = colorScheme.onSurface.withOpacity(0.38);
     final Color selectedDayColor = colorScheme.onPrimary;
@@ -809,7 +810,7 @@ class _DayHeaders extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-    final TextStyle? dayHeaderStyle = theme.textTheme.caption?.apply(
+    final TextStyle? dayHeaderStyle = theme.textTheme.bodySmall?.apply(
       color: colorScheme.onSurface.withOpacity(0.60),
     );
     final MaterialLocalizations localizations =
@@ -920,7 +921,7 @@ class _YearPickerState extends State<_YearPicker> {
     } else {
       textColor = colorScheme.onSurface.withOpacity(0.87);
     }
-    final TextStyle? itemStyle = textTheme.bodyText1?.apply(color: textColor);
+    final TextStyle? itemStyle = textTheme.bodyLarge?.apply(color: textColor);
 
     BoxDecoration? decoration;
     if (isSelected) {

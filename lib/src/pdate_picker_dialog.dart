@@ -239,7 +239,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
   }
 
   void _handleOk() {
-    if (_entryMode == PDatePickerEntryMode.input ||  _entryMode == DatePickerEntryMode.inputOnly) {
+    if (_entryMode == PDatePickerEntryMode.input ||
+        _entryMode == DatePickerEntryMode.inputOnly) {
       final FormState form = _formKey.currentState!;
       if (!form.validate()) {
         setState(() => _autoValidate = true);
@@ -310,18 +311,16 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     // Constrain the textScaleFactor to the largest supported value to prevent
     // layout issues.
     final double textScaleFactor =
-        math.min(MediaQuery.of(context).textScaleFactor, 1.3);
+        math.min(MediaQuery.textScalerOf(context).scale(1), 1.3);
 
-    final String dateText = _selectedDate != null
-        ? _selectedDate!.formatMediumDate()
-        // TODO(darrenaustin): localize 'Date'
-        : 'Date';
+    final String dateText =
+        _selectedDate != null ? _selectedDate!.formatMediumDate() : 'Date';
     final Color dateColor = colorScheme.brightness == Brightness.light
         ? colorScheme.onPrimary
         : colorScheme.onSurface;
     final TextStyle? dateStyle = orientation == Orientation.landscape
-        ? textTheme.subtitle1?.copyWith(color: dateColor)
-        : textTheme.headline5?.copyWith(color: dateColor);
+        ? textTheme.titleMedium?.copyWith(color: dateColor)
+        : textTheme.headlineSmall?.copyWith(color: dateColor);
 
     final Widget actions = ButtonBar(
       buttonTextTheme: ButtonTextTheme.primary,
@@ -338,7 +337,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       ],
     );
 
-    PCalendarDatePicker pCalendarDatePicker () {
+    PCalendarDatePicker pCalendarDatePicker() {
       return PCalendarDatePicker(
         key: _calendarPickerKey,
         initialDate: _selectedDate!,
@@ -444,7 +443,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           curve: Curves.easeIn,
           child: MediaQuery(
             data: MediaQuery.of(context).copyWith(
-              textScaleFactor: textScaleFactor,
+              textScaler: TextScaler.linear(textScaleFactor),
             ),
             child: Builder(builder: (BuildContext context) {
               switch (orientation) {
