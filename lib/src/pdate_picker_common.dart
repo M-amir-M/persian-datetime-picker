@@ -1,6 +1,6 @@
 import 'dart:ui' show hashValues;
 
-import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 /// Mode of the date picker dialog.
 ///
