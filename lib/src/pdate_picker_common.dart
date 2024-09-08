@@ -1,5 +1,3 @@
-import 'dart:ui' show hashValues;
-
 import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
 
 /// Mode of the date picker dialog.
@@ -80,7 +78,7 @@ class JalaliRange {
   }
 
   @override
-  int get hashCode => hashValues(start, end);
+  int get hashCode => Object.hash(start, end);
 
   @override
   String toString() => '$start - $end';
