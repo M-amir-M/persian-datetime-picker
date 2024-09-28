@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:persian_datetime_picker/src/date/shamsi_date.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 import 'pdate_utils.dart' as utils;
 import 'pdate_utils.dart';
