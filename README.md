@@ -1,20 +1,27 @@
 
-# 📆 Persian (Farsi, Shamsi) DateTime Picker for Flutter
-
-A Persian DateTime picker inspired by Material Design's DateTime picker and built upon the [shamsi_date](https://pub.dartlang.org/packages/shamsi_date) library.
+  
+# 📆 Persian (Farsi, Shamsi, Jalali) Date && Time Picker for Flutter
 
 [![pub package](https://img.shields.io/pub/v/persian_datetime_picker.svg?color=%23e67e22&label=pub&logo=persian_datetime_picker)](https://pub.dartlang.org/packages/persian_datetime_picker) 
 [![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/M-amir-M/persian-datetime-picker/raw/master/sample.apk)
 
-![Persian DateTime Picker Banner](https://github.com/M-amir-M/persian-datetime-picker/raw/master/banner.png)
+![Persian DateTime Picker Banner](https://github.com/M-amir-M/persian-datetime-picker/raw/master/assets/banner.png)
 
-## Features
+## <img src="assets/Telescope.webp" width="36px"> Overview
+A Persian Date & Time picker inspired by Material Design's DateTime picker, built on the [shamsi_date](https://pub.dartlang.org/packages/shamsi_date) library. It offers full support for the Persian (Jalali) calendar and is highly customizable, including compatibility with Material 3. 
+
+Additionally, it supports multiple languages, including Persian, Dari, Kurdish, Pashto, and custom locales, all while ensuring seamless integration with Flutter and maintaining Material Design standards.
+
+
+## <img src="assets/Rocket.png" width="36px">️ Features
 - 🌟 Fully supports Persian (Jalali) calendar
-- 🛠 Built using the stable and widely used `shamsi_date` library
+- 🛠 High customizable 
+- support material 3
+- 🛠 Support, Persian, Dari, Kurd, Pashto and custom locale and multi-language
 - 📱 Compatible with Material Design standards
 - 🧑‍💻 Simple integration with Flutter
 
-## Getting Started
+## <img src="assets/Fire.png" width="36px">️ Getting Started
 
 To use the Persian DateTime Picker, add the package to your `pubspec.yaml`:
 
@@ -29,7 +36,30 @@ Then, import it in your Dart code:
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 ```
 
-## Usage Examples
+Add localization to materialApp:
+
+```dart
+    return MaterialApp(
+      title: 'Date and Time Pickers',
+      locale: const Locale("fa", "IR"),
+      supportedLocales: const [
+        Locale("fa", "IR"),
+        Locale("en", "US"),
+      ],
+      localizationsDelegates: const [
+	    //Add your localization delegate
+        PersianMaterialLocalizations.delegate,
+        PersianCupertinoLocalizations.delegate,
+        //
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      ...
+    );
+```
+
+## <img src="assets/Comet.png" width="36px">️ Usage Examples
 
 ### 1. Persian Date Picker
 
@@ -113,9 +143,19 @@ var picked = await showPersianDateRangePicker(
 );
 ```
 
-## Contributions and Feedback
+## <img src="assets/Star.png" width="36px">️ Support Us
+Feel free to check it out and give it a  <img src="assets/Star.png" width="24px">️ if you love it. 
+Follow me for more updates and more projects
+
+
+## <img src="assets/Folded Hands Medium Skin Tone.png" width="36px">️  Contributions and Feedback
+
 
 Pull requests and feedback are always welcome!  
 Feel free to reach out at [mem.amir.m@gmail.com](mailto:mem.amir.m@gmail.com) or connect with me on [LinkedIn](https://www.linkedin.com/in/mohammad-amir-mohammadi/).
 
 *Banner designed by [Nader Mozaffari](https://www.linkedin.com/in/nadermozaffari)*
+
+
+### <img src="assets/Eyes.png" width="36px">️  Project License:
+This project is licensed under [MIT License](LICENSE).

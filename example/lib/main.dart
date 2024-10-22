@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Date and Time Pickers',
       locale: const Locale("fa", "IR"),
+      debugShowCheckedModeBanner: false,
       supportedLocales: const [
         Locale("fa", "IR"),
         Locale("en", "US"),
@@ -24,7 +25,39 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Dana'),
+      theme: ThemeData(
+        fontFamily: 'Dana',
+        datePickerTheme: DatePickerThemeData(
+          headerBackgroundColor: Color(0xffFF4893), // Header background color
+          backgroundColor: Color(0xff121212),
+          dayBackgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
+                return Color(0xff89ED5B); // Background color for selected day
+              } else if (states.contains(WidgetState.disabled)) {
+                return Colors
+                    .grey.shade200; // Background color for disabled days
+              }
+              return Color(0xff121212); // Default background color for normal days
+            },
+          ),
+          dayForegroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
+                return Color(0xff121212); // Background color for selected day
+              } else if (states.contains(WidgetState.disabled)) {
+                return Colors
+                    .grey.shade200; // Background color for disabled days
+              }
+              return Color(0xff89ED5B); // Default background color for normal days
+            },
+          ),
+          confirmButtonStyle: ButtonStyle(
+            textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white))
+          ),
+          headerForegroundColor: Colors.white, // Header text color
+        ),
+      ),
       home: const HomePage(),
     );
   }
@@ -81,28 +114,14 @@ class _HomePageState extends State<HomePage> {
                     imageButton(
                       onTap: () async {
                         Jalali? picked = await showPersianDatePicker(
-                            context: context,
-                            initialDate: Jalali.now(),
-                            firstDate: Jalali(1385, 8),
-                            lastDate: Jalali(1450, 9),
-                            initialEntryMode:
-                                PersianDatePickerEntryMode.calendarOnly,
-                            initialDatePickerMode: PersianDatePickerMode.year,
-                            builder: (context, child) {
-                              return Theme(
-                                data: ThemeData(
-                                  useMaterial3: true,
-                                  fontFamily: 'Dana',
-                                  dialogTheme: const DialogTheme(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(0)),
-                                    ),
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            });
+                          context: context,
+                          initialDate: Jalali.now(),
+                          firstDate: Jalali(1385, 8),
+                          lastDate: Jalali(1450, 9),
+                          initialEntryMode:
+                              PersianDatePickerEntryMode.calendarOnly,
+                          initialDatePickerMode: PersianDatePickerMode.year,
+                        );
                         if (picked != null && picked != selectedDate) {
                           setState(() {
                             label = picked.toJalaliDateTime();
@@ -158,12 +177,22 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      child: PersianCupertinoDatePicker(
-                                        mode: PersianCupertinoDatePickerMode.date,
-                                        dateOrder: DatePickerDateOrder.dmy,
-                                        onDateTimeChanged: (Jalali dateTime) {
-                                          tempPickedDate = dateTime;
-                                        },
+                                      child: CupertinoTheme(
+                                        data: CupertinoThemeData(
+                                            textTheme: CupertinoTextThemeData(
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Dana'),
+                                          dateTimePickerTextStyle: TextStyle(
+                                              fontFamily: 'Dana', fontSize: 20),
+                                        )),
+                                        child: PersianCupertinoDatePicker(
+                                          mode: PersianCupertinoDatePickerMode
+                                              .date,
+                                          dateOrder: DatePickerDateOrder.dmy,
+                                          onDateTimeChanged: (Jalali dateTime) {
+                                            tempPickedDate = dateTime;
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
