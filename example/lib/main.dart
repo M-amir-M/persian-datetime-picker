@@ -28,35 +28,36 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Dana',
         datePickerTheme: DatePickerThemeData(
-          // headerBackgroundColor: Color(0xffFF4893), // Header background color
-          // backgroundColor: Color(0xff121212),
-          // dayBackgroundColor: WidgetStateProperty.resolveWith<Color?>(
-          //   (Set<WidgetState> states) {
-          //     if (states.contains(WidgetState.selected)) {
-          //       return Color(0xff89ED5B); // Background color for selected day
-          //     } else if (states.contains(WidgetState.disabled)) {
-          //       return Colors
-          //           .grey.shade200; // Background color for disabled days
-          //     }
-          //     return Color(0xff121212); // Default background color for normal days
-          //   },
-          // ),
-          // dayForegroundColor: WidgetStateProperty.resolveWith<Color?>(
-          //   (Set<WidgetState> states) {
-          //     if (states.contains(WidgetState.selected)) {
-          //       return Color(0xff121212); // Background color for selected day
-          //     } else if (states.contains(WidgetState.disabled)) {
-          //       return Colors
-          //           .grey.shade200; // Background color for disabled days
-          //     }
-          //     return Color(0xff89ED5B); // Default background color for normal days
-          //   },
-          // ),
-          // confirmButtonStyle: ButtonStyle(
-          //   textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white))
-          // ),
-          // headerForegroundColor: Colors.white, // Header text color
-        ),
+
+            // headerBackgroundColor: Color(0xffFF4893), // Header background color
+            // backgroundColor: Color(0xff121212),
+            // dayBackgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            //   (Set<WidgetState> states) {
+            //     if (states.contains(WidgetState.selected)) {
+            //       return Color(0xff89ED5B); // Background color for selected day
+            //     } else if (states.contains(WidgetState.disabled)) {
+            //       return Colors
+            //           .grey.shade200; // Background color for disabled days
+            //     }
+            //     return Color(0xff121212); // Default background color for normal days
+            //   },
+            // ),
+            // dayForegroundColor: WidgetStateProperty.resolveWith<Color?>(
+            //   (Set<WidgetState> states) {
+            //     if (states.contains(WidgetState.selected)) {
+            //       return Color(0xff121212); // Background color for selected day
+            //     } else if (states.contains(WidgetState.disabled)) {
+            //       return Colors
+            //           .grey.shade200; // Background color for disabled days
+            //     }
+            //     return Color(0xff89ED5B); // Default background color for normal days
+            //   },
+            // ),
+            // confirmButtonStyle: ButtonStyle(
+            //   textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white))
+            // ),
+            // headerForegroundColor: Colors.white, // Header text color
+            ),
       ),
       home: const HomePage(),
     );
