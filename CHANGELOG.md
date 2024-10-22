@@ -1,3 +1,5 @@
+## 3.0.1
+* [BREAKING] Update package to version 3 to support material 3
 ## 2.7.0
 * [FIX]  TextTheme: Updated properties to match Material Design 3 and Flutter 3.22.0 compatibility. (https://github.com/M-amir-M/persian-datetime-picker/issues/78), #78
 ## 2.6.0
