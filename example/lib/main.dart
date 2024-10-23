@@ -21,6 +21,12 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: const [
         PersianMaterialLocalizations.delegate,
         PersianCupertinoLocalizations.delegate,
+        // DariMaterialLocalizations.delegate, Dari
+        // DariCupertinoLocalizations.delegate,
+        // PashtoMaterialLocalizations.delegate, Pashto
+        // PashtoCupertinoLocalizations.delegate,
+        // SoraniMaterialLocalizations.delegate, Kurdish
+        // SoraniCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -114,6 +120,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     imageButton(
                       onTap: () async {
+
                         Jalali? picked = await showPersianDatePicker(
                           context: context,
                           initialDate: Jalali.now(),
@@ -213,6 +220,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     imageButton(
                       onTap: () async {
+                        
                         var picked = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay.now(),

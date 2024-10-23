@@ -17,3 +17,5 @@ export 'src/cupertino/date_picker.dart';
 export 'src/localizations/default.dart';
 export 'src/localizations/persian.dart';
 export 'src/localizations/dari.dart';
+export 'src/localizations/pashto.dart';
+export 'src/localizations/sorani.dart';
