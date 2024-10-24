@@ -16,9 +16,7 @@ JalaliRange datesOnly(JalaliRange range) {
 /// Returns true if the two [Jalali] objects have the same day, month, and
 /// year.
 bool isSameDay(Jalali? dateA, Jalali? dateB) {
-  return dateA?.year == dateB?.year &&
-      dateA?.month == dateB?.month &&
-      dateA?.day == dateB?.day;
+  return dateA?.year == dateB?.year && dateA?.month == dateB?.month && dateA?.day == dateB?.day;
 }
 
 /// Returns true if the two [Jalali] objects have the same month, and
@@ -105,20 +103,7 @@ int getDaysInMonth(int year, int month) {
     if (isLeapYear) return 30;
     return 29;
   }
-  const List<int> daysInMonth = <int>[
-    31,
-    31,
-    31,
-    31,
-    31,
-    31,
-    30,
-    30,
-    30,
-    30,
-    30,
-    -1
-  ];
+  const List<int> daysInMonth = <int>[31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, -1];
   return daysInMonth[month - 1];
 }
 
@@ -148,8 +133,7 @@ List<String> shortDayName = [
 /// is in the same year as the `endDate` then it will use the short month
 /// day format (i.e. 'Jan 21'). Otherwise it will return the short date format
 /// (i.e. 'Jan 21, 2020').
-String formatRangeStartDate(
-    MaterialLocalizations localizations, Jalali? startDate, Jalali? endDate) {
+String formatRangeStartDate(MaterialLocalizations localizations, Jalali? startDate, Jalali? endDate) {
   return startDate == null
       ? 'تاریخ شروع'
       : (endDate == null || startDate.year == endDate.year)
@@ -163,13 +147,11 @@ String formatRangeStartDate(
 /// is in the same year as the `startDate` and the `currentDate` then it will
 /// just use the short month day format (i.e. 'Jan 21'), otherwise it will
 /// include the year (i.e. 'Jan 21, 2020').
-String formatRangeEndDate(MaterialLocalizations localizations,
-    Jalali? startDate, Jalali? endDate, Jalali? currentDate) {
+String formatRangeEndDate(
+    MaterialLocalizations localizations, Jalali? startDate, Jalali? endDate, Jalali? currentDate) {
   return endDate == null
       ? 'تاریخ پایان'
-      : (startDate != null &&
-              startDate.year == endDate.year &&
-              startDate.year == currentDate!.year)
+      : (startDate != null && startDate.year == endDate.year && startDate.year == currentDate!.year)
           ? endDate.formatShortMonthDay()
           : endDate.formatShortDate();
 }
@@ -192,7 +174,7 @@ String formatYear(Jalali date) {
 }
 
 String formatMonthYear(Jalali date) {
-  return '${date.formatter.mm} ${date.formatter.yy}';
+  return '${date.formatter.mN} ${date.formatter.yyyy}';
 }
 
 String formatFullDate(Jalali date) {
@@ -321,5 +303,3 @@ extension DateTimeExt on DateTime {
     return Jalali.fromDateTime(this);
   }
 }
-
-
