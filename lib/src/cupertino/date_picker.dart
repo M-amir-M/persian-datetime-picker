@@ -1344,7 +1344,6 @@ class _CupertinoDatePickerDateState extends State<PersianCupertinoDatePicker> {
   Jalali _lastDayInMonth(int year, int month) =>
       Jalali(year, month, Jalali(year, month).monthLength);
 
-
   Widget _buildDayPicker(double offAxisFraction,
       TransitionBuilder itemPositioningBuilder, Widget? selectionOverlay) {
     final int daysInCurrentMonth =

@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'date.dart';
@@ -25,7 +24,8 @@ class RestorableJalali extends RestorableValue<Jalali> {
   }
 
   @override
-  Jalali fromPrimitives(Object? data) => Jalali.fromMillisecondsSinceEpoch(data! as int);
+  Jalali fromPrimitives(Object? data) =>
+      Jalali.fromMillisecondsSinceEpoch(data! as int);
 
   @override
   Object? toPrimitives() => value.millisecondsSinceEpoch;
@@ -53,7 +53,8 @@ class RestorableJalaliN extends RestorableValue<Jalali?> {
   }
 
   @override
-  Jalali? fromPrimitives(Object? data) => data != null ? Jalali.fromMillisecondsSinceEpoch(data as int) : null;
+  Jalali? fromPrimitives(Object? data) =>
+      data != null ? Jalali.fromMillisecondsSinceEpoch(data as int) : null;
 
   @override
   Object? toPrimitives() => value?.millisecondsSinceEpoch;
