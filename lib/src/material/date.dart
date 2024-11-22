@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -466,7 +465,7 @@ String? jalaliStringToGregorianString(
     // Assuming the input format is "yyyy/mm/dd"
     final List<String> parts = jalaliDateString.split(seprator);
     if (parts.length != 3) {
-      throw FormatException("Invalid Jalali date format");
+      throw const FormatException("Invalid Jalali date format");
     }
 
     final int year = int.parse(parts[0]);
@@ -482,7 +481,7 @@ String? jalaliStringToGregorianString(
     // Format DateTime as a string, e.g., "yyyy-mm-dd"
     return '${dateTime.year.toString().padLeft(4, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
   } catch (e) {
-    print("Error converting Jalali date: $e");
+    debugPrint("Error converting Jalali date: $e");
     return null; // Return null in case of error
   }
 }

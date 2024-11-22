@@ -11,7 +11,6 @@ class SoraniMaterialLocalizations extends DefaultMaterialLocalizations {
   static const LocalizationsDelegate<MaterialLocalizations> delegate =
       _SoraniMaterialLocalizationsDelegate();
 
-
   static const List<String> _narrowWeekdays = <String>[
     'ش', // S (شه‌ممه‌)
     'ی', // S (یه‌كشه‌ممه‌)
@@ -136,7 +135,6 @@ class SoraniMaterialLocalizations extends DefaultMaterialLocalizations {
   @override
   String get unspecifiedDateRange => "بازه‌ی بەروار";
 
-
   @override
   String formatYear(DateTime date) {
     return Jalali.fromDateTime(date).year.toString(); // Use Jalali year
@@ -242,7 +240,7 @@ class SoraniCupertinoLocalizations extends DefaultCupertinoLocalizations {
   @override
   String get todayLabel => 'ئەمڕۆ';
 
-@override
+  @override
   String datePickerYear(int yearIndex) => yearIndex.toString();
 
   @override
@@ -288,7 +286,6 @@ class SoraniCupertinoLocalizations extends DefaultCupertinoLocalizations {
   @override
   DatePickerDateTimeOrder get datePickerDateTimeOrder =>
       DatePickerDateTimeOrder.date_time_dayPeriod;
-
 
   @override
   String get modalBarrierDismissLabel => 'داخستن';

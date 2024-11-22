@@ -265,7 +265,8 @@ class _DariCupertinoLocalizationsDelegate
   const _DariCupertinoLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => locale.languageCode == 'fa' && locale.countryCode == 'AF';
+  bool isSupported(Locale locale) =>
+      locale.languageCode == 'fa' && locale.countryCode == 'AF';
 
   @override
   Future<CupertinoLocalizations> load(Locale locale) async {

@@ -205,9 +205,7 @@ class _InputDatePickerFormFieldState
   }
 
   Jalali? _parseDate(String? text) {
-    return text == null
-        ? null
-        : parseCompactJalaliDate(text);
+    return text == null ? null : parseCompactJalaliDate(text);
   }
 
   bool _isValidAcceptableDate(Jalali? date) {
