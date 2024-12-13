@@ -226,15 +226,14 @@ Future<Jalali?> showPersianDatePicker({
       child: dialog,
     );
   } else {
-    final DatePickerThemeData datePickerTheme =
-        DatePickerTheme.of(context);
+    final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
     if (datePickerTheme.locale != null) {
       dialog = Localizations.override(
         context: context,
         locale: datePickerTheme.locale,
         child: dialog,
       );
-    } 
+    }
   }
 
   return showDialog<Jalali>(
@@ -518,10 +517,8 @@ class _DatePickerDialogState extends State<DatePickerDialog>
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final Orientation orientation = MediaQuery.orientationOf(context);
-    final DatePickerThemeData datePickerTheme =
-        DatePickerTheme.of(context);
-    final DatePickerThemeData defaults =
-        DatePickerTheme.defaults(context);
+    final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
+    final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
     final TextTheme textTheme = theme.textTheme;
 
     // There's no M3 spec for a landscape layout input (not calendar)
@@ -687,7 +684,7 @@ class _DatePickerDialogState extends State<DatePickerDialog>
             .scale(fontSizeToScale) /
         fontSizeToScale;
     final Size dialogSize = _dialogSize(context) * textScaleFactor;
-    final DialogTheme dialogTheme = theme.dialogTheme;
+    final DialogThemeData dialogTheme = theme.dialogTheme;
     return Dialog(
       backgroundColor:
           datePickerTheme.backgroundColor ?? defaults.backgroundColor,
@@ -880,10 +877,8 @@ class _DatePickerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final DatePickerThemeData datePickerTheme =
-        DatePickerTheme.of(context);
-    final DatePickerThemeData defaults =
-        DatePickerTheme.defaults(context);
+    final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
+    final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
     final Color? backgroundColor =
         datePickerTheme.headerBackgroundColor ?? defaults.headerBackgroundColor;
     final Color? foregroundColor =
@@ -1518,10 +1513,8 @@ class _PersianDateRangePickerDialogState
     final Orientation orientation = MediaQuery.orientationOf(context);
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-    final DatePickerThemeData datePickerTheme =
-        DatePickerTheme.of(context);
-    final DatePickerThemeData defaults =
-        DatePickerTheme.defaults(context);
+    final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
+    final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
 
     final Widget contents;
     final Size size;
@@ -1636,7 +1629,7 @@ class _PersianDateRangePickerDialogState
                   ? localizations.dateRangePickerHelpText
                   : localizations.dateRangePickerHelpText.toUpperCase()),
         );
-        final DialogTheme dialogTheme = theme.dialogTheme;
+        final DialogThemeData dialogTheme = theme.dialogTheme;
         size = orientation == Orientation.portrait
             ? (useMaterial3
                 ? _inputPortraitDialogSizeM3
@@ -1719,8 +1712,7 @@ class _CalendarRangePickerDialog extends StatelessWidget {
         MaterialLocalizations.of(context);
     final Orientation orientation = MediaQuery.orientationOf(context);
     final DatePickerThemeData themeData = DatePickerTheme.of(context);
-    final DatePickerThemeData defaults =
-        DatePickerTheme.defaults(context);
+    final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
     final Color? dialogBackground = themeData.rangePickerBackgroundColor ??
         defaults.rangePickerBackgroundColor;
     final Color? headerBackground =
@@ -2772,10 +2764,8 @@ class _DayItemState extends State<_DayItem> {
     final TextTheme textTheme = theme.textTheme;
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-    final DatePickerThemeData datePickerTheme =
-        DatePickerTheme.of(context);
-    final DatePickerThemeData defaults =
-        DatePickerTheme.defaults(context);
+    final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
+    final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
     final TextDirection textDirection = Directionality.of(context);
     final Color highlightColor = widget.highlightColor;
 
@@ -3027,10 +3017,8 @@ class _InputPersianDateRangePickerDialog extends StatelessWidget {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final Orientation orientation = MediaQuery.orientationOf(context);
-    final DatePickerThemeData datePickerTheme =
-        DatePickerTheme.of(context);
-    final DatePickerThemeData defaults =
-        DatePickerTheme.defaults(context);
+    final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
+    final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
 
     // There's no M3 spec for a landscape layout input (not calendar)
     // date range picker. To ensure that the date range displayed in the
