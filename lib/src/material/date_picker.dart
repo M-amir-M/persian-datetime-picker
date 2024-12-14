@@ -687,7 +687,7 @@ class _DatePickerDialogState extends State<DatePickerDialog>
             .scale(fontSizeToScale) /
         fontSizeToScale;
     final Size dialogSize = _dialogSize(context) * textScaleFactor;
-    final DialogTheme dialogTheme = theme.dialogTheme;
+    final DialogThemeData dialogTheme = theme.dialogTheme;
     return Dialog(
       backgroundColor:
           datePickerTheme.backgroundColor ?? defaults.backgroundColor,
@@ -1636,7 +1636,7 @@ class _PersianDateRangePickerDialogState
                   ? localizations.dateRangePickerHelpText
                   : localizations.dateRangePickerHelpText.toUpperCase()),
         );
-        final DialogTheme dialogTheme = theme.dialogTheme;
+        final DialogThemeData dialogTheme = theme.dialogTheme;
         size = orientation == Orientation.portrait
             ? (useMaterial3
                 ? _inputPortraitDialogSizeM3
