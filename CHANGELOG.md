@@ -1,3 +1,5 @@
+## 3.1.0
+* [BREAKING] Fix incompatible with flutter 3.27
 ## 3.0.1
 * [BREAKING] Update package to version 3 to support material 3
 ## 2.7.0
