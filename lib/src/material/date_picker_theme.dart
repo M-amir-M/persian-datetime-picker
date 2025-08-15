@@ -5,7 +5,6 @@
 
 // import 'package:flutter/material.dart';
 
-
 // /// An inherited widget that defines the visual properties for
 // /// [PersianDatePickerDialog]s in this widget's subtree.
 // ///
@@ -45,7 +44,6 @@
 //   static DatePickerThemeData of(BuildContext context) {
 //     return maybeOf(context) ?? Theme.of(context).datePickerTheme;
 //   }
-
 
 //   /// The data from the closest instance of this class that encloses the given
 //   /// context, if any.

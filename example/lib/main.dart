@@ -8,16 +8,15 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Date and Time Pickers',
       locale: const Locale("fa", "IR"),
       debugShowCheckedModeBanner: false,
-      supportedLocales: const [
-        Locale("fa", "IR"),
-        Locale("en", "US"),
-      ],
+      supportedLocales: const [Locale("fa", "IR"), Locale("en", "US")],
       localizationsDelegates: const [
         PersianMaterialLocalizations.delegate,
         PersianCupertinoLocalizations.delegate,
@@ -34,36 +33,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Dana',
         datePickerTheme: DatePickerThemeData(
-
-            // headerBackgroundColor: Color(0xffFF4893), // Header background color
-            // backgroundColor: Color(0xff121212),
-            // dayBackgroundColor: WidgetStateProperty.resolveWith<Color?>(
-            //   (Set<WidgetState> states) {
-            //     if (states.contains(WidgetState.selected)) {
-            //       return Color(0xff89ED5B); // Background color for selected day
-            //     } else if (states.contains(WidgetState.disabled)) {
-            //       return Colors
-            //           .grey.shade200; // Background color for disabled days
-            //     }
-            //     return Color(0xff121212); // Default background color for normal days
-            //   },
-            // ),
-            // dayForegroundColor: WidgetStateProperty.resolveWith<Color?>(
-            //   (Set<WidgetState> states) {
-            //     if (states.contains(WidgetState.selected)) {
-            //       return Color(0xff121212); // Background color for selected day
-            //     } else if (states.contains(WidgetState.disabled)) {
-            //       return Colors
-            //           .grey.shade200; // Background color for disabled days
-            //     }
-            //     return Color(0xff89ED5B); // Default background color for normal days
-            //   },
-            // ),
-            // confirmButtonStyle: ButtonStyle(
-            //   textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white))
-            // ),
-            // headerForegroundColor: Colors.white, // Header text color
-            ),
+          // headerBackgroundColor: Color(0xffFF4893), // Header background color
+          // backgroundColor: Color(0xff121212),
+          // dayBackgroundColor: WidgetStateProperty.resolveWith<Color?>(
+          //   (Set<WidgetState> states) {
+          //     if (states.contains(WidgetState.selected)) {
+          //       return Color(0xff89ED5B); // Background color for selected day
+          //     } else if (states.contains(WidgetState.disabled)) {
+          //       return Colors
+          //           .grey.shade200; // Background color for disabled days
+          //     }
+          //     return Color(0xff121212); // Default background color for normal days
+          //   },
+          // ),
+          // dayForegroundColor: WidgetStateProperty.resolveWith<Color?>(
+          //   (Set<WidgetState> states) {
+          //     if (states.contains(WidgetState.selected)) {
+          //       return Color(0xff121212); // Background color for selected day
+          //     } else if (states.contains(WidgetState.disabled)) {
+          //       return Colors
+          //           .grey.shade200; // Background color for disabled days
+          //     }
+          //     return Color(0xff89ED5B); // Default background color for normal days
+          //   },
+          // ),
+          // confirmButtonStyle: ButtonStyle(
+          //   textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white))
+          // ),
+          // headerForegroundColor: Colors.white, // Header text color
+        ),
       ),
       home: const HomePage(),
     );
@@ -74,7 +72,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -120,7 +118,6 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     imageButton(
                       onTap: () async {
-
                         Jalali? picked = await showPersianDatePicker(
                           context: context,
                           initialDate: Jalali.now(),
@@ -130,7 +127,8 @@ class _HomePageState extends State<HomePage> {
                               PersianDatePickerEntryMode.calendarOnly,
                           initialDatePickerMode: PersianDatePickerMode.year,
                         );
-                        if (picked != null && picked != selectedDate) {
+                        if (picked != null &&
+                            picked.toJalaliDateTime() != selectedDate) {
                           setState(() {
                             label = picked.toJalaliDateTime();
                           });
@@ -144,63 +142,57 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           builder: (context) {
                             Jalali? tempPickedDate;
-                            return Container(
+                            return SizedBox(
                               height: 250,
                               child: Column(
                                 children: <Widget>[
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        CupertinoButton(
-                                          child: Text(
-                                            'لغو',
-                                            style: TextStyle(
-                                              fontFamily: 'Dana',
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      CupertinoButton(
+                                        child: Text(
+                                          'لغو',
+                                          style: TextStyle(fontFamily: 'Dana'),
                                         ),
-                                        CupertinoButton(
-                                          child: Text(
-                                            'تایید',
-                                            style: TextStyle(
-                                              fontFamily: 'Dana',
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(
-                                                tempPickedDate ?? Jalali.now());
-                                          },
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      CupertinoButton(
+                                        child: Text(
+                                          'تایید',
+                                          style: TextStyle(fontFamily: 'Dana'),
                                         ),
-                                      ],
-                                    ),
+                                        onPressed: () {
+                                          Navigator.of(
+                                            context,
+                                          ).pop(tempPickedDate ?? Jalali.now());
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  Divider(
-                                    height: 0,
-                                    thickness: 1,
-                                  ),
+                                  Divider(height: 0, thickness: 1),
                                   Expanded(
-                                    child: Container(
-                                      child: CupertinoTheme(
-                                        data: CupertinoThemeData(
-                                            textTheme: CupertinoTextThemeData(
-                                          textStyle:
-                                              TextStyle(fontFamily: 'Dana'),
+                                    child: CupertinoTheme(
+                                      data: CupertinoThemeData(
+                                        textTheme: CupertinoTextThemeData(
+                                          textStyle: TextStyle(
+                                            fontFamily: 'Dana',
+                                          ),
                                           dateTimePickerTextStyle: TextStyle(
-                                              fontFamily: 'Dana', fontSize: 20),
-                                        )),
-                                        child: PersianCupertinoDatePicker(
-                                          mode: PersianCupertinoDatePickerMode
-                                              .date,
-                                          dateOrder: DatePickerDateOrder.dmy,
-                                          onDateTimeChanged: (Jalali dateTime) {
-                                            tempPickedDate = dateTime;
-                                          },
+                                            fontFamily: 'Dana',
+                                            fontSize: 20,
+                                          ),
                                         ),
+                                      ),
+                                      child: PersianCupertinoDatePicker(
+                                        mode:
+                                            PersianCupertinoDatePickerMode.date,
+                                        dateOrder: DatePickerDateOrder.dmy,
+                                        onDateTimeChanged: (Jalali dateTime) {
+                                          tempPickedDate = dateTime;
+                                        },
                                       ),
                                     ),
                                   ),
@@ -220,7 +212,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     imageButton(
                       onTap: () async {
-                        
                         var picked = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay.now(),
@@ -229,8 +220,9 @@ class _HomePageState extends State<HomePage> {
                             return Directionality(
                               textDirection: TextDirection.rtl,
                               child: MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(alwaysUse24HourFormat: true),
+                                data: MediaQuery.of(
+                                  context,
+                                ).copyWith(alwaysUse24HourFormat: true),
                                 child: child!,
                               ),
                             );
@@ -248,58 +240,44 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           builder: (context) {
                             Jalali? tempPickedDate;
-                            return Container(
+                            return SizedBox(
                               height: 250,
                               child: Column(
                                 children: <Widget>[
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        CupertinoButton(
-                                          child: Text(
-                                            'لغو',
-                                            style: TextStyle(
-                                              fontFamily: 'Dana',
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      CupertinoButton(
+                                        child: Text(
+                                          'لغو',
+                                          style: TextStyle(fontFamily: 'Dana'),
                                         ),
-                                        CupertinoButton(
-                                          child: Text(
-                                            'تایید',
-                                            style: TextStyle(
-                                              fontFamily: 'Dana',
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            print(
-                                                tempPickedDate ?? Jalali.now());
-
-                                            Navigator.of(context).pop(
-                                                tempPickedDate ?? Jalali.now());
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 0,
-                                    thickness: 1,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: PersianCupertinoDatePicker(
-                                        initialDateTime: Jalali.now(),
-                                        mode:
-                                            PersianCupertinoDatePickerMode.time,
-                                        onDateTimeChanged: (Jalali dateTime) {
-                                          tempPickedDate = dateTime;
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
                                         },
                                       ),
+                                      CupertinoButton(
+                                        child: Text(
+                                          'تایید',
+                                          style: TextStyle(fontFamily: 'Dana'),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(
+                                            context,
+                                          ).pop(tempPickedDate ?? Jalali.now());
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(height: 0, thickness: 1),
+                                  Expanded(
+                                    child: PersianCupertinoDatePicker(
+                                      initialDateTime: Jalali.now(),
+                                      mode: PersianCupertinoDatePickerMode.time,
+                                      onDateTimeChanged: (Jalali dateTime) {
+                                        tempPickedDate = dateTime;
+                                      },
                                     ),
                                   ),
                                 ],
@@ -310,7 +288,7 @@ class _HomePageState extends State<HomePage> {
 
                         if (pickedDate != null) {
                           setState(() {
-                            label = '${pickedDate.toJalaliDateTime()}';
+                            label = pickedDate.toJalaliDateTime();
                           });
                         }
                       },
@@ -336,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                         );
                         setState(() {
                           label =
-                              "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
+                              "${picked?.start.toJalaliDateTime() ?? ""} ${picked?.end.toJalaliDateTime() ?? ""}";
                         });
                       },
                       image: '03',
@@ -356,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                         );
                         setState(() {
                           label =
-                              "${picked?.start?.toJalaliDateTime() ?? ""} ${picked?.end?.toJalaliDateTime() ?? ""}";
+                              "${picked?.start.toJalaliDateTime() ?? ""} ${picked?.end.toJalaliDateTime() ?? ""}";
                         });
                       },
                       image: '06',
@@ -372,21 +350,23 @@ class _HomePageState extends State<HomePage> {
         height: 70,
         width: double.infinity,
         padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            spreadRadius: 0,
-            offset: Offset(0, 4),
-            color: Color(0xff000000).withOpacity(0.3),
-          ),
-        ], color: Colors.white),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 3,
+              spreadRadius: 0,
+              offset: Offset(0, 4),
+              color: Color(0xff000000).withValues(alpha: 0.3),
+            ),
+          ],
+          color: Colors.white,
+        ),
         child: Center(
           child: Text(
             label,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(color: Colors.black),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall!.copyWith(color: Colors.black),
             textAlign: TextAlign.center,
           ),
         ),
@@ -394,29 +374,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget imageButton({
-    required Function onTap,
-    required String image,
-  }) {
+  Widget imageButton({required Function onTap, required String image}) {
     return ScaleGesture(
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 3,
-                spreadRadius: 0,
-                offset: Offset(0, 4),
-                color: Color(0xff000000).withOpacity(0.3),
-              ),
-            ],
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Image.asset(
-          'assets/images/$image.png',
-          fit: BoxFit.fitWidth,
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 3,
+              spreadRadius: 0,
+              offset: Offset(0, 4),
+              color: Color(0xff000000).withValues(alpha: 0.3),
+            ),
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
+        child: Image.asset('assets/images/$image.png', fit: BoxFit.fitWidth),
       ),
     );
   }
@@ -427,14 +402,15 @@ class ScaleGesture extends StatefulWidget {
   final double scale;
   final Function onTap;
 
-  ScaleGesture({
+  const ScaleGesture({
+    super.key,
     required this.child,
     this.scale = 1.1,
     required this.onTap,
   });
 
   @override
-  _ScaleGestureState createState() => _ScaleGestureState();
+  State<ScaleGesture> createState() => _ScaleGestureState();
 }
 
 class _ScaleGestureState extends State<ScaleGesture> {
@@ -463,12 +439,9 @@ class _ScaleGestureState extends State<ScaleGesture> {
         setState(() {
           scale = 1;
         });
-        widget?.onTap();
+        widget.onTap();
       },
-      child: Transform.scale(
-        scale: scale,
-        child: widget.child,
-      ),
+      child: Transform.scale(scale: scale, child: widget.child),
     );
   }
 }

@@ -69,15 +69,13 @@ class DariMaterialLocalizations extends DefaultMaterialLocalizations {
   String get previousMonthTooltip => "ماه قبل"; // Previous Month
 
   @override
-  int get firstDayOfWeekIndex =>
-      6; // Saturday as the first day of the week in Afghanistan
+  int get firstDayOfWeekIndex => 6; // Saturday as the first day of the week in Afghanistan
 
   @override
   String get saveButtonLabel => "ذخیره"; // Save
 
   @override
-  String get dateRangePickerHelpText =>
-      "انتخاب بازهٔ زمانی"; // Select Date Range
+  String get dateRangePickerHelpText => "انتخاب بازهٔ زمانی"; // Select Date Range
 
   @override
   String get dateRangeStartLabel => "تاریخ شروع"; // Start Date
@@ -116,8 +114,7 @@ class DariMaterialLocalizations extends DefaultMaterialLocalizations {
   String get timePickerMinuteLabel => "دقیقه"; // Minute
 
   @override
-  String get inputTimeModeButtonLabel =>
-      "ورودی زمان"; // Switch to Input Time Mode
+  String get inputTimeModeButtonLabel => "ورودی زمان"; // Switch to Input Time Mode
 
   @override
   String get dialModeButtonLabel => "حالت انتخابگر دیال"; // Switch to Dial Mode
@@ -126,8 +123,7 @@ class DariMaterialLocalizations extends DefaultMaterialLocalizations {
   String get invalidDateFormatLabel => "قالب نادرست."; // Invalid Format
 
   @override
-  String get invalidDateRangeLabel =>
-      "قالب بازه نادرست."; // Invalid Range Format
+  String get invalidDateRangeLabel => "قالب بازه نادرست."; // Invalid Range Format
 
   @override
   String get invalidTimeLabel => "قالب زمان نادرست."; // Invalid Time Format
@@ -136,8 +132,7 @@ class DariMaterialLocalizations extends DefaultMaterialLocalizations {
   String get unspecifiedDate => "تاریخ نامشخص"; // Unspecified Date
 
   @override
-  String get unspecifiedDateRange =>
-      "بازهٔ زمانی نامشخص"; // Unspecified Date Range
+  String get unspecifiedDateRange => "بازهٔ زمانی نامشخص"; // Unspecified Date Range
 
   @override
   String formatYear(DateTime date) {
@@ -186,7 +181,8 @@ class _DariMaterialLocalizationsDelegate
   @override
   Future<MaterialLocalizations> load(Locale locale) async {
     return SynchronousFuture<MaterialLocalizations>(
-        const DariMaterialLocalizations());
+      const DariMaterialLocalizations(),
+    );
   }
 
   @override
@@ -265,12 +261,14 @@ class _DariCupertinoLocalizationsDelegate
   const _DariCupertinoLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => locale.languageCode == 'fa' && locale.countryCode == 'AF';
+  bool isSupported(Locale locale) =>
+      locale.languageCode == 'fa' && locale.countryCode == 'AF';
 
   @override
   Future<CupertinoLocalizations> load(Locale locale) async {
     return SynchronousFuture<CupertinoLocalizations>(
-        const DariCupertinoLocalizations());
+      const DariCupertinoLocalizations(),
+    );
   }
 
   @override

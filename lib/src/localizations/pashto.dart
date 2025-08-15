@@ -5,13 +5,11 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 import '../material/date.dart';
 
-
 class PashtoMaterialLocalizations extends DefaultMaterialLocalizations {
   const PashtoMaterialLocalizations();
 
   static const LocalizationsDelegate<MaterialLocalizations> delegate =
       _PashtoMaterialLocalizationsDelegate();
-
 
   static const List<String> _narrowWeekdays = <String>[
     'ش', // S (شنبه)
@@ -183,7 +181,8 @@ class _PashtoMaterialLocalizationsDelegate
   @override
   Future<MaterialLocalizations> load(Locale locale) async {
     return SynchronousFuture<MaterialLocalizations>(
-        const PashtoMaterialLocalizations());
+      const PashtoMaterialLocalizations(),
+    );
   }
 
   @override
@@ -206,7 +205,6 @@ class PashtoCupertinoLocalizations extends DefaultCupertinoLocalizations {
     'پ', // Thursday
     'ج', // Friday
   ];
-
 
   static const List<String> _months = <String>[
     'حمل', // Hamal
@@ -267,7 +265,8 @@ class _PashtoCupertinoLocalizationsDelegate
   @override
   Future<CupertinoLocalizations> load(Locale locale) async {
     return SynchronousFuture<CupertinoLocalizations>(
-        const PashtoCupertinoLocalizations());
+      const PashtoCupertinoLocalizations(),
+    );
   }
 
   @override
