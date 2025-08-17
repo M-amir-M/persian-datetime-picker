@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -105,7 +104,10 @@ abstract final class PersianDateUtils {
   /// - [MaterialLocalizations.narrowWeekdays] list provides localized names of
   ///   days of week, always starting with Sunday and ending with Saturday.
   static int firstDayOffset(
-      int year, int month, MaterialLocalizations localizations) {
+    int year,
+    int month,
+    MaterialLocalizations localizations,
+  ) {
     // 0-based day of week for the month and year, with 0 representing Saturday.
     final int weekdayFromSaturday =
         (Jalali(year, month, 1).weekDay % 7); // Saturday is 0
@@ -141,7 +143,7 @@ abstract final class PersianDateUtils {
       30,
       30,
       30,
-      -1
+      -1,
     ];
     return daysInMonth[month - 1];
   }
@@ -218,10 +220,7 @@ class JalaliRange {
   /// Creates a date range for the given start and end [Jalali].
   ///
   /// [start] and [end] must be non-null.
-  const JalaliRange({
-    required this.start,
-    required this.end,
-  });
+  const JalaliRange({required this.start, required this.end});
 
   /// The start of the range of dates.
   final Jalali start;
@@ -288,15 +287,7 @@ extension JalaliExt on Jalali {
     'اسفند',
   ];
 
-  static List<String> narrowWeekdays = [
-    'ش',
-    'ی',
-    'د',
-    'س',
-    'چ',
-    'پ',
-    'ج',
-  ];
+  static List<String> narrowWeekdays = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
 
   static List<String> shortDayName = [
     'شنبه',
@@ -413,9 +404,7 @@ extension JalaliExt on Jalali {
     int dayOverflow = (hour + hours) ~/ 24;
 
     // Create a new Jalali date with the updated hour and adjusted day
-    Jalali newDateTime = copyWith(
-      hour: newHour,
-    );
+    Jalali newDateTime = copyWith(hour: newHour);
 
     return dayOverflow > 0 ? newDateTime.addDays(dayOverflow) : newDateTime;
   }
@@ -457,7 +446,9 @@ Jalali? parseCompactJalaliDate(String? inputString) {
 }
 
 String? jalaliStringToGregorianString(
-    String? jalaliDateString, String seprator) {
+  String? jalaliDateString,
+  String seprator,
+) {
   if (jalaliDateString == null || jalaliDateString.isEmpty) {
     return null; // Return null if the input is null or empty
   }
@@ -482,6 +473,9 @@ String? jalaliStringToGregorianString(
     // Format DateTime as a string, e.g., "yyyy-mm-dd"
     return '${dateTime.year.toString().padLeft(4, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
   } catch (e) {
+    // TODO: Use a data structure similar to Rust's "Result" to directly
+    // return errors to the caller instead.
+    // ignore: avoid_print
     print("Error converting Jalali date: $e");
     return null; // Return null in case of error
   }

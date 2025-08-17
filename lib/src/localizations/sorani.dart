@@ -11,7 +11,6 @@ class SoraniMaterialLocalizations extends DefaultMaterialLocalizations {
   static const LocalizationsDelegate<MaterialLocalizations> delegate =
       _SoraniMaterialLocalizationsDelegate();
 
-
   static const List<String> _narrowWeekdays = <String>[
     'ش', // S (شه‌ممه‌)
     'ی', // S (یه‌كشه‌ممه‌)
@@ -136,7 +135,6 @@ class SoraniMaterialLocalizations extends DefaultMaterialLocalizations {
   @override
   String get unspecifiedDateRange => "بازه‌ی بەروار";
 
-
   @override
   String formatYear(DateTime date) {
     return Jalali.fromDateTime(date).year.toString(); // Use Jalali year
@@ -183,7 +181,8 @@ class _SoraniMaterialLocalizationsDelegate
   @override
   Future<MaterialLocalizations> load(Locale locale) async {
     return SynchronousFuture<MaterialLocalizations>(
-        const SoraniMaterialLocalizations());
+      const SoraniMaterialLocalizations(),
+    );
   }
 
   @override
@@ -242,7 +241,7 @@ class SoraniCupertinoLocalizations extends DefaultCupertinoLocalizations {
   @override
   String get todayLabel => 'ئەمڕۆ';
 
-@override
+  @override
   String datePickerYear(int yearIndex) => yearIndex.toString();
 
   @override
@@ -289,7 +288,6 @@ class SoraniCupertinoLocalizations extends DefaultCupertinoLocalizations {
   DatePickerDateTimeOrder get datePickerDateTimeOrder =>
       DatePickerDateTimeOrder.date_time_dayPeriod;
 
-
   @override
   String get modalBarrierDismissLabel => 'داخستن';
 }
@@ -304,7 +302,8 @@ class _SoraniCupertinoLocalizationsDelegate
   @override
   Future<CupertinoLocalizations> load(Locale locale) async {
     return SynchronousFuture<CupertinoLocalizations>(
-        const SoraniCupertinoLocalizations());
+      const SoraniCupertinoLocalizations(),
+    );
   }
 
   @override

@@ -100,7 +100,8 @@ class _PersianMaterialLocalizationsDelegate
   @override
   Future<MaterialLocalizations> load(Locale locale) async {
     return SynchronousFuture<MaterialLocalizations>(
-        const DefaultPersianMaterialLocalizations());
+      const DefaultPersianMaterialLocalizations(),
+    );
   }
 
   @override
@@ -207,7 +208,8 @@ class _PersianCupertinoLocalizationsDelegate
   @override
   Future<CupertinoLocalizations> load(Locale locale) async {
     return SynchronousFuture<CupertinoLocalizations>(
-        const DefaultPersianCupertinoLocalizations());
+      const DefaultPersianCupertinoLocalizations(),
+    );
   }
 
   @override

@@ -53,10 +53,11 @@ class PersianInputDatePickerFormField extends StatefulWidget {
     this.autofocus = false,
     this.acceptEmptyDate = false,
     this.focusNode,
-  })  : initialDate =
-            initialDate != null ? PersianDateUtils.dateOnly(initialDate) : null,
-        firstDate = PersianDateUtils.dateOnly(firstDate),
-        lastDate = PersianDateUtils.dateOnly(lastDate) {
+  }) : initialDate = initialDate != null
+           ? PersianDateUtils.dateOnly(initialDate)
+           : null,
+       firstDate = PersianDateUtils.dateOnly(firstDate),
+       lastDate = PersianDateUtils.dateOnly(lastDate) {
     assert(
       !this.lastDate.isBefore(this.firstDate),
       'lastDate ${this.lastDate} must be on or after firstDate ${this.firstDate}.',
@@ -184,17 +185,19 @@ class _InputDatePickerFormFieldState
 
   void _updateValueForSelectedDate() {
     if (_selectedDate != null) {
-      final MaterialLocalizations localizations =
-          MaterialLocalizations.of(context);
+      final MaterialLocalizations localizations = MaterialLocalizations.of(
+        context,
+      );
       _inputText = localizations.formatCompactDate(_selectedDate!.toDateTime());
       TextEditingValue textEditingValue = TextEditingValue(text: _inputText!);
       // Select the new text if we are auto focused and haven't selected the text before.
       if (widget.autofocus && !_autoSelected) {
         textEditingValue = textEditingValue.copyWith(
-            selection: TextSelection(
-          baseOffset: 0,
-          extentOffset: _inputText!.length,
-        ));
+          selection: TextSelection(
+            baseOffset: 0,
+            extentOffset: _inputText!.length,
+          ),
+        );
         _autoSelected = true;
       }
       _controller.value = textEditingValue;
@@ -205,9 +208,7 @@ class _InputDatePickerFormFieldState
   }
 
   Jalali? _parseDate(String? text) {
-    return text == null
-        ? null
-        : parseCompactJalaliDate(text);
+    return text == null ? null : parseCompactJalaliDate(text);
   }
 
   bool _isValidAcceptableDate(Jalali? date) {
@@ -254,28 +255,30 @@ class _InputDatePickerFormFieldState
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final bool useMaterial3 = theme.useMaterial3;
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(
+      context,
+    );
     final DatePickerThemeData datePickerTheme = theme.datePickerTheme;
-    final InputDecorationTheme inputTheme = theme.inputDecorationTheme;
+    final InputDecorationThemeData inputTheme = theme.inputDecorationTheme;
     final InputBorder effectiveInputBorder =
         datePickerTheme.inputDecorationTheme?.border ??
-            theme.inputDecorationTheme.border ??
-            (useMaterial3
-                ? const OutlineInputBorder()
-                : const UnderlineInputBorder());
+        theme.inputDecorationTheme.border ??
+        (useMaterial3
+            ? const OutlineInputBorder()
+            : const UnderlineInputBorder());
 
     return Semantics(
       container: true,
       child: TextFormField(
-        decoration: InputDecoration(
-          hintText: widget.fieldHintText ?? localizations.dateHelpText,
-          labelText: widget.fieldLabelText ?? localizations.dateInputLabel,
-        ).applyDefaults(
-          inputTheme
-              .merge(datePickerTheme.inputDecorationTheme)
-              .copyWith(border: effectiveInputBorder),
-        ),
+        decoration:
+            InputDecoration(
+              hintText: widget.fieldHintText ?? localizations.dateHelpText,
+              labelText: widget.fieldLabelText ?? localizations.dateInputLabel,
+            ).applyDefaults(
+              inputTheme
+                  .merge(datePickerTheme.inputDecorationTheme)
+                  .copyWith(border: effectiveInputBorder),
+            ),
         validator: _validateDate,
         keyboardType: widget.keyboardType ?? TextInputType.datetime,
         onSaved: _handleSaved,

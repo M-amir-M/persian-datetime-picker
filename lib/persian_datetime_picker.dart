@@ -1,4 +1,4 @@
-library datetimepicker;
+library;
 
 export 'package:shamsi_date/shamsi_date.dart';
 
