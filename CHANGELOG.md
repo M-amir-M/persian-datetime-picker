@@ -1,3 +1,5 @@
+## 3.1.1
+* [FIX] Fix incompatible with flutter 3.35.1.
 ## 3.1.0
 * [BREAKING] Fix incompatible with flutter 3.27
 ## 3.0.1
