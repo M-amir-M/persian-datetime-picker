@@ -163,6 +163,7 @@ Future<Jalali?> showPersianDatePicker({
   String? fieldLabelText,
   TextInputType? keyboardType,
   Offset? anchorPoint,
+  PersianHolidayConfig? holidayConfig,
   final ValueChanged<PersianDatePickerEntryMode>? onDatePickerModeChange,
   final Icon? switchToInputEntryModeIcon,
   final Icon? switchToCalendarEntryModeIcon,
@@ -211,6 +212,7 @@ Future<Jalali?> showPersianDatePicker({
     onDatePickerModeChange: onDatePickerModeChange,
     switchToInputEntryModeIcon: switchToInputEntryModeIcon,
     switchToCalendarEntryModeIcon: switchToCalendarEntryModeIcon,
+    holidayConfig: holidayConfig,
   );
 
   if (textDirection != null) {
@@ -280,6 +282,7 @@ class DatePickerDialog extends StatefulWidget {
     this.onDatePickerModeChange,
     this.switchToInputEntryModeIcon,
     this.switchToCalendarEntryModeIcon,
+    this.holidayConfig,
   }) : initialDate = initialDate == null
            ? null
            : PersianDateUtils.dateOnly(initialDate),
@@ -364,6 +367,9 @@ class DatePickerDialog extends StatefulWidget {
   /// If this is null, it will default to the words representing the date format
   /// string. For example, 'Month, Day, Year' for en_US.
   final String? fieldLabelText;
+
+  /// Holiday configuration
+  final PersianHolidayConfig? holidayConfig;
 
   /// {@template flutter.material.datePickerDialog}
   /// The keyboard type of the [TextField].
@@ -591,6 +597,7 @@ class _DatePickerDialogState extends State<DatePickerDialog>
         onDateChanged: _handleDateChanged,
         selectableDayPredicate: widget.selectableDayPredicate,
         initialCalendarMode: widget.initialCalendarMode,
+        holidayConfig: widget.holidayConfig,
       );
     }
 

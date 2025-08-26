@@ -5,6 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
+/// Callback to determine if a given date is a holiday
+typedef PersianHolidayPredicate = bool Function(Jalali date);
+
 /// Utility functions for working with dates.
 abstract final class PersianDateUtils {
   /// Returns a [Jalali] with the date of the original, but time set to
@@ -244,6 +247,59 @@ class JalaliRange {
 
   @override
   String toString() => '$start - $end';
+}
+
+/// Configuration for holiday dates.
+///
+/// This class is used to specify dates that are holidays.
+class PersianHolidayConfig {
+  /// Specific dates that are holidays
+  final Set<Jalali>? specificDates;
+
+  /// Weekdays that are holidays (1 = Saturday, 7 = Friday)
+  /// In Persian calendar: 7 = Friday (Jomeh)
+  final Set<int>? weekendDays;
+
+  /// Custom predicate for complex holiday logic
+  final PersianHolidayPredicate? customPredicate;
+
+  /// Color for holiday dates
+  final Color holidayColor;
+
+  /// Whether holidays are selectable
+  final bool holidaysSelectable;
+
+  const PersianHolidayConfig({
+    this.specificDates,
+    this.weekendDays,
+    this.customPredicate,
+    this.holidayColor = Colors.red,
+    this.holidaysSelectable = true,
+  });
+
+  /// Check if a date is a holiday
+  bool isHoliday(Jalali date) {
+    // Check specific dates
+    if (specificDates != null) {
+      for (final holiday in specificDates!) {
+        if (PersianDateUtils.isSameDay(date, holiday)) {
+          return true;
+        }
+      }
+    }
+
+    // Check weekend days (1 = Saturday, 7 = Friday)
+    if (weekendDays != null && weekendDays!.contains(date.weekDay % 8)) {
+      return true;
+    }
+
+    // Check custom predicate
+    if (customPredicate != null && customPredicate!(date)) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 extension JalaliExt on Jalali {
