@@ -126,6 +126,9 @@ class _HomePageState extends State<HomePage> {
                           initialEntryMode:
                               PersianDatePickerEntryMode.calendarOnly,
                           initialDatePickerMode: PersianDatePickerMode.year,
+                          holidayConfig: PersianHolidayConfig(
+                            weekendDays: {7}
+                          ),
                         );
                         if (picked != null &&
                             picked.toJalaliDateTime() != selectedDate) {

@@ -84,6 +84,7 @@ class PersianCalendarDatePicker extends StatefulWidget {
     this.onDisplayedMonthChanged,
     this.initialCalendarMode = PersianDatePickerMode.day,
     this.selectableDayPredicate,
+    this.holidayConfig,
   }) : initialDate = initialDate == null
            ? null
            : PersianDateUtils.dateOnly(initialDate),
@@ -143,6 +144,9 @@ class PersianCalendarDatePicker extends StatefulWidget {
 
   /// Function to provide full control over which dates in the calendar can be selected.
   final PersianSelectableDayPredicate? selectableDayPredicate;
+
+  /// Holiday configuration
+  final PersianHolidayConfig? holidayConfig;
 
   @override
   State<PersianCalendarDatePicker> createState() => _CalendarDatePickerState();
@@ -312,6 +316,7 @@ class _CalendarDatePickerState extends State<PersianCalendarDatePicker> {
           onChanged: _handleDayChanged,
           onDisplayedMonthChanged: _handleMonthChanged,
           selectableDayPredicate: widget.selectableDayPredicate,
+          holidayConfig: widget.holidayConfig,
         );
       case PersianDatePickerMode.year:
         return Padding(
@@ -489,6 +494,7 @@ class _MonthPicker extends StatefulWidget {
     required this.onChanged,
     required this.onDisplayedMonthChanged,
     this.selectableDayPredicate,
+    this.holidayConfig,
   }) : assert(!firstDate.isAfter(lastDate)),
        assert(selectedDate == null || !selectedDate.isBefore(firstDate)),
        assert(selectedDate == null || !selectedDate.isAfter(lastDate));
@@ -529,6 +535,9 @@ class _MonthPicker extends StatefulWidget {
 
   /// Optional user supplied predicate function to customize selectable days.
   final PersianSelectableDayPredicate? selectableDayPredicate;
+
+  /// Holiday configuration
+  final PersianHolidayConfig? holidayConfig;
 
   @override
   _MonthPickerState createState() => _MonthPickerState();
@@ -819,6 +828,7 @@ class _MonthPickerState extends State<_MonthPicker> {
       lastDate: widget.lastDate,
       displayedMonth: month,
       selectableDayPredicate: widget.selectableDayPredicate,
+      holidayConfig: widget.holidayConfig,
     );
   }
 
@@ -925,6 +935,7 @@ class _DayPicker extends StatefulWidget {
     required this.selectedDate,
     required this.onChanged,
     this.selectableDayPredicate,
+    this.holidayConfig,
   }) : assert(!firstDate.isAfter(lastDate)),
        assert(selectedDate == null || !selectedDate.isBefore(firstDate)),
        assert(selectedDate == null || !selectedDate.isAfter(lastDate));
@@ -955,6 +966,9 @@ class _DayPicker extends StatefulWidget {
 
   /// Optional user supplied predicate function to customize selectable days.
   final PersianSelectableDayPredicate? selectableDayPredicate;
+
+  /// Holiday configuration
+  final PersianHolidayConfig? holidayConfig;
 
   @override
   _DayPickerState createState() => _DayPickerState();
@@ -1064,11 +1078,14 @@ class _DayPickerState extends State<_DayPicker> {
         dayItems.add(const SizedBox.shrink());
       } else {
         final Jalali dayToBuild = Jalali(year, month, day);
+        final bool isHoliday =
+            widget.holidayConfig?.isHoliday(dayToBuild) ?? false;
         final bool isDisabled =
             dayToBuild.isAfter(widget.lastDate) ||
             dayToBuild.isBefore(widget.firstDate) ||
             (widget.selectableDayPredicate != null &&
-                !widget.selectableDayPredicate!(dayToBuild));
+                !widget.selectableDayPredicate!(dayToBuild)) ||
+            (isHoliday && !(widget.holidayConfig?.holidaysSelectable ?? true));
         final bool isSelectedDay = PersianDateUtils.isSameDay(
           widget.selectedDate,
           dayToBuild,
@@ -1085,6 +1102,8 @@ class _DayPickerState extends State<_DayPicker> {
             isDisabled: isDisabled,
             isSelectedDay: isSelectedDay,
             isToday: isToday,
+            isHoliday: isHoliday,
+            holidayColor: widget.holidayConfig?.holidayColor,
             onChanged: widget.onChanged,
             focusNode: _dayFocusNodes[day - 1],
           ),
@@ -1115,6 +1134,8 @@ class _Day extends StatefulWidget {
     required this.isDisabled,
     required this.isSelectedDay,
     required this.isToday,
+    required this.isHoliday,
+    required this.holidayColor,
     required this.onChanged,
     required this.focusNode,
   });
@@ -1123,6 +1144,8 @@ class _Day extends StatefulWidget {
   final bool isDisabled;
   final bool isSelectedDay;
   final bool isToday;
+  final bool isHoliday;
+  final Color? holidayColor;
   final ValueChanged<Jalali> onChanged;
   final FocusNode? focusNode;
 
@@ -1165,12 +1188,17 @@ class _DayState extends State<_Day> {
 
     _statesController.value = states;
 
-    final Color? dayForegroundColor = resolve<Color?>(
+    Color? dayForegroundColor = resolve<Color?>(
       (DatePickerThemeData? theme) => widget.isToday
           ? theme?.todayForegroundColor
           : theme?.dayForegroundColor,
       states,
     );
+
+    if (widget.isHoliday && !widget.isSelectedDay && !widget.isDisabled) {
+      dayForegroundColor = widget.holidayColor ?? Colors.red;
+    }
+
     final Color? dayBackgroundColor = resolve<Color?>(
       (DatePickerThemeData? theme) => widget.isToday
           ? theme?.todayBackgroundColor
