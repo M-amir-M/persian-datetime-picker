@@ -1473,6 +1473,9 @@ class _YearPickerState extends State<YearPicker> {
         (datePickerTheme.yearStyle ?? defaults.yearStyle)?.apply(
           color: textColor,
         );
+    final MaterialLocalizations localizations = MaterialLocalizations.of(
+      context,
+    );
     Widget yearItem = Center(
       child: Container(
         decoration: decoration,
@@ -1482,7 +1485,10 @@ class _YearPickerState extends State<YearPicker> {
         child: Semantics(
           selected: isSelected,
           button: true,
-          child: Text(year.toString(), style: itemStyle),
+          child: Text(
+            localizations.formatYear(Jalali(year).toDateTime()),
+            style: itemStyle,
+          ),
         ),
       ),
     );
