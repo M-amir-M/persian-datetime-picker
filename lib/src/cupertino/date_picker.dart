@@ -1604,23 +1604,29 @@ class _CupertinoDatePickerDateState extends State<PersianCupertinoDatePicker> {
   }
 
   bool get _isCurrentDateValid {
+    // Unlike DateTime, the Jalali constructor throws instead of rolling over
+    // when the day exceeds the selected month's length, so clamp the day
+    // before building the date to avoid a DateException.
+    final int lastDay = _lastDayInMonth(selectedYear, selectedMonth).day;
+    final int clampedDay = selectedDay > lastDay ? lastDay : selectedDay;
+
     // The current date selection represents a range [minSelectedData, maxSelectDate].
     final Jalali minSelectedDate = Jalali(
       selectedYear,
       selectedMonth,
-      selectedDay,
+      clampedDay,
     );
     final Jalali maxSelectedDate = Jalali(
       selectedYear,
       selectedMonth,
-      selectedDay,
+      clampedDay,
     ).addDays(1);
 
     final bool minCheck = widget.minimumDate?.isBefore(maxSelectedDate) ?? true;
     final bool maxCheck =
         widget.maximumDate?.isBefore(minSelectedDate) ?? false;
 
-    return minCheck && !maxCheck && minSelectedDate.day == selectedDay;
+    return minCheck && !maxCheck && clampedDay == selectedDay;
   }
 
   // One or more pickers have just stopped scrolling.
@@ -1633,17 +1639,23 @@ class _CupertinoDatePickerDateState extends State<PersianCupertinoDatePicker> {
       return;
     }
 
+    // Unlike DateTime, the Jalali constructor throws instead of rolling over
+    // when the day exceeds the selected month's length, so clamp the day
+    // before building the date to avoid a DateException.
+    final int lastDay = _lastDayInMonth(selectedYear, selectedMonth).day;
+    final int clampedDay = selectedDay > lastDay ? lastDay : selectedDay;
+
     // Whenever scrolling lands on an invalid entry, the picker
     // automatically scrolls to a valid one.
     final Jalali minSelectDate = Jalali(
       selectedYear,
       selectedMonth,
-      selectedDay,
+      clampedDay,
     );
     final Jalali maxSelectDate = Jalali(
       selectedYear,
       selectedMonth,
-      selectedDay,
+      clampedDay,
     ).addDays(1);
 
     final bool minCheck = widget.minimumDate?.isBefore(maxSelectDate) ?? true;
@@ -1658,11 +1670,11 @@ class _CupertinoDatePickerDateState extends State<PersianCupertinoDatePicker> {
       return;
     }
 
-    // Some months have less days (e.g. February). Go to the last day of that month
+    // Some months have less days (e.g. Esfand). Go to the last day of that month
     // if the selectedDay exceeds the maximum.
-    if (minSelectDate.day != selectedDay) {
-      final Jalali lastDay = _lastDayInMonth(selectedYear, selectedMonth);
-      _scrollToDate(lastDay);
+    if (clampedDay != selectedDay) {
+      final Jalali lastDayOfMonth = _lastDayInMonth(selectedYear, selectedMonth);
+      _scrollToDate(lastDayOfMonth);
     }
   }
 
